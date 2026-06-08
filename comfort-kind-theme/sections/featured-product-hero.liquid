@@ -1,116 +1,85 @@
 {%- liquid
-  assign featured_product = all_products[section.settings.product_url]
+  assign featured_product = all_products[section.settings.product]
   assign current_variant = featured_product.selected_or_first_available_variant
 -%}
 
 <section class="ck-spotlight">
-  <div class="ck-spotlight__inner">
-    <div class="ck-spotlight__info">
-      {% if section.settings.eyebrow != blank %}
-        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
-      {% endif %}
-
-      <h2 class="ck-spotlight__heading">
-        {% if featured_product != blank %}
-          {{ featured_product.title }}
-        {% else %}
-          {{ section.settings.product_name }}
-        {% endif %}
-      </h2>
-
-      <p class="ck-spotlight__price">
-        {% if current_variant != blank %}
-          {{ current_variant.price | money }}
-        {% elsif section.settings.price != blank %}
-          {{ section.settings.price }}
-        {% endif %}
-      </p>
-
-      {% if section.settings.body != blank %}
-        <p class="ck-spotlight__body">{{ section.settings.body }}</p>
-      {% endif %}
-
-      {% if section.settings.features != blank %}
-        <ul class="ck-details">
-          {%- assign feature_lines = section.settings.features | split: "\n" -%}
-          {%- for line in feature_lines -%}
-            {%- if line != blank -%}
-              <li class="ck-details__item">{{ line | strip }}</li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      {% endif %}
-
-      <div class="ck-spotlight__ctas">
-        {% if featured_product != blank %}
-          {%- form 'product', featured_product, id: 'spotlight-product-form' -%}
-            <input type="hidden" name="id" value="{{ current_variant.id }}">
-            <button type="submit" name="add" class="ck-btn ck-btn--primary">
-              Add to Bag
-            </button>
-          {%- endform -%}
-        {% else %}
-          <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">
-            {{ section.settings.cta_primary_label | default: 'Add to Bag' }}
-          </a>
-        {% endif %}
-        <a href="/pages/give-comfort" class="ck-btn ck-btn--secondary">Send as a Gift</a>
-      </div>
+  <div class="img" style="{%- if featured_product.featured_image != blank -%}background-image:url('{{ featured_product.featured_image | image_url: width: 900 }}');{%- elsif section.settings.product_image != blank -%}background-image:url('{{ section.settings.product_image | image_url: width: 900 }}');{%- endif -%}">
+    {%- if featured_product.featured_image == blank and section.settings.product_image == blank -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  <div class="info">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <h2>
+      {%- if featured_product != blank -%}{{ featured_product.title }}{%- else -%}{{ section.settings.product_name }}{%- endif -%}
+    </h2>
+    <div class="price">
+      {%- if current_variant != blank -%}{{ current_variant.price | money }}{%- else -%}{{ section.settings.price }}{%- endif -%}
     </div>
-
-    <div class="ck-spotlight__image-col">
-      {% if featured_product.featured_image != blank %}
-        {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.featured_image.alt }}
-      {% elsif section.settings.product_image != blank %}
-        {{ section.settings.product_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.product_image.alt }}
-      {% else %}
-        {{ 'product-1' | placeholder_svg_tag }}
-      {% endif %}
-      {% if section.settings.image_caption != blank %}
-        <span class="ck-spotlight__caption">{{ section.settings.image_caption }}</span>
-      {% endif %}
+    {%- if section.settings.body != blank -%}
+      <p class="desc">{{ section.settings.body }}</p>
+    {%- endif -%}
+    {%- if section.settings.features != blank -%}
+      <div class="details">
+        {%- assign feature_lines = section.settings.features | split: "|" -%}
+        {%- for line in feature_lines -%}
+          {%- assign trimmed = line | strip -%}
+          {%- if trimmed != blank -%}
+            <div class="detail-row"><span class="dot">·</span><span>{{ trimmed }}</span></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      {%- if featured_product != blank -%}
+        {%- form 'product', featured_product, id: 'spotlight-product-form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          <button type="submit" name="add" class="ck-btn ck-btn--primary">Add to Bag</button>
+        {%- endform -%}
+      {%- else -%}
+        <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">{{ section.settings.cta_primary_label | default: 'Add to Bag' }}</a>
+      {%- endif -%}
+      <a href="/pages/give-comfort" class="ck-btn ck-btn--secondary">Send as a Gift</a>
     </div>
   </div>
 </section>
 
-<div class="ck-material">
-  {% for block in section.blocks %}
-    {% if block.type == 'detail_callout' %}
-      {%- assign is_reversed = forloop.index0 | modulo: 2 -%}
-      <div class="ck-mat-cell{% if is_reversed == 1 %} ck-mat-cell--reversed{% endif %}" {{ block.shopify_attributes }}>
-        <div class="ck-mat-cell__image">
-          {% if block.settings.image != blank %}
-            {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.image.alt }}
-          {% else %}
-            {{ 'lifestyle-2' | placeholder_svg_tag }}
-          {% endif %}
-        </div>
-        <div class="ck-mat-cell__text">
-          {% if block.settings.eyebrow != blank %}
-            <span class="ck-mat-cell__eyebrow">{{ block.settings.eyebrow }}</span>
-          {% endif %}
-          {% if block.settings.heading != blank %}
-            <h3 class="ck-mat-cell__heading">{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>
-          {% endif %}
-          {% if block.settings.body != blank %}
-            <p class="ck-mat-cell__body">{{ block.settings.body }}</p>
-          {% endif %}
-        </div>
+<section class="ck-material">
+  {%- assign callouts = section.blocks | where: 'type', 'detail_callout' -%}
+  {%- assign specs = section.blocks | where: 'type', 'spec_row' -%}
+  {%- for block in callouts -%}
+    {%- assign idx = forloop.index0 -%}
+    {%- assign is_even = idx | modulo: 2 -%}
+    {%- if is_even == 0 -%}
+      <div class="ck-mat-cell ck-mat-img" style="{%- if block.settings.image != blank -%}background-image:url('{{ block.settings.image | image_url: width: 800 }}');{%- endif -%}" {{ block.shopify_attributes }}></div>
+      <div class="ck-mat-cell ck-mat-text">
+        {%- if block.settings.eyebrow != blank -%}<div class="eyebrow">{{ block.settings.eyebrow }}</div>{%- endif -%}
+        {%- if block.settings.heading != blank -%}<h3>{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>{%- endif -%}
+        {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
+        {%- if forloop.last and specs.size > 0 -%}
+          <div class="ck-mat-specs">
+            {%- for spec in specs -%}
+              <div {{ spec.shopify_attributes }}>
+                <div class="ck-mat-spec-label">{{ spec.settings.label }}</div>
+                <div class="ck-mat-spec-val">{{ spec.settings.value }}</div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
-    {% endif %}
-  {% endfor %}
-</div>
-
-<div class="ck-mat-specs">
-  {% for block in section.blocks %}
-    {% if block.type == 'spec_row' %}
-      <div class="ck-mat-specs__row" {{ block.shopify_attributes }}>
-        <span class="ck-mat-spec-label">{{ block.settings.label }}</span>
-        <span class="ck-mat-spec-val">{{ block.settings.value }}</span>
+    {%- else -%}
+      <div class="ck-mat-cell ck-mat-text" {{ block.shopify_attributes }}>
+        {%- if block.settings.eyebrow != blank -%}<div class="eyebrow">{{ block.settings.eyebrow }}</div>{%- endif -%}
+        {%- if block.settings.heading != blank -%}<h3>{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>{%- endif -%}
+        {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
       </div>
-    {% endif %}
-  {% endfor %}
-</div>
+      <div class="ck-mat-cell ck-mat-img" style="{%- if block.settings.image != blank -%}background-image:url('{{ block.settings.image | image_url: width: 800 }}');{%- endif -%}"></div>
+    {%- endif -%}
+  {%- endfor -%}
+</section>
 
 {% schema %}
 {
@@ -125,7 +94,7 @@
     },
     {
       "type": "product",
-      "id": "product_url",
+      "id": "product",
       "label": "Product"
     },
     {
@@ -149,19 +118,13 @@
     {
       "type": "textarea",
       "id": "features",
-      "label": "Feature list (one per line)",
-      "default": "8.9 oz organic cotton fleece, super soft inside\n'Soft Strength' embroidered on the left sleeve in white thread\nEmbroidered heart detail, left chest\nWaist-length with dropped shoulders - ribbed cuffs, collar and hem\nGOTS certified organic cotton - 30-day comfort guarantee"
+      "label": "Feature list (pipe-separated)",
+      "default": "8.9 oz organic cotton fleece, super soft inside|'Soft Strength' embroidered on the left sleeve in white thread|Embroidered heart detail, left chest|Waist-length with dropped shoulders - ribbed cuffs, collar and hem|GOTS certified organic cotton - 30-day comfort guarantee"
     },
     {
       "type": "image_picker",
       "id": "product_image",
-      "label": "Product image (if no Shopify product)"
-    },
-    {
-      "type": "text",
-      "id": "image_caption",
-      "label": "Image caption",
-      "default": "Sage - with white heart"
+      "label": "Product image (fallback)"
     },
     {
       "type": "text",

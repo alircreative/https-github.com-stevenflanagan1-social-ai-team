@@ -3,55 +3,73 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
 <section class="ck-hero-split">
-  <div class="ck-hero-split__content">
-    {% if section.settings.eyebrow != blank %}
-      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
-    {% endif %}
+  <div class="left">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="eyebrow" style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--taupe-dark)">
+          <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+        </svg>
+        {{ section.settings.eyebrow }}
+      </div>
+    {%- endif -%}
 
-    <h1 class="ck-hero-split__heading">
+    <h1>
       {{ section.settings.heading_plain }}
-      {% if section.settings.heading_italic != blank %}
+      {%- if section.settings.heading_italic != blank -%}
         <em>{{ section.settings.heading_italic }}</em>
-      {% endif %}
+      {%- endif -%}
     </h1>
 
-    {% if section.settings.body != blank %}
-      <p class="ck-hero-split__body">{{ section.settings.body }}</p>
-    {% endif %}
+    {%- if section.settings.body_italic != blank -%}
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;line-height:1.6;color:var(--ink);margin:0 0 16px;">{{ section.settings.body_italic }}</p>
+    {%- endif -%}
 
-    <div class="ck-hero-split__ctas">
-      {% if section.settings.cta_primary_label != blank %}
-        <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">
-          {{ section.settings.cta_primary_label }}
-        </a>
-      {% endif %}
-      {% if section.settings.cta_secondary_label != blank %}
-        <a href="{{ section.settings.cta_secondary_url }}" class="ck-btn ck-btn--secondary">
-          {{ section.settings.cta_secondary_label }}
-        </a>
-      {% endif %}
+    {%- if section.settings.body != blank -%}
+      <p style="color:var(--ink-2);font-size:15px;line-height:1.75;margin:0 0 32px;max-width:480px;">{{ section.settings.body }}</p>
+    {%- endif -%}
+
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">{{ section.settings.cta_primary_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url }}" class="ck-btn ck-btn--secondary">{{ section.settings.cta_secondary_label }}</a>
+      {%- endif -%}
     </div>
 
-    {% if section.settings.trust_text != blank %}
-      <p class="ck-hero-split__trust">{{ section.settings.trust_text }}</p>
-    {% endif %}
+    {%- if section.settings.trust_label != blank -%}
+      <div style="border-top:1px solid var(--line);padding-top:22px;margin-top:4px;">
+        <p style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);margin:0 0 4px;">{{ section.settings.trust_label }}</p>
+        {%- if section.settings.trust_sub != blank -%}
+          <p style="font-size:13px;color:var(--mute);margin:0;">{{ section.settings.trust_sub }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 
-  <div class="ck-hero-split__image-col">
-    {% if section.settings.image != blank %}
-      {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt }}
-    {% else %}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'ck-hero-split__placeholder' }}
-    {% endif %}
-    {% if section.settings.caption != blank %}
-      <span class="ck-hero-split__caption">{{ section.settings.caption }}</span>
-    {% endif %}
+  <div class="right" style="position:relative;{%- if section.settings.image != blank -%}background-image:url('{{ section.settings.image | image_url: width: 1200 }}');{%- endif -%}">
+    {%- if section.settings.image == blank -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
+    {%- endif -%}
+    {%- if section.settings.caption_wearing != blank or section.settings.caption_product != blank -%}
+      <div style="position:absolute;bottom:32px;left:32px;background:rgba(58,45,36,0.72);backdrop-filter:blur(4px);padding:16px 20px;max-width:260px;">
+        {%- if section.settings.caption_wearing != blank -%}
+          <p style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,234,0.65);margin:0 0 4px;">{{ section.settings.caption_wearing }}</p>
+        {%- endif -%}
+        {%- if section.settings.caption_product != blank -%}
+          <p style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--cream);margin:0 0 2px;">{{ section.settings.caption_product }}</p>
+        {%- endif -%}
+        {%- if section.settings.caption_detail != blank -%}
+          <p style="font-size:11px;color:rgba(245,240,234,0.65);margin:0;letter-spacing:0.06em;">{{ section.settings.caption_detail }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Hero Split",
+  "name": "Hero Banner",
   "tag": "section",
   "class": "ck-section-hero",
   "settings": [
@@ -59,7 +77,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow text",
-      "default": "Hi, I'm Ali · Founder"
+      "default": "Hi, I'm Ali - Founder"
     },
     {
       "type": "text",
@@ -74,9 +92,15 @@
     },
     {
       "type": "textarea",
+      "id": "body_italic",
+      "label": "Body italic lead (serif)",
+      "default": "Not literally - but that's where the idea was born."
+    },
+    {
+      "type": "textarea",
       "id": "body",
       "label": "Body text",
-      "default": "Not literally - but that's where the idea was born. My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. 'Soft Strength' stitched down the left sleeve. It didn't exist. So I made it."
+      "default": "My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. 'Soft Strength' stitched down the left sleeve. It didn't exist. So I made it."
     },
     {
       "type": "text",
@@ -102,9 +126,15 @@
     },
     {
       "type": "text",
-      "id": "trust_text",
-      "label": "Trust line",
-      "default": "30-Day Comfort Guarantee - If it doesn't feel right, I'll make it right."
+      "id": "trust_label",
+      "label": "Trust label",
+      "default": "30-Day Comfort Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "trust_sub",
+      "label": "Trust sub-line",
+      "default": "If it doesn't feel right, I'll make it right."
     },
     {
       "type": "image_picker",
@@ -113,14 +143,26 @@
     },
     {
       "type": "text",
-      "id": "caption",
-      "label": "Image caption",
-      "default": "Wearing / The Soft Strength Hoodie / Cream - Soft Strength on the left sleeve"
+      "id": "caption_wearing",
+      "label": "Caption - wearing label",
+      "default": "Wearing"
+    },
+    {
+      "type": "text",
+      "id": "caption_product",
+      "label": "Caption - product name",
+      "default": "The Soft Strength Hoodie"
+    },
+    {
+      "type": "text",
+      "id": "caption_detail",
+      "label": "Caption - detail",
+      "default": "Cream - Soft Strength on the left sleeve"
     }
   ],
   "presets": [
     {
-      "name": "Hero Split"
+      "name": "Hero Banner"
     }
   ]
 }

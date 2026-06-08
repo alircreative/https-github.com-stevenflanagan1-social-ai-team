@@ -1,11 +1,15 @@
-<section class="ck-quote-block">
-  <div class="ck-quote-block__inner">
-    {% if section.settings.quote != blank %}
-      <blockquote class="ck-quote-block__text">"{{ section.settings.quote }}"</blockquote>
-    {% endif %}
-    {% if section.settings.attribution != blank %}
-      <p class="ck-quote-block__attr">{{ section.settings.attribution }}</p>
-    {% endif %}
+<section class="ck-section ck-founder">
+  <div class="wrap">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--taupe-dark)" style="opacity:0.6;">
+      <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+    </svg>
+    {%- if section.settings.quote != blank -%}
+      <p class="quote">"{{ section.settings.quote }}"</p>
+    {%- endif -%}
+    <div class="signature">
+      <em>{{ section.settings.attribution_name }}</em>
+      <span style="display:block;margin-top:6px;">{{ section.settings.attribution_title }}</span>
+    </div>
   </div>
 </section>
 
@@ -22,9 +26,15 @@
     },
     {
       "type": "text",
-      "id": "attribution",
-      "label": "Attribution",
-      "default": "Ali, Founder - ComfortKind"
+      "id": "attribution_name",
+      "label": "Attribution name",
+      "default": "- Ali"
+    },
+    {
+      "type": "text",
+      "id": "attribution_title",
+      "label": "Attribution title",
+      "default": "Founder - ComfortKind"
     }
   ],
   "presets": [

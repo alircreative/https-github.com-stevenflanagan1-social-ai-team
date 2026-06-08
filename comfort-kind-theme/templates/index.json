@@ -3,56 +3,61 @@
     "hero": {
       "type": "hero-banner",
       "settings": {
-        "eyebrow": "Hi, I'm Ali · Founder",
+        "eyebrow": "Hi, I'm Ali - Founder",
         "heading_plain": "I made this in a waiting room.",
         "heading_italic": "",
-        "body": "Not literally — but that’s where the idea was born. My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. ‘Soft Strength’ stitched down the left sleeve. It didn’t exist. So I made it.",
-        "cta_primary_label": "Shop the Hoodie · $72",
-        "cta_primary_url": "/products/soft-strength-hoodie",
+        "body_italic": "Not literally - but that's where the idea was born.",
+        "body": "My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. 'Soft Strength' stitched down the left sleeve. It didn't exist. So I made it.",
+        "cta_primary_label": "Shop the Hoodie - $72",
+        "cta_primary_url": "/products/soft-strength-hoodie-mother-s-day-gift-edition",
         "cta_secondary_label": "Read Our Story",
         "cta_secondary_url": "/pages/our-story",
-        "trust_text": "30-Day Comfort Guarantee · If it doesn’t feel right, I’ll make it right.",
-        "caption": "Wearing / The Soft Strength Hoodie / Cream · Soft Strength on the left sleeve"
+        "trust_label": "30-Day Comfort Guarantee",
+        "trust_sub": "If it doesn't feel right, I'll make it right.",
+        "caption_wearing": "Wearing",
+        "caption_product": "The Soft Strength Hoodie",
+        "caption_detail": "Cream - Soft Strength on the left sleeve"
       }
     },
     "quote": {
       "type": "founder-quote",
       "settings": {
-        "quote": "I didn’t set out to build a brand. I made this for the hard days. Mine first. Then everyone else’s.",
-        "attribution": "Ali, Founder · ComfortKind"
+        "quote": "I didn't set out to build a brand. I made this for the hard days. Mine first. Then everyone else's.",
+        "attribution_name": "- Ali",
+        "attribution_title": "Founder - ComfortKind"
       }
     },
     "featured_product": {
       "type": "featured-product-hero",
       "settings": {
         "eyebrow": "The Hero Piece",
+        "product": "soft-strength-hoodie-mother-s-day-gift-edition",
         "product_name": "The Soft Strength Hoodie",
         "price": "$72",
-        "body": "8.9 oz organic cotton fleece. A super soft brushed lining inside. A small embroidered heart at the chest, and ‘Soft Strength’ in white thread on the left sleeve.",
-        "features": "8.9 oz organic cotton fleece, super soft inside\n‘Soft Strength’ embroidered on the left sleeve in white thread\nEmbroidered heart detail, left chest\nWaist-length with dropped shoulders · ribbed cuffs, collar & hem\nGOTS certified organic cotton · 30-day comfort guarantee",
-        "image_caption": "Sage · with white heart"
+        "body": "8.9 oz organic cotton fleece. A super soft brushed lining inside. A small embroidered heart at the chest, and 'Soft Strength' in white thread on the left sleeve.",
+        "features": "8.9 oz organic cotton fleece, super soft inside|'Soft Strength' embroidered on the left sleeve in white thread|Embroidered heart detail, left chest|Waist-length with dropped shoulders - ribbed cuffs, collar and hem|GOTS certified organic cotton - 30-day comfort guarantee"
       },
       "blocks": {
         "callout_1": {
           "type": "detail_callout",
           "settings": {
-            "eyebrow": "01 · Embroidered heart",
+            "eyebrow": "01 - Embroidered heart",
             "heading": "A small mark / near yours.",
-            "body": "A small embroidered heart at the left chest. The quiet knowing that you’re not the only one holding it all together."
+            "body": "A small embroidered heart at the left chest. The quiet knowing that you're not the only one holding it all together."
           }
         },
         "callout_2": {
           "type": "detail_callout",
           "settings": {
-            "eyebrow": "02 · Sleeve",
+            "eyebrow": "02 - Sleeve",
             "heading": "Soft strength / on the left sleeve.",
-            "body": "‘Soft Strength’ embroidered in white thread on the left sleeve. Intentional. Not decorative. Something you notice when you need to."
+            "body": "'Soft Strength' embroidered in white thread on the left sleeve. Intentional. Not decorative. Something you notice when you need to."
           }
         },
         "callout_3": {
           "type": "detail_callout",
           "settings": {
-            "eyebrow": "03 · Fabric",
+            "eyebrow": "03 - Fabric",
             "heading": "8.9oz. Heavyweight, / intentionally.",
             "body": "GOTS certified organic cotton fleece. Substantial in your hands. Super soft brushed lining inside. Made to be felt, not just worn."
           }
@@ -103,17 +108,12 @@
       "settings": {
         "eyebrow": "A note from Ali",
         "heading": "I made the thing I wished someone had sent me.",
-        "body": "ComfortKind started in a hard season of my own. Every piece leaves here the way I’d send it to a friend — soft, considered, with a heart stitched where you can feel it. If one of these found you at the right moment, that was the whole point.",
+        "body": "ComfortKind started in a hard season of my own. Every piece leaves here the way I'd send it to a friend - soft, considered, with a heart stitched where you can feel it. If one of these found you at the right moment, that was the whole point.",
         "sig_name": "Ali",
-        "sig_title": "Founder, ComfortKind"
-      }
-    },
-    "newsletter": {
-      "type": "newsletter-signup",
-      "settings": {
-        "eyebrow": "Letters from Ali",
-        "heading": "A short note, once a month.",
-        "body": "New pieces, the people wearing them, what I’m thinking about. No noise, no urgency — you can leave whenever you like."
+        "sig_title": "Founder, ComfortKind",
+        "letters_eyebrow": "Letters from Ali",
+        "letters_heading": "A short note, once a month.",
+        "letters_body": "New pieces, the people wearing them, what I'm thinking about. No noise, no urgency - you can leave whenever you like."
       }
     }
   },
@@ -122,7 +122,6 @@
     "quote",
     "featured_product",
     "give_comfort_strip",
-    "signoff",
-    "newsletter"
+    "signoff"
   ]
 }
