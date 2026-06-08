@@ -2,19 +2,11 @@
   "sections": {
     "main": {
       "type": "main-faq",
-      "blocks": {
-        "cat1": { "type": "category", "settings": { "number": "01", "title": "Sizing & fit", "content": "<p><strong>How does it fit?</strong><br>Relaxed and waist-length, with dropped shoulders - easy to layer, easy to live in.</p><p><strong>I'm between sizes. Up or down?</strong><br>Size up. This is a piece you reach for on the soft days, and a little extra room only makes it more of a hug.</p><p><strong>Do the hoodie and crewneck fit the same?</strong><br>Yes. Same pattern, same fabric, same proportions - the crewneck is simply the hoodie without the hood.</p><p><strong>Is there a size guide?</strong><br>There is, on every product page, with flat measurements for each size.</p>" } },
-        "cat2": { "type": "category", "settings": { "number": "02", "title": "Fabric & care", "content": "<p><strong>What's it made of?</strong><br>8.9 oz heavyweight fleece - 80% organic combed ring-spun cotton, 20% recycled polyester.</p><p><strong>Is it really organic?</strong><br>Yes, and independently verified. We carry GOTS, OCS, and GRS certifications.</p><p><strong>Why no drawstring?</strong><br>On purpose. A drawstring is one more thing to fuss with on a day you don't have the energy for fussing.</p><p><strong>How do I care for it?</strong><br>Cold wash, inside-out. Tumble dry low or lay it flat.</p>" } },
-        "cat3": { "type": "category", "settings": { "number": "03", "title": "Give Comfort", "content": "<p><strong>How does Give Comfort work?</strong><br>At checkout, choose the hoodie or the crewneck, write a few words, and add their address. We ship it directly to them with a hand-written card.</p><p><strong>Will they see the price?</strong><br>Never. No pricing, no invoice, no packing slip travels with a Give Comfort order.</p><p><strong>Can I stay anonymous?</strong><br>You can. Sign the note however you like, or leave it unsigned.</p><p><strong>Can you ship to a hospital?</strong><br>Yes. Add the room or unit details in the address and we'll get it there.</p>" } },
-        "cat4": { "type": "category", "settings": { "number": "04", "title": "Orders & shipping", "content": "<p><strong>When will my order ship?</strong><br>Most orders ship within 2 business days.</p><p><strong>Is shipping free?</strong><br>Free on orders over $75 in the US. Flat rate for orders under that.</p><p><strong>Do you ship internationally?</strong><br>Yes, to most countries. Duties and taxes are shown at checkout.</p><p><strong>Can I change my address?</strong><br>Yes, if your order hasn't shipped yet. Email me right away.</p>" } },
-        "cat5": { "type": "category", "settings": { "number": "05", "title": "Returns & guarantee", "content": "<p><strong>What is the 30-Day Comfort Guarantee?</strong><br>If it doesn't feel right, return it within 30 days. No questions asked, no restocking fee.</p><p><strong>How do I start a return?</strong><br>Email me directly and I'll take care of it.</p><p>Comfort you have to argue for isn't comfort.</p>" } }
-      },
-      "block_order": ["cat1", "cat2", "cat3", "cat4", "cat5"],
       "settings": {
         "title": "Questions, answered.",
         "subtitle": "Everything you might wonder about sizing, fabric, gifting, and getting your order - written by me, in plain words.",
-        "footer_text": "If something's still on your mind, you can always reach me directly.",
-        "contact_label": "Get in touch"
+        "contact_email": "hello@comfortkind.com",
+        "contact_label": "Email Ali"
       }
     }
   },

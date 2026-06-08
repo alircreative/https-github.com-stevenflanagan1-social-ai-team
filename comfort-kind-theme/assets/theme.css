@@ -357,3 +357,162 @@
   .ck-gc-details__grid { grid-template-columns: 1fr; }
   .ck-faq-cat { grid-template-columns: 1fr; gap: 32px; }
 }
+
+/* Trust strip */
+.ck-trust {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.ck-trust .cell {
+  padding: 32px 28px; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.ck-trust .cell:last-child { border-right: none; }
+.ck-trust .cell .label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.ck-trust .cell .text { font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.35; color: var(--ink); }
+
+/* Product details grid */
+.ck-details-section { background: var(--cream); padding: var(--pad-y) 0; }
+.ck-details-section__inner { display: grid; grid-template-columns: 1fr 1.3fr; max-width: 1200px; margin: 0 auto; padding: 0 48px; gap: 96px; align-items: start; }
+.ck-details-section__sticky { position: sticky; top: 80px; }
+.ck-details-section__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 14px; }
+.ck-details-section__heading { font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1.1; margin: 0; font-style: italic; color: var(--ink); }
+.ck-details-section__sub { color: var(--mute); font-size: 15px; line-height: 1.7; margin-top: 18px; max-width: 320px; }
+.ck-detail-row-grid { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.ck-detail-row-grid:first-child { border-top: 1px solid var(--line); }
+.ck-detail-row-grid__key { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: var(--ink); }
+.ck-detail-row-grid__val { color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+
+/* Split image+text sections */
+.ck-split { display: grid; grid-template-columns: 1fr 1fr; }
+.ck-split__img { background-size: cover; background-position: center; aspect-ratio: 4/5; }
+.ck-split__text { padding: 0 80px; display: flex; flex-direction: column; justify-content: center; gap: 18px; background: var(--cream-2); }
+.ck-split__text--light { background: var(--cream); }
+.ck-split__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); }
+.ck-split__heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; line-height: 1.15; margin: 0; font-style: italic; color: var(--ink); }
+.ck-split__body { color: var(--ink-2); font-size: 16px; line-height: 1.75; max-width: 420px; margin: 0; }
+.ck-split__body--mute { color: var(--mute); font-size: 14px; }
+
+/* Founder note band */
+.ck-founder-note { background: var(--ink); color: var(--cream); padding: var(--pad-y) 48px; text-align: center; }
+.ck-founder-note__inner { max-width: 760px; margin: 0 auto; }
+.ck-founder-note__quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 30px; line-height: 1.4; color: var(--cream); margin: 20px 0 22px; letter-spacing: -0.005em; }
+.ck-founder-note__by { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(245,240,234,0.65); }
+
+/* Review invite */
+.ck-review-invite { background: var(--cream); padding: var(--pad-y) 0; }
+.ck-review-invite__inner { max-width: 760px; margin: 0 auto; padding: 0 32px; }
+.ck-review-invite__card { border: 1px solid var(--line); background: var(--cream-2); padding: 64px 56px; text-align: center; }
+.ck-review-invite__heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-style: italic; line-height: 1.15; margin: 18px 0 0; color: var(--ink); }
+.ck-review-invite__body { color: var(--ink-2); font-size: 16px; line-height: 1.75; max-width: 440px; margin: 18px auto 0; }
+.ck-review-invite__meta { display: flex; justify-content: center; gap: 40px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+.ck-review-invite__meta span { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
+
+/* Breadcrumb */
+.ck-breadcrumb { padding: 20px 48px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); border-bottom: 1px solid var(--line); }
+.ck-breadcrumb span { color: var(--ink); }
+
+/* About page extras */
+.ck-about-hero-text { background: var(--cream); padding: 120px 48px 80px; text-align: center; }
+.ck-about-hero-text__badge { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px; padding: 10px 18px; background: var(--ink); color: var(--cream); border-radius: 999px; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 600; }
+.ck-about-hero-text h1 { font-family: 'Cormorant Garamond', serif; font-size: 72px; line-height: 1.06; font-weight: 400; margin: 0 0 28px; letter-spacing: -0.02em; }
+.ck-about-hero-text h1 em { color: var(--taupe-dark); font-style: italic; }
+.ck-about-hero-text__sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; line-height: 1.5; color: var(--ink-2); max-width: 560px; margin: 0 auto; }
+.ck-about-portrait { padding: 0 48px 96px; }
+.ck-about-portrait__img { width: 100%; aspect-ratio: 16/9; max-height: 640px; background-size: cover; background-position: center 25%; position: relative; }
+.ck-about-portrait__caption { position: absolute; bottom: 28px; left: 28px; background: var(--cream); padding: 14px 20px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+.ck-about-chapter { max-width: 1200px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 96px; align-items: start; }
+.ck-about-chapter__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 14px; }
+.ck-about-chapter__heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; line-height: 1.15; margin: 0; font-style: italic; color: var(--ink); }
+.ck-about-chapter__sticky { position: sticky; top: 80px; }
+.ck-about-chapter__text p { font-size: 16px; line-height: 1.85; color: var(--ink-2); margin-bottom: 20px; }
+.ck-about-chapter__text p:first-child { font-family: 'Cormorant Garamond', serif; font-size: 22px; line-height: 1.55; color: var(--ink); margin-bottom: 28px; }
+.ck-about-pull-quote { background: var(--ink); color: var(--cream); padding: var(--pad-y) 48px; text-align: center; }
+.ck-about-pull-quote__inner { max-width: 880px; margin: 0 auto; }
+.ck-about-pull-quote__text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 42px; line-height: 1.3; color: var(--cream); margin: 24px 0 28px; letter-spacing: -0.005em; }
+.ck-about-pull-quote__label { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,234,0.6); }
+.ck-about-features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 32px; }
+.ck-about-feature__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 6px; }
+.ck-about-feature__title { font-family: 'Cormorant Garamond', serif; font-size: 17px; margin-bottom: 4px; color: var(--ink); }
+.ck-about-feature__body { color: var(--mute); font-size: 13px; line-height: 1.6; margin: 0; }
+.ck-about-promises { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.ck-about-promises__grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.ck-about-promise { padding: 56px 48px; border-right: 1px solid var(--line); }
+.ck-about-promise:last-child { border-right: none; }
+.ck-about-promise__cat { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 16px; }
+.ck-about-promise__title { font-family: 'Cormorant Garamond', serif; font-size: 26px; line-height: 1.25; margin-bottom: 12px; color: var(--ink); }
+.ck-about-promise__body { color: var(--mute); font-size: 14px; line-height: 1.7; margin: 0; }
+.ck-about-signature { background: var(--cream-2); padding: var(--pad-y) 48px; text-align: center; }
+.ck-about-signature__inner { max-width: 640px; margin: 0 auto; }
+.ck-about-signature__note { font-family: 'Cormorant Garamond', serif; font-size: 20px; line-height: 1.7; color: var(--ink-2); margin-bottom: 32px; }
+.ck-about-signature__name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 36px; color: var(--ink); line-height: 1; margin-bottom: 12px; letter-spacing: -0.01em; }
+
+/* Give Comfort page extras */
+.ck-gc-hero-split { display: grid; grid-template-columns: 1fr 1.05fr; min-height: 620px; background: var(--cream); }
+.ck-gc-hero-split__copy { padding: 96px 72px; display: flex; flex-direction: column; justify-content: center; }
+.ck-gc-hero-split__img { background-size: cover; background-position: center; background-color: var(--cream-3); }
+.ck-gc-hero-split h1 { font-family: 'Cormorant Garamond', serif; font-size: 60px; line-height: 1.04; font-weight: 400; margin: 0; letter-spacing: -0.015em; color: var(--ink); }
+.ck-gc-hero-split h1 em { color: var(--taupe-dark); font-style: italic; }
+.ck-gc-how-it-works { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--cream-2); }
+.ck-gc-how-it-works__grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.ck-gc-step-card { padding: 52px 48px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 18px; }
+.ck-gc-step-card:last-child { border-right: none; }
+.ck-gc-step-mark { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--taupe); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: var(--taupe-dark); }
+.ck-gc-step-card__title { font-family: 'Cormorant Garamond', serif; font-size: 25px; font-style: italic; line-height: 1.2; color: var(--ink); }
+.ck-gc-step-card__body { color: var(--mute); font-size: 14px; line-height: 1.7; margin: 0; max-width: 320px; }
+.ck-gc-choose { background: var(--cream); padding: var(--pad-y) 0; }
+.ck-gc-choose__inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
+.ck-gc-products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.ck-gc-product-card { background: var(--cream); border: 1px solid var(--line); display: flex; flex-direction: column; }
+.ck-gc-product-card__img { aspect-ratio: 4/3; background-size: cover; background-position: center; background-color: var(--cream-3); }
+.ck-gc-product-card__body { padding: 34px 36px 36px; display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.ck-gc-product-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 30px; line-height: 1.1; margin: 0; font-style: italic; color: var(--ink); }
+.ck-gc-product-card__price { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--taupe-dark); white-space: nowrap; }
+.ck-gc-product-card__blurb { color: var(--ink-2); font-size: 15px; line-height: 1.7; margin: 0; max-width: 420px; }
+.ck-gc-keys { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.ck-gc-keys li { display: flex; gap: 12px; align-items: flex-start; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+.ck-gc-promises { background: var(--cream); padding: var(--pad-y) 0; }
+.ck-gc-promises__inner { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+.ck-gc-promises__grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; row-gap: 52px; }
+.ck-gc-promise { display: grid; grid-template-columns: auto 1fr; column-gap: 18px; align-items: start; border-top: 1px solid var(--line); padding-top: 26px; }
+.ck-gc-promise h3 { font-family: 'Cormorant Garamond', serif; font-size: 25px; font-style: italic; font-weight: 400; line-height: 1.2; color: var(--ink); margin: 0 0 12px; }
+.ck-gc-promise p { color: var(--mute); font-size: 14px; line-height: 1.7; margin: 0; max-width: 380px; }
+
+/* Give Comfort product accordion */
+.ck-gc-differ { border-top: 1px solid var(--line); margin-top: 6px; }
+.ck-gc-differ__btn { width: 100%; background: none; border: none; cursor: pointer; padding: 20px 0 0; display: flex; justify-content: space-between; align-items: center; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
+.ck-gc-differ__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; overflow: hidden; }
+.ck-gc-differ__body.open { grid-template-rows: 1fr; }
+.ck-gc-differ__inner { min-height: 0; display: flex; flex-direction: column; gap: 18px; padding: 20px 0 4px; }
+.ck-gc-differ__row { display: grid; grid-template-columns: 108px 1fr; gap: 18px; align-items: start; }
+.ck-gc-differ__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); padding-top: 3px; }
+.ck-gc-differ__text { color: var(--ink-2); font-size: 14px; line-height: 1.65; margin: 0; }
+
+/* FAQ page */
+.ck-faq-hero { background: var(--cream); padding: 100px 48px 72px; text-align: center; border-bottom: 1px solid var(--line); }
+.ck-faq-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 64px; line-height: 1.06; font-weight: 400; margin: 18px 0 22px; color: var(--ink); }
+.ck-faq-hero h1 em { color: var(--taupe-dark); font-style: italic; }
+.ck-faq-hero__sub { color: var(--ink-2); font-size: 18px; line-height: 1.7; max-width: 540px; margin: 0 auto 36px; }
+.ck-faq-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ck-faq-chip { padding: 9px 18px; border: 1px solid var(--line-2); background: transparent; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); cursor: pointer; transition: all .2s; }
+.ck-faq-chip:hover, .ck-faq-chip.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.ck-faq-cat { max-width: 1200px; margin: 0 auto; padding: 80px 48px; display: grid; grid-template-columns: 240px 1fr; gap: 80px; align-items: start; border-bottom: 1px solid var(--line); }
+.ck-faq-cat__head { position: sticky; top: 80px; }
+.ck-faq-cat__num { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 12px; }
+.ck-faq-cat__title { font-family: 'Cormorant Garamond', serif; font-size: 28px; line-height: 1.2; font-style: italic; color: var(--ink); margin: 0 0 16px; }
+.ck-faq-cat__note { color: var(--mute); font-size: 13px; line-height: 1.65; }
+.ck-faq-list { display: flex; flex-direction: column; }
+.ck-faq-item { border-top: 1px solid var(--line); }
+.ck-faq-item:last-child { border-bottom: 1px solid var(--line); }
+.ck-faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 22px 0; display: flex; justify-content: space-between; align-items: center; text-align: left; gap: 24px; font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--ink); }
+.ck-faq-q__icon { flex-shrink: 0; font-size: 22px; color: var(--mute); transition: transform .25s; }
+.ck-faq-item.open .ck-faq-q__icon { transform: rotate(45deg); }
+.ck-faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; overflow: hidden; }
+.ck-faq-answer.open { grid-template-rows: 1fr; }
+.ck-faq-answer__inner { min-height: 0; padding: 0 0 22px; color: var(--ink-2); font-size: 15px; line-height: 1.75; }
+.ck-faq-contact { background: var(--cream-2); padding: var(--pad-y) 48px; text-align: center; border-top: 1px solid var(--line); }
+.ck-faq-contact__inner { max-width: 560px; margin: 0 auto; }
+.ck-faq-contact__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe-dark); margin-bottom: 18px; }
+.ck-faq-contact h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-style: italic; line-height: 1.1; margin: 0 0 14px; color: var(--ink); }
+.ck-faq-contact p { color: var(--ink-2); font-size: 16px; line-height: 1.7; margin: 0 0 32px; }
+.ck-faq-contact__email { font-size: 13px; letter-spacing: 0.1em; color: var(--mute); margin-top: 18px; }

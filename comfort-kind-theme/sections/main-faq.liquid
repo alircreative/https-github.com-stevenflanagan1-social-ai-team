@@ -1,92 +1,338 @@
-<div class="ck-faq">
-  <div class="ck-faq__hero">
-    <div class="ck-faq__hero-inner">
-      <h1 class="ck-faq__title">{{ section.settings.title | default: 'Questions, answered.' }}</h1>
-      {% if section.settings.subtitle != blank %}
-        <p class="ck-faq__subtitle">{{ section.settings.subtitle }}</p>
-      {% endif %}
+<!-- FAQ Hero -->
+<div class="ck-faq-hero">
+  <div style="display:flex;justify-content:center;margin-bottom:8px;">
+    <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+  </div>
+  <h1>Questions, <em>answered.</em></h1>
+  <p class="ck-faq-hero__sub">{{ section.settings.subtitle | default: 'Everything you might wonder about sizing, fabric, gifting, and getting your order - written by me, in plain words.' }}</p>
+  <div class="ck-faq-chips">
+    <button class="ck-faq-chip active" data-group="all" type="button">All</button>
+    <button class="ck-faq-chip" data-group="sizing" type="button">Sizing &amp; fit</button>
+    <button class="ck-faq-chip" data-group="fabric" type="button">Fabric &amp; care</button>
+    <button class="ck-faq-chip" data-group="gifting" type="button">Give Comfort</button>
+    <button class="ck-faq-chip" data-group="orders" type="button">Orders &amp; shipping</button>
+    <button class="ck-faq-chip" data-group="returns" type="button">Returns</button>
+    <button class="ck-faq-chip" data-group="heart" type="button">The heart of it</button>
+  </div>
+</div>
+
+<!-- 01 Sizing & fit -->
+<div class="ck-faq-cat" data-group="sizing">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">01</div>
+    <h2 class="ck-faq-cat__title">Sizing &amp; fit</h2>
+    <p class="ck-faq-cat__note">The hoodie runs true to size with a relaxed fit. Most people find their usual size works well.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        How does it fit?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Relaxed and waist-length, with dropped shoulders - easy to layer, easy to live in. It is the kind of fit that works whether you are on the couch or out the door.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        I am between sizes. Up or down?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Size up. This is a piece you reach for on the soft days, and a little extra room only makes it more of a hug. That said, if you prefer a more fitted look, your usual size will work too.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Do the hoodie and crewneck fit the same?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes. Same pattern, same fabric, same proportions - the crewneck is simply the hoodie without the hood. If you know your size in one, you know it in the other.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Is there a size guide?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">There is, on every product page, with flat measurements for each size. If you are unsure, you can always email me and I will help you figure it out.</div>
+      </div>
     </div>
   </div>
+</div>
 
-  {% if section.blocks.size > 0 %}
-    <div class="ck-faq__tabs" role="tablist" id="ck-faq-tabs">
-      {% for block in section.blocks %}
-        {% if block.type == 'category' %}
-          <button
-            class="ck-faq__tab{% if forloop.first %} is-active{% endif %}"
-            role="tab"
-            data-target="ck-faq-panel-{{ forloop.index }}"
-            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-            type="button"
-            {{ block.shopify_attributes }}
-          >{{ block.settings.title }}</button>
-        {% endif %}
-      {% endfor %}
+<!-- 02 Fabric & care -->
+<div class="ck-faq-cat" data-group="fabric">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">02</div>
+    <h2 class="ck-faq-cat__title">Fabric &amp; care</h2>
+    <p class="ck-faq-cat__note">The fabric was chosen first. Everything else was secondary.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        What is it made of?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">8.9 oz heavyweight fleece - 80% organic combed ring-spun cotton, 20% recycled polyester. Soft on the outside, brushed even softer on the inside.</div>
+      </div>
     </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Is it really organic?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes, and independently verified. We carry GOTS (Global Organic Textile Standard), OCS (Organic Content Standard), and GRS (Global Recycled Standard) certifications. These are third-party audits, not self-declarations.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Why no drawstring?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">On purpose. A drawstring is one more thing to fuss with on a day when you have no energy for fussing. The hood works perfectly well without it. We left it out intentionally.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        How do I care for it?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Cold wash, inside-out. Tumble dry low or lay it flat. It will keep being soft if you let it. Avoid high heat, which can affect the fleece over time.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <div class="ck-faq__content">
-      {% for block in section.blocks %}
-        {% if block.type == 'category' %}
-          <div
-            class="ck-faq__panel{% if forloop.first %} is-active{% endif %}"
-            id="ck-faq-panel-{{ forloop.index }}"
-            role="tabpanel"
-          >
-            {{ block.settings.content }}
-          </div>
-        {% endif %}
-      {% endfor %}
+<!-- 03 Give Comfort -->
+<div class="ck-faq-cat" data-group="gifting">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">03</div>
+    <h2 class="ck-faq-cat__title">Give Comfort</h2>
+    <p class="ck-faq-cat__note">You do not need to have the right words. You just need an address.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        How does Give Comfort work?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">At checkout, choose the hoodie or the crewneck, write a few words (or just a name - that is enough), and add their address. We ship it directly to them with a handwritten card. No price, no invoice, no packing slip in the box.</div>
+      </div>
     </div>
-  {% endif %}
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Will they see the price?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Never. No pricing, no invoice, no packing slip travels with a Give Comfort order. The only thing in the box is the hoodie (or crewneck) and the card you wrote.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Can I stay anonymous?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">You can. Sign the note however you like, or leave it unsigned. We have seen people send these anonymously to coworkers, to old friends, to neighbors going through something hard. The gift does not need a name attached to mean something.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Can you ship to a hospital?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes. Add the room or unit details in the address and we will get it there. If you are not sure about the address, email me and I will help you work it out.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  {% if section.settings.footer_text != blank %}
-    <div class="ck-faq__footer">
-      <p class="ck-faq__footer-text">{{ section.settings.footer_text }}</p>
-      {% if section.settings.contact_label != blank %}
-        <a href="{{ section.settings.contact_url }}" class="ck-btn ck-btn--secondary">
-          {{ section.settings.contact_label }}
-        </a>
-      {% endif %}
+<!-- 04 Orders & shipping -->
+<div class="ck-faq-cat" data-group="orders">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">04</div>
+    <h2 class="ck-faq-cat__title">Orders &amp; shipping</h2>
+    <p class="ck-faq-cat__note">Most orders ship within 2 business days.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        When will my order ship?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Most orders ship within 2 business days. You will receive a confirmation email with tracking when it goes out. If you need it by a specific date, email me and I will do what I can.</div>
+      </div>
     </div>
-  {% endif %}
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Is shipping free?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Free on orders over $75 in the US. Flat rate for orders under that. International shipping rates are shown at checkout.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Do you ship internationally?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes, to most countries. Duties and taxes are shown at checkout - there are no surprises on delivery. If your country is not listed, email me.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Can I change my address?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes, if your order has not shipped yet. Email me right away at {{ section.settings.contact_email | default: 'hello@comfortkind.com' }} and I will update it before it goes out.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 Returns & guarantee -->
+<div class="ck-faq-cat" data-group="returns">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">05</div>
+    <h2 class="ck-faq-cat__title">Returns &amp; the guarantee</h2>
+    <p class="ck-faq-cat__note">Comfort you have to argue for is not comfort.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        What is the 30-Day Comfort Guarantee?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">If it does not feel right, return it within 30 days. No questions asked, no restocking fee. I will refund you in full. Comfort you have to argue for is not comfort.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        How do I start a return?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Email me at {{ section.settings.contact_email | default: 'hello@comfortkind.com' }} with your order number and I will take care of everything. It is a short email, not a form. I prefer it that way.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Do I pay for return shipping?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">For US returns, I cover the shipping label. For international returns, the customer covers the return shipping cost. In both cases, the refund itself has no fees or deductions.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        What if it was a gift?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">We handle gift returns the same way. Email me, tell me what happened, and I will sort it out. No awkward receipts needed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 The heart of it -->
+<div class="ck-faq-cat" data-group="heart">
+  <div class="ck-faq-cat__head">
+    <div class="ck-faq-cat__num">06</div>
+    <h2 class="ck-faq-cat__title">The heart of it</h2>
+    <p class="ck-faq-cat__note">The questions I did not expect, but am glad someone asked.</p>
+  </div>
+  <div class="ck-faq-list">
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Why only two products?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Because I wanted to do two things really, really well rather than many things adequately. The hoodie and the crewneck took years to get right. I am not in a hurry to dilute that by rushing into new categories.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Why is it called ComfortKind?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">It is the two things I was trying to make: comfort (the physical thing - the softness, the weight, the fabric) and kind (the act of giving it, the intention behind it). The name is also a reminder to be that - comfort kind - with yourself and with others.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Is this a small business?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Yes. Very small. I run it mostly alone, with some help. When you email me, you are emailing me - Ali - not a support team. I try to respond within a day.</div>
+      </div>
+    </div>
+    <div class="ck-faq-item">
+      <button class="ck-faq-q" type="button" onclick="ckFaqToggle(this)">
+        Can I share my story with you?
+        <span class="ck-faq-q__icon">+</span>
+      </button>
+      <div class="ck-faq-answer">
+        <div class="ck-faq-answer__inner">Please do. The thing that has surprised me most about this brand is how many people want to tell me why they bought it, or who they sent it to. Those messages mean a lot. You can always reach me at {{ section.settings.contact_email | default: 'hello@comfortkind.com' }}.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Band -->
+<div class="ck-faq-contact">
+  <div class="ck-faq-contact__inner">
+    <div class="ck-faq-contact__label">Still wondering?</div>
+    <h2>Still wondering something?</h2>
+    <p>If something is still on your mind, I am here. I read every email and reply personally.</p>
+    <a href="mailto:{{ section.settings.contact_email | default: 'hello@comfortkind.com' }}" class="ck-btn ck-btn--primary">{{ section.settings.contact_label | default: 'Email Ali' }}</a>
+    <p class="ck-faq-contact__email">{{ section.settings.contact_email | default: 'hello@comfortkind.com' }} - replies within a day</p>
+  </div>
 </div>
 
 <script>
-(function() {
-  var tabs = document.querySelectorAll('.ck-faq__tab');
-  var panels = document.querySelectorAll('.ck-faq__panel');
-
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      tabs.forEach(function(t) {
-        t.classList.remove('is-active');
-        t.setAttribute('aria-selected', 'false');
+  function ckFaqToggle(btn) {
+    var item = btn.closest('.ck-faq-item');
+    var answer = item.querySelector('.ck-faq-answer');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    answer.classList.toggle('open', !isOpen);
+  }
+  document.querySelectorAll('.ck-faq-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.ck-faq-chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      var group = chip.dataset.group;
+      document.querySelectorAll('.ck-faq-cat').forEach(function(cat) {
+        cat.style.display = (group === 'all' || cat.dataset.group === group) ? '' : 'none';
       });
-      panels.forEach(function(p) { p.classList.remove('is-active'); });
-
-      this.classList.add('is-active');
-      this.setAttribute('aria-selected', 'true');
-      var target = document.getElementById(this.dataset.target);
-      if (target) target.classList.add('is-active');
     });
   });
-
-  // FAQ accordion within panels
-  document.querySelectorAll('.ck-faq__entry').forEach(function(entry) {
-    var btn = entry.querySelector('.ck-faq__q');
-    if (btn) {
-      btn.addEventListener('click', function() {
-        entry.classList.toggle('is-open');
-      });
-    }
-  });
-})();
 </script>
 
 {% schema %}
 {
   "name": "FAQ Page",
-  "tag": "section",
+  "tag": "div",
   "settings": [
     {
       "type": "text",
@@ -95,89 +341,27 @@
       "default": "Questions, answered."
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": "Everything you need to know about ComfortKind."
+      "default": "Everything you might wonder about sizing, fabric, gifting, and getting your order - written by me, in plain words."
     },
     {
       "type": "text",
-      "id": "footer_text",
-      "label": "Footer text",
-      "default": "Still have questions? We'd love to hear from you."
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "hello@comfortkind.com"
     },
     {
       "type": "text",
       "id": "contact_label",
       "label": "Contact button label",
-      "default": "Get in touch"
-    },
-    {
-      "type": "url",
-      "id": "contact_url",
-      "label": "Contact URL"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "category",
-      "name": "FAQ Category",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Category title",
-          "default": "Sizing & fit"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Content (use H3 for questions, P for answers)",
-          "default": "<h3>What sizes do you offer?</h3><p>We offer XS through 3XL. Our hoodies and crewnecks are designed with a relaxed, slightly oversized fit.</p><h3>How does it fit?</h3><p>The Soft Strength Hoodie has a dropped shoulder and waist-length cut. If you prefer a more fitted look, size down. If you love an oversized feel, stay true to size.</p>"
-        }
-      ]
+      "default": "Email Ali"
     }
   ],
   "presets": [
     {
-      "name": "FAQ Page",
-      "blocks": [
-        {
-          "type": "category",
-          "settings": {
-            "title": "Sizing & fit",
-            "content": "<h3>What sizes do you offer?</h3><p>We offer XS through 3XL. Our hoodies and crewnecks are designed with a relaxed, slightly oversized fit.</p><h3>How does it fit?</h3><p>Dropped shoulder, waist-length. True to size for a relaxed feel, or size down for a closer fit.</p>"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Fabric & care",
-            "content": "<h3>What is the fabric?</h3><p>8.9 oz GOTS certified organic cotton fleece with a brushed super-soft lining inside.</p><h3>How do I care for it?</h3><p>Machine wash cold, tumble dry low. Do not bleach. Do not iron the embroidery directly.</p>"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Give Comfort",
-            "content": "<h3>How does gifting work?</h3><p>Add a private gift note at checkout. We ship directly to the recipient — no pricing, no packing slip included.</p><h3>Can I schedule delivery?</h3><p>We ship within 3-5 business days. If you need it by a specific date, reach out and we'll do our best.</p>"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Orders & shipping",
-            "content": "<h3>When will my order ship?</h3><p>Orders ship within 3-5 business days. You'll get a tracking email as soon as it's on its way.</p><h3>Do you offer free shipping?</h3><p>Yes — free shipping on all orders over $75.</p>"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Returns & guarantee",
-            "content": "<h3>What is the 30-Day Comfort Guarantee?</h3><p>If it doesn't feel right within 30 days of receiving it, we'll make it right — exchange, store credit, or refund. No hoops.</p><h3>How do I start a return?</h3><p>Email us at hello@comfortkind.com with your order number and we'll take care of it.</p>"
-          }
-        }
-      ]
+      "name": "FAQ Page"
     }
   ]
 }

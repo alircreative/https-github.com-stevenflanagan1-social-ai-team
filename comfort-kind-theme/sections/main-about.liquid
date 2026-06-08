@@ -1,185 +1,176 @@
-<div class="ck-about-hero">
-  {% if section.settings.hero_image != blank %}
-    <div class="ck-about-hero__image">
-      {{ section.settings.hero_image | image_url: width: 1600 | image_tag: loading: 'eager', alt: section.settings.hero_image.alt }}
-    </div>
-  {% endif %}
-  <div class="ck-about-hero__content">
-    {% if section.settings.eyebrow != blank %}
-      <span class="ck-about-hero__eyebrow">{{ section.settings.eyebrow }}</span>
-    {% endif %}
-    <h1 class="ck-about-hero__heading">
-      {{ section.settings.heading_plain }}<br>
-      <em>{{ section.settings.heading_italic }}</em>
-    </h1>
+<!-- Hero Text -->
+<div class="ck-about-hero-text">
+  <div class="ck-about-hero-text__badge">
+    <svg width="14" height="12" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#F4EEE4" stroke="#F4EEE4" stroke-width="0.5"/></svg>
+    My Story
+  </div>
+  <h1>This started with one hard season.<br><em>It was ours. Now it's yours.</em></h1>
+  <p class="ck-about-hero-text__sub">I made ComfortKind after a year I did not know how to get through. This is that story, and what came out of it.</p>
+</div>
+
+<!-- Portrait -->
+<div class="ck-about-portrait">
+  <div class="ck-about-portrait__img" style="{% if section.settings.portrait_image != blank %}background-image:url('{{ section.settings.portrait_image | image_url: width: 1600 }}');{% else %}background-color:var(--cream-3);{% endif %}">
+    <div class="ck-about-portrait__caption">Ali - Founder</div>
   </div>
 </div>
 
-<div class="ck-about-story">
-  <div class="ck-about-story__inner">
-    <div class="ck-about-story__label">{{ section.settings.story_label }}</div>
-    <div class="ck-about-story__content">
-      {{ section.settings.story_content }}
+<!-- Chapter 01 -->
+<div style="background:var(--cream);padding:var(--pad-y) 0;">
+  <div class="ck-about-chapter">
+    <div class="ck-about-chapter__sticky">
+      <div class="ck-about-chapter__label">Chapter 01</div>
+      <h2 class="ck-about-chapter__heading">The day everything changed.</h2>
+    </div>
+    <div class="ck-about-chapter__text">
+      <p>My husband Logan was diagnosed with stage 3 melanoma on a Tuesday. By Friday I was researching organic cotton because I did not know what else to do with my hands.</p>
+      <p>That is the honest beginning of this. Not a business idea. Not a gap in the market. Just a person who needed to make something soft in a moment that felt impossibly hard.</p>
+      <p>I spent six months in waiting rooms with Logan. I learned what it feels like to have nothing to do but sit with someone you love and be afraid. I noticed that the hardest part was often the helplessness - the not-knowing how to help, the not-having the right words.</p>
+      <p>Logan is fine now. More than fine. But I kept making the hoodie. Because I met too many people in those waiting rooms who needed something to send someone, and did not know what. I made them a something.</p>
     </div>
   </div>
 </div>
 
-{% if section.blocks.size > 0 %}
-  <div class="ck-about-pillars">
-    <div class="ck-about-pillars__inner">
-      <span class="eyebrow">What we believe</span>
-      <div class="ck-about-pillars__grid">
-        {% for block in section.blocks %}
-          {% if block.type == 'pillar' %}
-            <div class="ck-pillar" {{ block.shopify_attributes }}>
-              {% if block.settings.number != blank %}
-                <div class="ck-pillar__num">{{ block.settings.number }}</div>
-              {% endif %}
-              {% if block.settings.title != blank %}
-                <h3 class="ck-pillar__title">{{ block.settings.title }}</h3>
-              {% endif %}
-              {% if block.settings.body != blank %}
-                <p class="ck-pillar__body">{{ block.settings.body }}</p>
-              {% endif %}
-            </div>
-          {% endif %}
-        {% endfor %}
+<!-- Pull Quote -->
+<div class="ck-about-pull-quote">
+  <div class="ck-about-pull-quote__inner">
+    <div style="display:flex;justify-content:center;margin-bottom:12px;">
+      <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+    </div>
+    <p class="ck-about-pull-quote__text">"Soft Strength. For the rooms no one prepares you for."</p>
+    <p class="ck-about-pull-quote__label">The ComfortKind promise</p>
+  </div>
+</div>
+
+<!-- Chapter 02 -->
+<div style="background:var(--cream-2);padding:var(--pad-y) 0;">
+  <div class="ck-about-chapter">
+    <div class="ck-about-chapter__sticky">
+      <div class="ck-about-chapter__label">Chapter 02</div>
+      <h2 class="ck-about-chapter__heading">What I make.</h2>
+    </div>
+    <div class="ck-about-chapter__text">
+      <p>One hoodie. One crewneck. Made to be the thing you reach for on the hard days - or send to someone who is having them.</p>
+      <div class="ck-about-features-grid">
+        <div>
+          <div class="ck-about-feature__label">Weight</div>
+          <div class="ck-about-feature__title">8.9 oz fleece</div>
+          <p class="ck-about-feature__body">Heavy enough to feel like something. Not so heavy you want to take it off.</p>
+        </div>
+        <div>
+          <div class="ck-about-feature__label">Fabric</div>
+          <div class="ck-about-feature__title">Organic ring-spun cotton</div>
+          <p class="ck-about-feature__body">Combed for smoothness. Brushed on the inside for softness. The difference is immediate.</p>
+        </div>
+        <div>
+          <div class="ck-about-feature__label">Certifications</div>
+          <div class="ck-about-feature__title">GOTS, OCS, GRS</div>
+          <p class="ck-about-feature__body">Independently verified. Not marketing language - actual third-party certification.</p>
+        </div>
+        <div>
+          <div class="ck-about-feature__label">Construction</div>
+          <div class="ck-about-feature__title">No drawstring</div>
+          <p class="ck-about-feature__body">One less thing to fuss with on a day when you have no energy for fussing.</p>
+        </div>
+        <div>
+          <div class="ck-about-feature__label">Fit</div>
+          <div class="ck-about-feature__title">Relaxed, waist-length</div>
+          <p class="ck-about-feature__body">Dropped shoulders. Easy to layer. Built for the couch and the coffee run.</p>
+        </div>
+        <div>
+          <div class="ck-about-feature__label">Guarantee</div>
+          <div class="ck-about-feature__title">30-day comfort guarantee</div>
+          <p class="ck-about-feature__body">If it does not feel right, I will make it right. No questions, no restocking fee.</p>
+        </div>
       </div>
     </div>
   </div>
-{% endif %}
+</div>
 
-{% if section.settings.closing_quote != blank %}
-  <div class="ck-about-quote">
-    <p class="ck-about-quote__text">"{{ section.settings.closing_quote }}"</p>
-    {% if section.settings.closing_cite != blank %}
-      <p class="ck-about-quote__attr">{{ section.settings.closing_cite }}</p>
-    {% endif %}
-    {% if section.settings.cta_label != blank %}
-      <a href="{{ section.settings.cta_url }}" class="ck-btn ck-btn--light" style="margin-top:2rem;">
-        {{ section.settings.cta_label }}
-      </a>
-    {% endif %}
+<!-- Image Break -->
+<div style="padding:0;overflow:hidden;{% if section.settings.story_image != blank %}background-image:url('{{ section.settings.story_image | image_url: width: 1600 }}');background-size:cover;background-position:center;{% else %}background:var(--cream-3);{% endif %}aspect-ratio:3/2;max-height:680px;"></div>
+
+<!-- Chapter 03 -->
+<div style="background:var(--cream);padding:var(--pad-y) 0;">
+  <div class="ck-about-chapter">
+    <div class="ck-about-chapter__sticky">
+      <div class="ck-about-chapter__label">Chapter 03</div>
+      <h2 class="ck-about-chapter__heading">Give comfort.</h2>
+    </div>
+    <div class="ck-about-chapter__text">
+      <p>The thing I kept hearing in the waiting rooms was: "I want to do something, but I don't know what." I made Give Comfort for that feeling.</p>
+      <p>At checkout, you choose the hoodie or the crewneck, write a few words (or none - just a name is enough), and add their address. We ship it straight to them. No price, no packing slip. Just something soft arriving when the day was hard.</p>
+      <p>It can be anonymous. It can be signed with just your name. You do not need to have the right words. We have seen people send these to hospital rooms, to friends going through divorce, to coworkers who lost someone. The occasion is simply: this person is holding something heavy, and I want them to know I see it.</p>
+    </div>
   </div>
-{% endif %}
+</div>
+
+<!-- Promises Strip -->
+<div class="ck-about-promises">
+  <div class="ck-about-promises__grid">
+    <div class="ck-about-promise">
+      <div class="ck-about-promise__cat">The Promise</div>
+      <div class="ck-about-promise__title">30-day comfort guarantee</div>
+      <p class="ck-about-promise__body">If it does not feel right, return it within 30 days. No questions asked, no restocking fee. Comfort you have to argue for is not comfort.</p>
+    </div>
+    <div class="ck-about-promise">
+      <div class="ck-about-promise__cat">The Craft</div>
+      <div class="ck-about-promise__title">Made to be felt</div>
+      <p class="ck-about-promise__body">8.9 oz organic fleece. Brushed soft on the inside. Heavyweight enough to feel like a hug. Every material decision was made with one question: does this feel like being held?</p>
+    </div>
+    <div class="ck-about-promise">
+      <div class="ck-about-promise__cat">The Voice</div>
+      <div class="ck-about-promise__title">Plain words, always</div>
+      <p class="ck-about-promise__body">I write everything myself. No brand speak, no jargon. If something is true I will say it plainly. If something is not true I will not say it at all.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Signature -->
+<div class="ck-about-signature">
+  <div class="ck-about-signature__inner">
+    <div style="display:flex;justify-content:center;margin-bottom:24px;">
+      <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+    </div>
+    <p class="ck-about-signature__note">Thank you for being here. Whether you are buying for yourself, sending to someone, or just reading - I am glad you found this. I hope it helps, even a little.</p>
+    <div class="ck-about-signature__name">- Ali</div>
+    <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);">Founder - ComfortKind</div>
+  </div>
+</div>
+
+<!-- Closing CTA -->
+{% render 'give-comfort-strip' %}
 
 {% schema %}
 {
   "name": "About Page",
-  "tag": "section",
+  "tag": "div",
   "settings": [
     {
       "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero image"
+      "id": "portrait_image",
+      "label": "Portrait image"
     },
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Our Story"
-    },
-    {
-      "type": "text",
-      "id": "heading_plain",
-      "label": "Heading (plain)",
-      "default": "I made this for"
-    },
-    {
-      "type": "text",
-      "id": "heading_italic",
-      "label": "Heading (italic)",
-      "default": "the hard days."
-    },
-    {
-      "type": "text",
-      "id": "story_label",
-      "label": "Story section label",
-      "default": "The beginning"
-    },
-    {
-      "type": "richtext",
-      "id": "story_content",
-      "label": "Story content",
-      "default": "<p>It started in a hospital waiting room. My son was diagnosed with a heart condition, and I spent weeks sitting in cold, sterile spaces wishing I had something soft — something that felt like being held.</p><p>When I got home, I looked for it. I couldn't find it. So I made it. 8.9 oz organic cotton fleece, a brushed lining soft enough to fall asleep in, a small heart at the chest, and two words on the left sleeve: Soft Strength. Exactly what that season asked of me.</p><p>ComfortKind is for the hard seasons. For the people sitting in waiting rooms, going through things that don't have good words for them. I make one thing, and I make it well. I hope it finds you when you need it.</p>"
-    },
-    {
-      "type": "textarea",
-      "id": "closing_quote",
-      "label": "Closing quote",
-      "default": "Soft things aren't weak. They're the ones still standing when everything hard is gone."
-    },
-    {
-      "type": "text",
-      "id": "closing_cite",
-      "label": "Quote attribution",
-      "default": "Ali, Founder - ComfortKind"
-    },
-    {
-      "type": "text",
-      "id": "cta_label",
-      "label": "CTA label",
-      "default": "Shop the Collection"
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story image break"
     },
     {
       "type": "url",
       "id": "cta_url",
       "label": "CTA URL"
-    }
-  ],
-  "blocks": [
+    },
     {
-      "type": "pillar",
-      "name": "Value Pillar",
-      "settings": [
-        {
-          "type": "text",
-          "id": "number",
-          "label": "Number",
-          "default": "01"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title"
-        },
-        {
-          "type": "textarea",
-          "id": "body",
-          "label": "Body"
-        }
-      ]
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Shop the Hoodie"
     }
   ],
   "presets": [
     {
-      "name": "About Page",
-      "blocks": [
-        {
-          "type": "pillar",
-          "settings": {
-            "number": "01",
-            "title": "Made with intention.",
-            "body": "One product. Made well. No filler, no noise. Just something worth making."
-          }
-        },
-        {
-          "type": "pillar",
-          "settings": {
-            "number": "02",
-            "title": "Organic, always.",
-            "body": "GOTS certified organic cotton fleece. Better for you, better for the land, better for the people who made it."
-          }
-        },
-        {
-          "type": "pillar",
-          "settings": {
-            "number": "03",
-            "title": "The 30-Day Guarantee.",
-            "body": "If it doesn't feel right, I'll make it right. No conditions. That's the whole promise."
-          }
-        }
-      ]
+      "name": "About Page"
     }
   ]
 }

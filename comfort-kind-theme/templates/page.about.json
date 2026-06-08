@@ -2,20 +2,9 @@
   "sections": {
     "main": {
       "type": "main-about",
-      "blocks": {
-        "pillar1": { "type": "pillar", "settings": { "number": "01", "title": "Organic and certified", "body": "8.9 oz organic combed ring-spun cotton fleece. GOTS, OCS, and GRS certified. The things on the label are the things in the hoodie." } },
-        "pillar2": { "type": "pillar", "settings": { "number": "02", "title": "Made to be felt", "body": "Heavyweight enough to feel like a hug. Brushed soft on the inside. Substantial in your hands before it's even on your body." } },
-        "pillar3": { "type": "pillar", "settings": { "number": "03", "title": "30-Day Guarantee", "body": "If it doesn't feel right, I'll make it right. No questions, no restocking fee. Comfort you have to argue for isn't comfort." } }
-      },
-      "block_order": ["pillar1", "pillar2", "pillar3"],
       "settings": {
-        "eyebrow": "Our Story",
-        "heading_plain": "I made this for",
-        "heading_italic": "the hard days.",
-        "story_label": "The beginning",
-        "closing_quote": "I made the thing I wished someone had sent me.",
-        "closing_cite": "Ali, Founder",
-        "cta_label": "Shop the Hoodie"
+        "cta_label": "Shop the Hoodie",
+        "cta_url": "/products/soft-strength-hoodie"
       }
     }
   },
