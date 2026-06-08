@@ -41,7 +41,7 @@
       The Hero Piece
     </div>
 
-    <h1 style="font-family:'Cormorant Garamond',serif;font-size:52px;line-height:1.04;font-weight:400;margin:0 0 28px;letter-spacing:-0.01em;color:var(--ink);">The Soft Strength <em>Hoodie.</em></h1>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:52px;line-height:1.04;font-weight:400;margin:0 0 28px;letter-spacing:-0.01em;color:var(--ink);">{{ product.title }}</h1>
 
     <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;">
       <span style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--ink);">{{ current_variant.price | money }}</span>
@@ -65,10 +65,10 @@
               {%- for value in option.values -%}
                 {%- assign swatch_bg = '#D4C4B0' -%}
                 {%- assign vlow = value | downcase -%}
-                {%- if vlow == 'sage' -%}{%- assign swatch_bg = '#9CAF88' -%}{%- endif -%}
+                {%- if vlow == 'sage' -%}{%- assign swatch_bg = '#7E8F6B' -%}{%- endif -%}
                 {%- if vlow == 'slate' -%}{%- assign swatch_bg = '#8A9BA8' -%}{%- endif -%}
-                {%- if vlow == 'soft gray' or vlow == 'soft grey' -%}{%- assign swatch_bg = '#B8B5AE' -%}{%- endif -%}
-                {%- if vlow == 'cloud' -%}{%- assign swatch_bg = '#E8E4DC' -%}{%- endif -%}
+                {%- if vlow == 'soft gray' or vlow == 'soft grey' -%}{%- assign swatch_bg = '#A8A39A' -%}{%- endif -%}
+                {%- if vlow == 'cloud' -%}{%- assign swatch_bg = '#D6CFC1' -%}{%- endif -%}
                 {%- if vlow == 'cream' -%}{%- assign swatch_bg = '#EFE7D8' -%}{%- endif -%}
                 {%- if vlow == 'oat' or vlow == 'oatmeal' -%}{%- assign swatch_bg = '#D9CFBC' -%}{%- endif -%}
                 {%- if vlow == 'bone' -%}{%- assign swatch_bg = '#E5DDCE' -%}{%- endif -%}
@@ -81,7 +81,7 @@
                 {%- if vlow == 'green bay' -%}{%- assign swatch_bg = '#5A6B4A' -%}{%- endif -%}
                 {%- if vlow == 'forest' -%}{%- assign swatch_bg = '#3D4E36' -%}{%- endif -%}
                 {%- if vlow == 'navy' -%}{%- assign swatch_bg = '#2A3A4E' -%}{%- endif -%}
-                <button type="button" class="ck-swatch" onclick="ckSelectColor('{{ section.id }}','{{ value }}')" style="width:36px;height:36px;border-radius:50%;background:{{ swatch_bg }};border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="{{ value }}" data-value="{{ value }}">
+                <button type="button" class="ck-swatch" onclick="ckSelectColor('{{ section.id }}','{{ value }}')" style="width:36px;height:36px;border-radius:50%;background:{{ swatch_bg }};border:1px solid rgba(58,45,36,0.25);box-shadow:0 0 0 2px transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="{{ value }}" data-value="{{ value }}">
                   <svg width="10" height="9" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/></svg>
                 </button>
               {%- endfor -%}
