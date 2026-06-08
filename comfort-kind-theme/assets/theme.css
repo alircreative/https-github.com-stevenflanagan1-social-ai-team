@@ -134,7 +134,8 @@
 }
 .ck-spotlight .img { background-size: cover; background-position: center; min-height: 640px; background-color: var(--cream-3); }
 .ck-spotlight .info { padding: 0 80px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
-.ck-spotlight h2 { font-size: 42px; line-height: 1.1; margin: 8px 0 0; }
+.ck-spotlight h2 { font-size: 42px; line-height: 1.1; margin: 8px 0 0; color: var(--ink); font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+.ck-spotlight .eyebrow { color: var(--taupe-dark); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
 .ck-spotlight .price { font-size: 18px; color: var(--mute); letter-spacing: 0.04em; }
 .ck-spotlight .desc { color: var(--ink-2); line-height: 1.7; max-width: 440px; font-size: 15px; }
 .ck-spotlight .details { display: flex; flex-direction: column; gap: 12px; margin: 12px 0 24px; }
@@ -161,7 +162,7 @@
   background: var(--ink); color: var(--cream);
   padding: var(--pad-y) 0; text-align: center;
 }
-.ck-give h2 { color: var(--cream); font-size: 48px; font-style: italic; margin: 12px auto 18px; max-width: 720px; line-height: 1.15; }
+.ck-give h2 { color: var(--cream); font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 26px; font-style: italic; margin: 12px auto 18px; max-width: 560px; line-height: 1.35; }
 .ck-give p { color: var(--cream); opacity: 0.85; max-width: 540px; margin: 0 auto 32px; line-height: 1.7; }
 .ck-give .eyebrow { color: rgba(245,240,234,0.6); }
 .ck-give .ck-btn--primary { background: var(--cream); color: var(--ink); }
@@ -522,4 +523,7 @@
 .ck-split.ck-split--no-img { grid-template-columns: 1fr; }
 .ck-mat-cell { background-color: var(--cream-3); }
 .ck-mat-cell--text { background-color: var(--cream-2); }
+
+
+.ck-mat-text--full { grid-column: 1 / -1; aspect-ratio: auto; padding: 56px 80px; }
 
