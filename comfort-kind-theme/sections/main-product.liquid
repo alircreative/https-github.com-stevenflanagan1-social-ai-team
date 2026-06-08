@@ -23,12 +23,7 @@
             {{
               media
               | image_url: width: 1200
-              | image_tag:
-                loading: 'lazy',
-                class: 'ck-product__image',
-                alt: media.alt | escape,
-                widths: '550, 720, 990, 1200',
-                sizes: '(min-width: 1200px) 550px, (min-width: 750px) calc(50vw - 2rem), 100vw'
+              | image_tag: loading: 'lazy', class: 'ck-product__image', alt: media.alt
             }}
           {%- elsif media.media_type == 'video' -%}
             {{

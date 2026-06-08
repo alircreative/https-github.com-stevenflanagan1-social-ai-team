@@ -1,0 +1,30 @@
+{% comment %} Cart totals + checkout button {% endcomment %}
+{%- if cart.item_count > 0 -%}
+<div class="ck-cart-footer">
+  <div class="ck-cart-footer__inner">
+    <div class="ck-cart-footer__subtotal">
+      <span>Subtotal</span>
+      <span>{{ cart.total_price | money }}</span>
+    </div>
+    <p class="ck-cart-footer__note">Shipping and taxes calculated at checkout.</p>
+    <a href="{{ routes.checkout }}" class="ck-product__atc-btn" style="display:flex;text-decoration:none;justify-content:center;">
+      Checkout
+    </a>
+  </div>
+</div>
+{%- endif -%}
+
+<style>
+.ck-cart-footer { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
+.ck-cart-footer__inner { max-width: 360px; margin-left: auto; }
+.ck-cart-footer__subtotal { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.ck-cart-footer__note { font-size: 12px; color: var(--ck-tan); margin-bottom: 1.5rem; }
+</style>
+
+{% schema %}
+{
+  "name": "Cart Footer",
+  "settings": [],
+  "presets": [{ "name": "Cart Footer" }]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+{% comment %} Main page content section {% endcomment %}
+<div class="ck-page">
+  <div class="ck-page__inner">
+    <h1 class="ck-page__title">{{ page.title }}</h1>
+    <div class="ck-page__content">{{ page.content }}</div>
+  </div>
+</div>
+
+<style>
+.ck-page { max-width: var(--max-width); margin: 0 auto; padding: 4rem 2rem; }
+.ck-page__title { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; margin-bottom: 2rem; }
+.ck-page__content { font-size: 15px; line-height: 1.8; color: var(--ck-brown-mid); max-width: 720px; }
+</style>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": [],
+  "presets": [{ "name": "Page Content" }]
+}
+{% endschema %}
