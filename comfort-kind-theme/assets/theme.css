@@ -77,13 +77,22 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--ck-cream);
   text-align: center;
   padding: 10px 1rem;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: var(--font-body);
   font-weight: 500;
 }
-.ck-announcement-bar__text { margin: 0; }
+.ck-announcement-bar__track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+}
+.ck-announcement-bar__item { white-space: nowrap; }
+.ck-announcement-bar__sep { color: rgba(244, 238, 228, 0.4); }
 
 /* ── Header ── */
 .ck-header {
@@ -100,9 +109,21 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 2rem;
   height: 100%;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 2rem;
+}
+.ck-header__logo {
+  grid-column: 2;
+  text-decoration: none;
+}
+.ck-nav {
+  grid-column: 1;
+  grid-row: 1;
+}
+.ck-header__icons {
+  grid-column: 3;
+  justify-content: flex-end;
 }
 .ck-header__logo { text-decoration: none; }
 .ck-header__logo-img { height: 36px; width: auto; }

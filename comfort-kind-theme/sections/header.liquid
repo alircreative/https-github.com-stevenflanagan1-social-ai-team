@@ -5,7 +5,13 @@
 
 {%- if section.settings.announcement_bar_enabled -%}
   <div class="ck-announcement-bar">
-    <p class="ck-announcement-bar__text">{{ section.settings.announcement_text }}</p>
+    <div class="ck-announcement-bar__track">
+      <span class="ck-announcement-bar__item">{{ section.settings.announcement_1 }}</span>
+      <span class="ck-announcement-bar__sep" aria-hidden="true">·</span>
+      <span class="ck-announcement-bar__item">{{ section.settings.announcement_2 }}</span>
+      <span class="ck-announcement-bar__sep" aria-hidden="true">·</span>
+      <span class="ck-announcement-bar__item">{{ section.settings.announcement_3 }}</span>
+    </div>
   </div>
 {%- endif -%}
 
@@ -102,9 +108,21 @@
     },
     {
       "type": "text",
-      "id": "announcement_text",
-      "label": "Announcement text",
-      "default": "30-Day Comfort Guarantee · Free Shipping Over $75"
+      "id": "announcement_1",
+      "label": "Announcement 1",
+      "default": "30-Day Comfort Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "announcement_2",
+      "label": "Announcement 2",
+      "default": "Ships in 3-5 Business Days"
+    },
+    {
+      "type": "text",
+      "id": "announcement_3",
+      "label": "Announcement 3",
+      "default": "Embroidered by Hand"
     },
     {
       "type": "image_picker",
