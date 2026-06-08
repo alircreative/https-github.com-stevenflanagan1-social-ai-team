@@ -1,102 +1,184 @@
-{% comment %} About / My Story page {% endcomment %}
-
-<article class="ck-about">
-
-  {%- comment -%} Hero {%- endcomment -%}
-  <div class="ck-about__hero">
-    <div class="ck-about__hero-inner">
-      <p class="ck-about__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h1 class="ck-about__title">
-        {{ section.settings.heading_plain }}
-        <em class="ck-about__title-accent">{{ section.settings.heading_italic }}</em>
-      </h1>
+<div class="ck-about-hero">
+  {% if section.settings.hero_image != blank %}
+    <div class="ck-about-hero__image">
+      {{ section.settings.hero_image | image_url: width: 1600 | image_tag: loading: 'eager', alt: section.settings.hero_image.alt }}
     </div>
-    {%- if section.settings.hero_image != blank -%}
-      <div class="ck-about__hero-media">
-        {{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', class: 'ck-about__hero-image' }}
-      </div>
-    {%- endif -%}
+  {% endif %}
+  <div class="ck-about-hero__content">
+    {% if section.settings.eyebrow != blank %}
+      <span class="ck-about-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+    <h1 class="ck-about-hero__heading">
+      {{ section.settings.heading_plain }}<br>
+      <em>{{ section.settings.heading_italic }}</em>
+    </h1>
   </div>
+</div>
 
-  {%- comment -%} Origin story {%- endcomment -%}
-  <div class="ck-about__story">
-    <div class="ck-about__story-inner">
-      {%- if section.settings.story_image != blank -%}
-        <div class="ck-about__story-media">
-          {{ section.settings.story_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'ck-about__story-image' }}
-        </div>
-      {%- endif -%}
-      <div class="ck-about__story-content">
-        <p class="ck-about__story-label">{{ section.settings.story_label }}</p>
-        <div class="ck-about__story-body">{{ section.settings.story_body }}</div>
-      </div>
+<div class="ck-about-story">
+  <div class="ck-about-story__inner">
+    <div class="ck-about-story__label">{{ section.settings.story_label }}</div>
+    <div class="ck-about-story__content">
+      {{ section.settings.story_content }}
     </div>
   </div>
+</div>
 
-  {%- comment -%} Values / pillars {%- endcomment -%}
-  {%- if section.blocks.size > 0 -%}
-    <div class="ck-about__pillars">
-      <div class="ck-about__pillars-inner">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'pillar' -%}
-            <div class="ck-about__pillar" {{ block.shopify_attributes }}>
-              <p class="ck-about__pillar-num">{{ block.settings.number }}</p>
-              <h3 class="ck-about__pillar-title">{{ block.settings.title }}</h3>
-              <p class="ck-about__pillar-body">{{ block.settings.body }}</p>
+{% if section.blocks.size > 0 %}
+  <div class="ck-about-pillars">
+    <div class="ck-about-pillars__inner">
+      <span class="eyebrow">What we believe</span>
+      <div class="ck-about-pillars__grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'pillar' %}
+            <div class="ck-pillar" {{ block.shopify_attributes }}>
+              {% if block.settings.number != blank %}
+                <div class="ck-pillar__num">{{ block.settings.number }}</div>
+              {% endif %}
+              {% if block.settings.title != blank %}
+                <h3 class="ck-pillar__title">{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.body != blank %}
+                <p class="ck-pillar__body">{{ block.settings.body }}</p>
+              {% endif %}
             </div>
-          {%- endif -%}
-        {%- endfor -%}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
-  {%- endif -%}
-
-  {%- comment -%} Closing note from Ali {%- endcomment -%}
-  <div class="ck-about__closing">
-    <div class="ck-about__closing-inner">
-      <blockquote class="ck-about__closing-quote">{{ section.settings.closing_quote }}</blockquote>
-      <cite class="ck-about__closing-cite">{{ section.settings.closing_cite }}</cite>
-      {%- if section.settings.cta_label != blank -%}
-        <a href="{{ section.settings.cta_url }}" class="ck-btn ck-btn--outline">{{ section.settings.cta_label }}</a>
-      {%- endif -%}
-    </div>
   </div>
+{% endif %}
 
-</article>
+{% if section.settings.closing_quote != blank %}
+  <div class="ck-about-quote">
+    <p class="ck-about-quote__text">"{{ section.settings.closing_quote }}"</p>
+    {% if section.settings.closing_cite != blank %}
+      <p class="ck-about-quote__attr">{{ section.settings.closing_cite }}</p>
+    {% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url }}" class="ck-btn ck-btn--light" style="margin-top:2rem;">
+        {{ section.settings.cta_label }}
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
 
 {% schema %}
 {
   "name": "About Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "heading_plain",
+      "label": "Heading (plain)",
+      "default": "I made this for"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading (italic)",
+      "default": "the hard days."
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Story section label",
+      "default": "The beginning"
+    },
+    {
+      "type": "richtext",
+      "id": "story_content",
+      "label": "Story content",
+      "default": "<p>It started in a hospital waiting room. My son was diagnosed with a heart condition, and I spent weeks sitting in cold, sterile spaces wishing I had something soft — something that felt like being held.</p><p>When I got home, I looked for it. I couldn't find it. So I made it. 8.9 oz organic cotton fleece, a brushed lining soft enough to fall asleep in, a small heart at the chest, and two words on the left sleeve: Soft Strength. Exactly what that season asked of me.</p><p>ComfortKind is for the hard seasons. For the people sitting in waiting rooms, going through things that don't have good words for them. I make one thing, and I make it well. I hope it finds you when you need it.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "closing_quote",
+      "label": "Closing quote",
+      "default": "Soft things aren't weak. They're the ones still standing when everything hard is gone."
+    },
+    {
+      "type": "text",
+      "id": "closing_cite",
+      "label": "Quote attribution",
+      "default": "Ali, Founder - ComfortKind"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
   "blocks": [
     {
       "type": "pillar",
-      "name": "Value pillar",
+      "name": "Value Pillar",
       "settings": [
-        { "type": "text", "id": "number", "label": "Number", "default": "01" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Made for hard days" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Every piece leaves here the way I'd send it to a friend." }
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        }
       ]
     }
-  ],
-  "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
-    { "type": "text", "id": "heading_plain", "label": "Heading plain", "default": "I made this for" },
-    { "type": "text", "id": "heading_italic", "label": "Heading italic", "default": "the hard days." },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
-    { "type": "text", "id": "story_label", "label": "Story label", "default": "The beginning" },
-    { "type": "richtext", "id": "story_body", "label": "Story body", "default": "<p>My son Logan was nine when he was diagnosed with a serious heart condition. We had thirty days before his surgery — thirty days of waiting, of holding it together, of trying to feel like a family that could get through this.</p><p>I made us matching hoodies. Nothing fancy — just something soft, with a small heart stitched at the chest and \"Soft Strength\" on the sleeve. Something to wear that said: we are still here, and we are doing this together.</p><p>When Logan came home, he said other families should have these. So I made them. ComfortKind started there — in a hospital waiting room, with a needle and thread and a very brave kid.</p><p>Every piece I make leaves here the way I'd send it to a friend. Soft, considered, with a heart stitched where you can feel it. If one of these finds you at the right moment, that was the whole point.</p><p>Ali<br>Founder, ComfortKind</p>" },
-    { "type": "image_picker", "id": "story_image", "label": "Story image" },
-    { "type": "textarea", "id": "closing_quote", "label": "Closing quote", "default": "I made the thing I wished someone had sent me." },
-    { "type": "text", "id": "closing_cite", "label": "Quote attribution", "default": "Ali, Founder" },
-    { "type": "text", "id": "cta_label", "label": "CTA button label", "default": "Shop the Hoodie" },
-    { "type": "url", "id": "cta_url", "label": "CTA button URL" }
   ],
   "presets": [
     {
       "name": "About Page",
       "blocks": [
-        { "type": "pillar", "settings": { "number": "01", "title": "Organic and certified", "body": "8.9 oz organic combed ring-spun cotton fleece. GOTS, OCS, and GRS certified. The things on the label are the things in the hoodie." } },
-        { "type": "pillar", "settings": { "number": "02", "title": "Made to be felt", "body": "Heavyweight enough to feel like a hug. Brushed soft on the inside. Substantial in your hands before it's even on your body." } },
-        { "type": "pillar", "settings": { "number": "03", "title": "30-Day Guarantee", "body": "If it doesn't feel right, I'll make it right. No questions, no restocking fee. Comfort you have to argue for isn't comfort." } }
+        {
+          "type": "pillar",
+          "settings": {
+            "number": "01",
+            "title": "Made with intention.",
+            "body": "One product. Made well. No filler, no noise. Just something worth making."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "number": "02",
+            "title": "Organic, always.",
+            "body": "GOTS certified organic cotton fleece. Better for you, better for the land, better for the people who made it."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "number": "03",
+            "title": "The 30-Day Guarantee.",
+            "body": "If it doesn't feel right, I'll make it right. No conditions. That's the whole promise."
+          }
+        }
       ]
     }
   ]

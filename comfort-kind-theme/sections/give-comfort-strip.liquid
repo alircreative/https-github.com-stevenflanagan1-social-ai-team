@@ -1,0 +1,59 @@
+<section class="ck-give">
+  <div class="ck-give__inner">
+    <h2 class="ck-give__heading">
+      {{ section.settings.heading_1 }}<br>
+      <em>{{ section.settings.heading_2 }}</em>
+    </h2>
+    {% if section.settings.body != blank %}
+      <p class="ck-give__body">{{ section.settings.body }}</p>
+    {% endif %}
+    {% if section.settings.cta_label != blank %}
+      <a href="{{ section.settings.cta_url }}" class="ck-btn ck-btn--light">
+        {{ section.settings.cta_label }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Give Comfort Strip",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Heading line 1",
+      "default": "A hoodie you buy for yourself."
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Heading line 2 (italic)",
+      "default": "A hoodie you send to someone who needs it."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Add a private gift note at checkout. Have it shipped straight to them. No pricing, no packing slip. Just something soft, arriving when the day was hard."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Send as a Gift"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Give Comfort Strip"
+    }
+  ]
+}
+{% endschema %}

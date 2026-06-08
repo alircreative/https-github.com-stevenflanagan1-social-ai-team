@@ -1,164 +1,280 @@
-{% comment %}
-  Featured product section — "The Hero Piece"
-  Pulls live product data from Shopify. Add to Cart is fully wired.
-{% endcomment %}
+{%- liquid
+  assign featured_product = all_products[section.settings.product_url]
+  assign current_variant = featured_product.selected_or_first_available_variant
+-%}
 
-{%- assign featured = all_products[section.settings.product] -%}
-{%- assign current_variant = featured.selected_or_first_available_variant -%}
+<section class="ck-spotlight">
+  <div class="ck-spotlight__inner">
+    <div class="ck-spotlight__info">
+      {% if section.settings.eyebrow != blank %}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
 
-<section class="ck-fp">
-  <div class="ck-fp__inner">
+      <h2 class="ck-spotlight__heading">
+        {% if featured_product != blank %}
+          {{ featured_product.title }}
+        {% else %}
+          {{ section.settings.product_name }}
+        {% endif %}
+      </h2>
 
-    {%- comment -%} Left: Images {%- endcomment -%}
-    <div class="ck-fp__gallery">
-      {%- if featured.featured_image != blank -%}
-        {{ featured.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'ck-fp__image' }}
-      {%- endif -%}
-      {%- if featured.images.size > 1 -%}
-        <div class="ck-fp__thumbs">
-          {%- for img in featured.images limit: 5 -%}
-            <button class="ck-fp__thumb" data-src="{{ img | image_url: width: 900 }}">
-              {{ img | image_url: width: 120 | image_tag: loading: 'lazy', class: 'ck-fp__thumb-img' }}
-            </button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-    </div>
+      <p class="ck-spotlight__price">
+        {% if current_variant != blank %}
+          {{ current_variant.price | money }}
+        {% elsif section.settings.price != blank %}
+          {{ section.settings.price }}
+        {% endif %}
+      </p>
 
-    {%- comment -%} Right: Info + form {%- endcomment -%}
-    <div class="ck-fp__info">
+      {% if section.settings.body != blank %}
+        <p class="ck-spotlight__body">{{ section.settings.body }}</p>
+      {% endif %}
 
-      <p class="ck-fp__eyebrow">{{ section.settings.eyebrow | default: 'The Hero Piece' }}</p>
-      <h2 class="ck-fp__title">{{ featured.title }}</h2>
-      <p class="ck-fp__price">{{ current_variant.price | money }}</p>
-      <p class="ck-fp__desc">{{ section.settings.short_description | default: featured.description | strip_html | truncate: 200 }}</p>
-
-      {%- comment -%} Feature list {%- endcomment -%}
-      {%- if section.settings.features != blank -%}
-        <ul class="ck-fp__features">
-          {%- assign feature_lines = section.settings.features | split: '|' -%}
-          {%- for feature in feature_lines -%}
-            <li>{{ feature | strip }}</li>
+      {% if section.settings.features != blank %}
+        <ul class="ck-details">
+          {%- assign feature_lines = section.settings.features | split: "\n" -%}
+          {%- for line in feature_lines -%}
+            {%- if line != blank -%}
+              <li class="ck-details__item">{{ line | strip }}</li>
+            {%- endif -%}
           {%- endfor -%}
         </ul>
-      {%- endif -%}
+      {% endif %}
 
-      {%- comment -%} Product form {%- endcomment -%}
-      {%- if featured != empty -%}
-        {%- form 'product', featured, id: 'fp-form', data-type: 'add-to-cart-form' -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}">
-
-          {%- unless featured.has_only_default_variant -%}
-            <div class="ck-product__variants">
-              {%- for option in featured.options_with_values -%}
-                <fieldset class="ck-product__option-fieldset">
-                  <legend class="ck-product__option-label">{{ option.name }}</legend>
-                  <div class="ck-product__option-values">
-                    {%- for value in option.values -%}
-                      <label class="ck-product__option-label-btn{% if option.selected_value == value %} ck-product__option-label-btn--selected{% endif %}"
-                        for="fp-opt-{{ option.position }}-{{ forloop.index0 }}">
-                        <input type="radio"
-                          id="fp-opt-{{ option.position }}-{{ forloop.index0 }}"
-                          name="{{ option.name }}"
-                          value="{{ value | escape }}"
-                          form="fp-form"
-                          {% if option.selected_value == value %}checked{% endif %}
-                          class="ck-product__option-input">
-                        {{ value }}
-                      </label>
-                    {%- endfor -%}
-                  </div>
-                </fieldset>
-              {%- endfor -%}
-            </div>
-          {%- endunless -%}
-
-          <div class="ck-fp__btns">
-            <button type="submit" name="add"
-              class="ck-btn ck-btn--solid ck-product__atc-btn"
-              {% unless current_variant.available %}disabled{% endunless %}>
-              <span class="ck-product__atc-btn-text">
-                {%- if current_variant.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
-              </span>
-              <span class="ck-product__atc-btn-loading" hidden>
-                <svg class="ck-spinner" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
-                  <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
+      <div class="ck-spotlight__ctas">
+        {% if featured_product != blank %}
+          {%- form 'product', featured_product, id: 'spotlight-product-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            <button type="submit" name="add" class="ck-btn ck-btn--primary">
+              Add to Bag
             </button>
-            {%- if section.settings.gift_url != blank -%}
-              <a href="{{ section.settings.gift_url }}" class="ck-btn ck-btn--outline">Send as a Gift</a>
-            {%- endif -%}
-          </div>
-          <div class="ck-product__error" role="alert" hidden></div>
-        {%- endform -%}
-      {%- endif -%}
+          {%- endform -%}
+        {% else %}
+          <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">
+            {{ section.settings.cta_primary_label | default: 'Add to Bag' }}
+          </a>
+        {% endif %}
+        <a href="/pages/give-comfort" class="ck-btn ck-btn--secondary">Send as a Gift</a>
+      </div>
+    </div>
 
-      {%- comment -%} Detail callouts {%- endcomment -%}
-      {%- if section.blocks.size > 0 -%}
-        <div class="ck-fp__callouts">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'callout' -%}
-              <div class="ck-fp__callout" {{ block.shopify_attributes }}>
-                <p class="ck-fp__callout-num">{{ block.settings.number }}</p>
-                <div class="ck-fp__callout-body">
-                  <p class="ck-fp__callout-title">{{ block.settings.title }}</p>
-                  <p class="ck-fp__callout-desc">{{ block.settings.description }}</p>
-                </div>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
-      {%- comment -%} Specs table {%- endcomment -%}
-      {%- if section.settings.specs != blank -%}
-        <table class="ck-fp__specs">
-          {%- assign spec_lines = section.settings.specs | split: '|' -%}
-          {%- for spec in spec_lines -%}
-            {%- assign parts = spec | split: ':' -%}
-            <tr>
-              <td class="ck-fp__spec-label">{{ parts[0] | strip }}</td>
-              <td class="ck-fp__spec-value">{{ parts[1] | strip }}</td>
-            </tr>
-          {%- endfor -%}
-        </table>
-      {%- endif -%}
-
+    <div class="ck-spotlight__image-col">
+      {% if featured_product.featured_image != blank %}
+        {{ featured_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: featured_product.featured_image.alt }}
+      {% elsif section.settings.product_image != blank %}
+        {{ section.settings.product_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.product_image.alt }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {% endif %}
+      {% if section.settings.image_caption != blank %}
+        <span class="ck-spotlight__caption">{{ section.settings.image_caption }}</span>
+      {% endif %}
     </div>
   </div>
 </section>
 
+<div class="ck-material">
+  {% for block in section.blocks %}
+    {% if block.type == 'detail_callout' %}
+      {%- assign is_reversed = forloop.index0 | modulo: 2 -%}
+      <div class="ck-mat-cell{% if is_reversed == 1 %} ck-mat-cell--reversed{% endif %}" {{ block.shopify_attributes }}>
+        <div class="ck-mat-cell__image">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.image.alt }}
+          {% else %}
+            {{ 'lifestyle-2' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+        <div class="ck-mat-cell__text">
+          {% if block.settings.eyebrow != blank %}
+            <span class="ck-mat-cell__eyebrow">{{ block.settings.eyebrow }}</span>
+          {% endif %}
+          {% if block.settings.heading != blank %}
+            <h3 class="ck-mat-cell__heading">{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>
+          {% endif %}
+          {% if block.settings.body != blank %}
+            <p class="ck-mat-cell__body">{{ block.settings.body }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="ck-mat-specs">
+  {% for block in section.blocks %}
+    {% if block.type == 'spec_row' %}
+      <div class="ck-mat-specs__row" {{ block.shopify_attributes }}>
+        <span class="ck-mat-spec-label">{{ block.settings.label }}</span>
+        <span class="ck-mat-spec-val">{{ block.settings.value }}</span>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
 {% schema %}
 {
   "name": "Featured Product Hero",
-  "blocks": [
+  "tag": "section",
+  "settings": [
     {
-      "type": "callout",
-      "name": "Detail callout",
-      "settings": [
-        { "type": "text", "id": "number", "label": "Number", "default": "01 - Embroidered heart" },
-        { "type": "text", "id": "title", "label": "Title", "default": "A small mark near yours." },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "A small embroidered heart at the left chest." }
-      ]
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Hero Piece"
+    },
+    {
+      "type": "product",
+      "id": "product_url",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Product name (fallback)",
+      "default": "The Soft Strength Hoodie"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price (fallback)",
+      "default": "$72"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Description",
+      "default": "8.9 oz organic cotton fleece. A super soft brushed lining inside. A small embroidered heart at the chest, and 'Soft Strength' in white thread on the left sleeve."
+    },
+    {
+      "type": "textarea",
+      "id": "features",
+      "label": "Feature list (one per line)",
+      "default": "8.9 oz organic cotton fleece, super soft inside\n'Soft Strength' embroidered on the left sleeve in white thread\nEmbroidered heart detail, left chest\nWaist-length with dropped shoulders - ribbed cuffs, collar and hem\nGOTS certified organic cotton - 30-day comfort guarantee"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product image (if no Shopify product)"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption",
+      "default": "Sage - with white heart"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary CTA label",
+      "default": "Add to Bag"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary CTA URL"
     }
   ],
-  "settings": [
-    { "type": "product", "id": "product", "label": "Product" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "The Hero Piece" },
-    { "type": "textarea", "id": "short_description", "label": "Short description", "default": "8.9 oz organic cotton fleece. A super soft brushed lining inside. A small embroidered heart at the chest, and \"Soft Strength\" in white thread on the left sleeve." },
-    { "type": "textarea", "id": "features", "label": "Feature list (separate with |)", "default": "8.9 oz organic cotton fleece, super soft inside | \"Soft Strength\" embroidered on the left sleeve | Embroidered heart detail, left chest | Waist-length with dropped shoulders | Ribbed cuffs, collar & hem | GOTS certified organic cotton | 30-day comfort guarantee" },
-    { "type": "textarea", "id": "specs", "label": "Specs (label: value, separate rows with |)", "default": "Fabric: 8.9 oz organic fleece | Lining: Brushed fleece inside | Certification: GOTS certified organic | Construction: Dropped shoulder, ribbed cuffs" },
-    { "type": "url", "id": "gift_url", "label": "\"Send as a Gift\" URL" }
+  "blocks": [
+    {
+      "type": "detail_callout",
+      "name": "Detail Callout",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading (use / for line break)"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "spec_row",
+      "name": "Spec Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value"
+        }
+      ]
+    }
   ],
   "presets": [
     {
       "name": "Featured Product Hero",
       "blocks": [
-        { "type": "callout", "settings": { "number": "01 - Embroidered heart", "title": "A small mark near yours.", "description": "A small embroidered heart at the left chest. The quiet knowing that you're not the only one holding it all together." } },
-        { "type": "callout", "settings": { "number": "02 - Sleeve", "title": "Soft Strength on the left sleeve.", "description": "\"Soft Strength\" embroidered in white thread on the left sleeve. Intentional. Not decorative. Something you notice when you need to." } },
-        { "type": "callout", "settings": { "number": "03 - Fabric", "title": "8.9oz. Heavyweight, intentionally.", "description": "GOTS certified organic cotton fleece. Substantial in your hands. Super soft brushed lining inside. Made to be felt, not just worn." } }
+        {
+          "type": "detail_callout",
+          "settings": {
+            "eyebrow": "01 - Embroidered heart",
+            "heading": "A small mark / near yours.",
+            "body": "A small embroidered heart at the left chest. The quiet knowing that you're not the only one holding it all together."
+          }
+        },
+        {
+          "type": "detail_callout",
+          "settings": {
+            "eyebrow": "02 - Sleeve",
+            "heading": "Soft strength / on the left sleeve.",
+            "body": "'Soft Strength' embroidered in white thread on the left sleeve. Intentional. Not decorative. Something you notice when you need to."
+          }
+        },
+        {
+          "type": "detail_callout",
+          "settings": {
+            "eyebrow": "03 - Fabric",
+            "heading": "8.9oz. Heavyweight, / intentionally.",
+            "body": "GOTS certified organic cotton fleece. Substantial in your hands. Super soft brushed lining inside. Made to be felt, not just worn."
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "label": "Fabric",
+            "value": "8.9 oz organic fleece"
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "label": "Lining",
+            "value": "Brushed fleece inside"
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "label": "Certification",
+            "value": "GOTS certified organic"
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "label": "Construction",
+            "value": "Dropped shoulder, ribbed cuffs"
+          }
+        }
       ]
     }
   ]

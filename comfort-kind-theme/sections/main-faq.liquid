@@ -1,98 +1,182 @@
-{% comment %} FAQ page {% endcomment %}
-
 <div class="ck-faq">
-  <div class="ck-faq__inner">
-
-    <div class="ck-faq__header">
-      <h1 class="ck-faq__title">{{ section.settings.title }}</h1>
-      <p class="ck-faq__subtitle">{{ section.settings.subtitle }}</p>
+  <div class="ck-faq__hero">
+    <div class="ck-faq__hero-inner">
+      <h1 class="ck-faq__title">{{ section.settings.title | default: 'Questions, answered.' }}</h1>
+      {% if section.settings.subtitle != blank %}
+        <p class="ck-faq__subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
     </div>
+  </div>
 
-    {%- comment -%} Category tabs {%- endcomment -%}
-    <div class="ck-faq__tabs" role="tablist">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'category' -%}
+  {% if section.blocks.size > 0 %}
+    <div class="ck-faq__tabs" role="tablist" id="ck-faq-tabs">
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
           <button
-            class="ck-faq__tab{% if forloop.first %} ck-faq__tab--active{% endif %}"
-            data-tab="faq-cat-{{ forloop.index }}"
+            class="ck-faq__tab{% if forloop.first %} is-active{% endif %}"
             role="tab"
+            data-target="ck-faq-panel-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            type="button"
             {{ block.shopify_attributes }}
-          >
-            <span class="ck-faq__tab-num">{{ block.settings.number }}</span>
-            {{ block.settings.title }}
-          </button>
-        {%- endif -%}
-      {%- endfor -%}
+          >{{ block.settings.title }}</button>
+        {% endif %}
+      {% endfor %}
     </div>
 
-    {%- comment -%} FAQ content panels {%- endcomment -%}
-    <div class="ck-faq__panels">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'category' -%}
+    <div class="ck-faq__content">
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
           <div
-            class="ck-faq__panel{% if forloop.first %} ck-faq__panel--active{% endif %}"
-            id="faq-cat-{{ forloop.index }}"
+            class="ck-faq__panel{% if forloop.first %} is-active{% endif %}"
+            id="ck-faq-panel-{{ forloop.index }}"
             role="tabpanel"
           >
             {{ block.settings.content }}
           </div>
-        {%- endif -%}
-      {%- endfor -%}
+        {% endif %}
+      {% endfor %}
     </div>
+  {% endif %}
 
-    {%- comment -%} Still have questions {%- endcomment -%}
+  {% if section.settings.footer_text != blank %}
     <div class="ck-faq__footer">
       <p class="ck-faq__footer-text">{{ section.settings.footer_text }}</p>
-      {%- if section.settings.contact_label != blank -%}
-        <a href="{{ section.settings.contact_url }}" class="ck-btn ck-btn--outline">{{ section.settings.contact_label }}</a>
-      {%- endif -%}
+      {% if section.settings.contact_label != blank %}
+        <a href="{{ section.settings.contact_url }}" class="ck-btn ck-btn--secondary">
+          {{ section.settings.contact_label }}
+        </a>
+      {% endif %}
     </div>
-
-  </div>
+  {% endif %}
 </div>
 
 <script>
-  document.querySelectorAll('.ck-faq__tab').forEach(function(tab) {
+(function() {
+  var tabs = document.querySelectorAll('.ck-faq__tab');
+  var panels = document.querySelectorAll('.ck-faq__panel');
+
+  tabs.forEach(function(tab) {
     tab.addEventListener('click', function() {
-      var target = this.dataset.tab;
-      document.querySelectorAll('.ck-faq__tab').forEach(function(t) { t.classList.remove('ck-faq__tab--active'); });
-      document.querySelectorAll('.ck-faq__panel').forEach(function(p) { p.classList.remove('ck-faq__panel--active'); });
-      this.classList.add('ck-faq__tab--active');
-      document.getElementById(target).classList.add('ck-faq__panel--active');
+      tabs.forEach(function(t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function(p) { p.classList.remove('is-active'); });
+
+      this.classList.add('is-active');
+      this.setAttribute('aria-selected', 'true');
+      var target = document.getElementById(this.dataset.target);
+      if (target) target.classList.add('is-active');
     });
   });
+
+  // FAQ accordion within panels
+  document.querySelectorAll('.ck-faq__entry').forEach(function(entry) {
+    var btn = entry.querySelector('.ck-faq__q');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        entry.classList.toggle('is-open');
+      });
+    }
+  });
+})();
 </script>
 
 {% schema %}
 {
   "name": "FAQ Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page title",
+      "default": "Questions, answered."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everything you need to know about ComfortKind."
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "Still have questions? We'd love to hear from you."
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Contact button label",
+      "default": "Get in touch"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact URL"
+    }
+  ],
   "blocks": [
     {
       "type": "category",
       "name": "FAQ Category",
       "settings": [
-        { "type": "text", "id": "number", "label": "Number", "default": "01" },
-        { "type": "text", "id": "title", "label": "Category title", "default": "Sizing & fit" },
-        { "type": "richtext", "id": "content", "label": "Questions and answers" }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category title",
+          "default": "Sizing & fit"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content (use H3 for questions, P for answers)",
+          "default": "<h3>What sizes do you offer?</h3><p>We offer XS through 3XL. Our hoodies and crewnecks are designed with a relaxed, slightly oversized fit.</p><h3>How does it fit?</h3><p>The Soft Strength Hoodie has a dropped shoulder and waist-length cut. If you prefer a more fitted look, size down. If you love an oversized feel, stay true to size.</p>"
+        }
       ]
     }
-  ],
-  "settings": [
-    { "type": "text", "id": "title", "label": "Page title", "default": "Questions, answered." },
-    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Everything you might wonder about sizing, fabric, gifting, and getting your order - written by me, in plain words." },
-    { "type": "text", "id": "footer_text", "label": "Footer text", "default": "If something's still on your mind, you can always reach me directly." },
-    { "type": "text", "id": "contact_label", "label": "Contact button label", "default": "Get in touch" },
-    { "type": "url", "id": "contact_url", "label": "Contact URL" }
   ],
   "presets": [
     {
       "name": "FAQ Page",
       "blocks": [
-        { "type": "category", "settings": { "number": "01", "title": "Sizing & fit", "content": "<p><strong>How does it fit?</strong><br>Relaxed and waist-length, with dropped shoulders - easy to layer, easy to live in.</p><p><strong>I'm between sizes. Up or down?</strong><br>Size up. This is a piece you reach for on the soft days, and a little extra room only makes it more of a hug.</p><p><strong>Do the hoodie and crewneck fit the same?</strong><br>Yes. Same pattern, same fabric, same proportions - the crewneck is simply the hoodie without the hood.</p><p><strong>Is there a size guide?</strong><br>There is, on every product page, with flat measurements for each size.</p>" } },
-        { "type": "category", "settings": { "number": "02", "title": "Fabric & care", "content": "<p><strong>What's it made of?</strong><br>8.9 oz heavyweight fleece - 80% organic combed ring-spun cotton, 20% recycled polyester.</p><p><strong>Is it really organic?</strong><br>Yes, and independently verified. We carry GOTS, OCS, and GRS certifications.</p><p><strong>Why no drawstring?</strong><br>On purpose. A drawstring is one more thing to fuss with on a day you don't have the energy for fussing.</p><p><strong>How do I care for it?</strong><br>Cold wash, inside-out. Tumble dry low or lay it flat.</p>" } },
-        { "type": "category", "settings": { "number": "03", "title": "Give Comfort", "content": "<p><strong>How does Give Comfort work?</strong><br>At checkout, choose the hoodie or the crewneck, write a few words, and add their address. We ship it directly to them with a hand-written card.</p><p><strong>Will they see the price?</strong><br>Never. No pricing, no invoice, no packing slip travels with a Give Comfort order.</p><p><strong>Can I stay anonymous?</strong><br>You can. Sign the note however you like, or leave it unsigned.</p><p><strong>Can you ship to a hospital?</strong><br>Yes. Add the room or unit details in the address and we'll get it there.</p>" } },
-        { "type": "category", "settings": { "number": "04", "title": "Orders & shipping", "content": "<p><strong>When will my order ship?</strong><br>Most orders ship within 2 business days.</p><p><strong>Is shipping free?</strong><br>Free on orders over $75 in the US. Flat rate for orders under that.</p><p><strong>Do you ship internationally?</strong><br>Yes, to most countries. Duties and taxes are shown at checkout.</p><p><strong>Can I change my address?</strong><br>Yes, if your order hasn't shipped yet. Email me right away.</p>" } },
-        { "type": "category", "settings": { "number": "05", "title": "Returns & guarantee", "content": "<p><strong>What is the 30-Day Comfort Guarantee?</strong><br>If it doesn't feel right, return it within 30 days. No questions asked, no restocking fee.</p><p><strong>How do I start a return?</strong><br>Email me directly and I'll take care of it.</p><p>Comfort you have to argue for isn't comfort.</p>" } }
+        {
+          "type": "category",
+          "settings": {
+            "title": "Sizing & fit",
+            "content": "<h3>What sizes do you offer?</h3><p>We offer XS through 3XL. Our hoodies and crewnecks are designed with a relaxed, slightly oversized fit.</p><h3>How does it fit?</h3><p>Dropped shoulder, waist-length. True to size for a relaxed feel, or size down for a closer fit.</p>"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Fabric & care",
+            "content": "<h3>What is the fabric?</h3><p>8.9 oz GOTS certified organic cotton fleece with a brushed super-soft lining inside.</p><h3>How do I care for it?</h3><p>Machine wash cold, tumble dry low. Do not bleach. Do not iron the embroidery directly.</p>"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Give Comfort",
+            "content": "<h3>How does gifting work?</h3><p>Add a private gift note at checkout. We ship directly to the recipient — no pricing, no packing slip included.</p><h3>Can I schedule delivery?</h3><p>We ship within 3-5 business days. If you need it by a specific date, reach out and we'll do our best.</p>"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Orders & shipping",
+            "content": "<h3>When will my order ship?</h3><p>Orders ship within 3-5 business days. You'll get a tracking email as soon as it's on its way.</p><h3>Do you offer free shipping?</h3><p>Yes — free shipping on all orders over $75.</p>"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Returns & guarantee",
+            "content": "<h3>What is the 30-Day Comfort Guarantee?</h3><p>If it doesn't feel right within 30 days of receiving it, we'll make it right — exchange, store credit, or refund. No hoops.</p><h3>How do I start a return?</h3><p>Email us at hello@comfortkind.com with your order number and we'll take care of it.</p>"
+          }
+        }
       ]
     }
   ]

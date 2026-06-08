@@ -1,0 +1,83 @@
+<section class="ck-signoff">
+  <div class="ck-signoff__inner">
+    <div class="ck-signoff__image">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.image.alt }}
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+      {% endif %}
+    </div>
+
+    <div class="ck-signoff__content">
+      {% if section.settings.eyebrow != blank %}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="ck-signoff__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <p class="ck-signoff__body">{{ section.settings.body }}</p>
+      {% endif %}
+
+      <div class="ck-signoff__sig">
+        {% if section.settings.sig_name != blank %}
+          <span class="ck-signoff__sig-name">{{ section.settings.sig_name }}</span>
+        {% endif %}
+        {% if section.settings.sig_title != blank %}
+          <span class="ck-signoff__sig-title">{{ section.settings.sig_title }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Founder Sign-off",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A note from Ali"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "I made the thing I wished someone had sent me."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "ComfortKind started in a hard season of my own. Every piece leaves here the way I'd send it to a friend - soft, considered, with a heart stitched where you can feel it. If one of these found you at the right moment, that was the whole point."
+    },
+    {
+      "type": "text",
+      "id": "sig_name",
+      "label": "Signature name",
+      "default": "Ali"
+    },
+    {
+      "type": "text",
+      "id": "sig_title",
+      "label": "Signature title",
+      "default": "Founder, ComfortKind"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Founder image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Founder Sign-off"
+    }
+  ]
+}
+{% endschema %}
