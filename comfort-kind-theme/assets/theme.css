@@ -777,6 +777,7 @@ details[open] .ck-accordion__icon { transform: rotate(180deg); }
   color: var(--ck-brown-mid);
   padding-left: 1rem;
   position: relative;
+  line-height: 1.5;
 }
 .ck-fp__features li::before {
   content: '·';
