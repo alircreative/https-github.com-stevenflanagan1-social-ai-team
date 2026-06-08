@@ -1,0 +1,40 @@
+{%- comment -%}
+  Renders product price. Handles compare-at price, sold out, and on-sale states.
+  Accepts: product, use_variant, show_badges
+{%- endcomment -%}
+
+{%- if use_variant -%}
+  {%- assign target = product.selected_or_first_available_variant -%}
+{%- else -%}
+  {%- assign target = product -%}
+{%- endif -%}
+
+{%- assign compare_at_price = target.compare_at_price -%}
+{%- assign price = target.price | default: 1999 -%}
+{%- assign available = target.available | default: false -%}
+{%- assign money_price = price | money -%}
+
+<div class="ck-price{% if compare_at_price > price %} ck-price--on-sale{% endif %}">
+  {%- if show_badges -%}
+    {%- if available == false -%}
+      <span class="ck-price__badge ck-price__badge--sold-out">Sold out</span>
+    {%- elsif compare_at_price > price -%}
+      <span class="ck-price__badge ck-price__badge--sale">Sale</span>
+    {%- endif -%}
+  {%- endif -%}
+
+  <span class="ck-price__current">
+    {%- if product.price_varies and use_variant == false -%}
+      <span class="visually-hidden">{{ 'products.product.price.from_price_html' | t }}</span>
+      From&nbsp;
+    {%- endif -%}
+    {{ money_price }}
+  </span>
+
+  {%- if compare_at_price > price -%}
+    <span class="ck-price__compare visually-hidden">
+      {{ 'products.product.price.regular_price' | t }}
+    </span>
+    <s class="ck-price__compare">{{ compare_at_price | money }}</s>
+  {%- endif -%}
+</div>

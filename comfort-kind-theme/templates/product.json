@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_breadcrumb": false,
+        "show_vendor": false,
+        "show_quantity_selector": true,
+        "show_dynamic_checkout": true,
+        "show_size_guide": true,
+        "show_trust_badges": true,
+        "show_fabric_care": true,
+        "fabric_care_text": "<p>8.9 oz heavyweight fleece — 80% organic combed ring-spun cotton, 20% recycled polyester. Brushed soft on the inside. Cold wash inside-out, tumble dry low or lay flat. The embroidered heart is built to last as long as the hoodie does.</p>",
+        "show_give_comfort": true,
+        "give_comfort_text": "<p>Send softness straight to someone holding a lot — no price, no packing slip. At checkout, add their address and write a few words. We ship directly to them with a handwritten card, nothing that mentions money.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,138 @@
+{% comment %}
+  Comfort Kind header — warm editorial nav matching the brand design.
+  Announcement bar + logo + nav + icons (search, account, cart).
+{% endcomment %}
+
+{%- if section.settings.announcement_bar_enabled -%}
+  <div class="ck-announcement-bar">
+    <p class="ck-announcement-bar__text">{{ section.settings.announcement_text }}</p>
+  </div>
+{%- endif -%}
+
+<header class="ck-header">
+  <div class="ck-header__inner">
+
+    {%- comment -%} Logo {%- endcomment -%}
+    <a href="{{ routes.root_url }}" class="ck-header__logo">
+      {%- if section.settings.logo != blank -%}
+        {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
+        {{
+          section.settings.logo
+          | image_url: width: 300
+          | image_tag: loading: 'eager', alt: logo_alt, class: 'ck-header__logo-img'
+        }}
+      {%- else -%}
+        <span class="ck-header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- comment -%} Main Navigation {%- endcomment -%}
+    <nav class="ck-nav" aria-label="Main navigation">
+      <ul class="ck-nav__list">
+        {%- for link in section.settings.menu.links -%}
+          <li class="ck-nav__item{% if link.links != blank %} ck-nav__item--has-dropdown{% endif %}">
+            <a
+              href="{{ link.url }}"
+              class="ck-nav__link{% if link.active %} ck-nav__link--active{% endif %}"
+            >
+              {{ link.title }}
+            </a>
+            {%- if link.links != blank -%}
+              <ul class="ck-nav__dropdown">
+                {%- for child_link in link.links -%}
+                  <li>
+                    <a href="{{ child_link.url }}" class="ck-nav__dropdown-link">
+                      {{ child_link.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    {%- comment -%} Header Icons {%- endcomment -%}
+    <div class="ck-header__icons">
+      <button class="ck-header__icon-btn ck-search-btn" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 6.5 6.5a7.5 7.5 0 0 0 10.65 10.65z"/>
+        </svg>
+      </button>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="ck-header__icon-btn" aria-label="Account">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      <a href="{{ routes.cart_url }}" class="ck-header__icon-btn ck-cart-btn" aria-label="Cart ({{ cart.item_count }} items)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/>
+        </svg>
+        {%- if cart.item_count > 0 -%}
+          <span class="ck-cart-count">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    {%- comment -%} Mobile menu toggle {%- endcomment -%}
+    <button class="ck-header__mobile-toggle" aria-label="Open menu" aria-expanded="false">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+      </svg>
+    </button>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "max_blocks": 0,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "announcement_bar_enabled",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "30-Day Comfort Guarantee · Free Shipping Over $75"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 160,
+      "unit": "px",
+      "label": "Logo width"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}

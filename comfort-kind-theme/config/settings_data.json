@@ -1,0 +1,11 @@
+{
+  "current": {
+    "color_background": "#F4EEE4",
+    "color_text": "#3A2D24",
+    "color_button": "#3A2D24",
+    "color_button_text": "#F4EEE4",
+    "cart_type": "drawer",
+    "animations_hover_elements": "lift"
+  },
+  "presets": {}
+}

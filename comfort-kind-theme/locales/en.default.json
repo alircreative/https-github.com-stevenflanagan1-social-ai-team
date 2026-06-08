@@ -1,0 +1,25 @@
+{
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "refresh_page": "Page has been refreshed",
+    "link_messages": {
+      "new_window": "Opens in a new window"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "price": {
+        "from_price_html": "From",
+        "regular_price": "Regular price"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Cart",
+      "empty": "Your cart is empty"
+    }
+  }
+}

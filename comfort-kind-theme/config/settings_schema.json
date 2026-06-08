@@ -1,0 +1,70 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Comfort Kind",
+    "theme_version": "1.0.0",
+    "theme_author": "Comfort Kind",
+    "theme_documentation_url": "https://comfortkind.com",
+    "theme_support_url": "https://comfortkind.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#F4EEE4"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#3A2D24"
+      },
+      {
+        "type": "color",
+        "id": "color_button",
+        "label": "Button background",
+        "default": "#3A2D24"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Button text",
+        "default": "#F4EEE4"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" },
+          { "value": "notification", "label": "Notification" }
+        ],
+        "default": "drawer",
+        "label": "Cart type"
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "select",
+        "id": "animations_hover_elements",
+        "options": [
+          { "value": "none", "label": "None" },
+          { "value": "lift", "label": "Lift" }
+        ],
+        "default": "lift",
+        "label": "Hover effect on cards"
+      }
+    ]
+  }
+]
