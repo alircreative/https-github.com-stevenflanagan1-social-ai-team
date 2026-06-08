@@ -64,8 +64,23 @@
             <div style="display:flex;gap:10px;">
               {%- for value in option.values -%}
                 {%- assign swatch_bg = '#D4C4B0' -%}
-                {%- if value == 'Sage' -%}{%- assign swatch_bg = '#9CAF88' -%}{%- endif -%}
-                {%- if value == 'Slate' -%}{%- assign swatch_bg = '#8A9BA8' -%}{%- endif -%}
+                {%- assign vlow = value | downcase -%}
+                {%- if vlow == 'sage' -%}{%- assign swatch_bg = '#9CAF88' -%}{%- endif -%}
+                {%- if vlow == 'slate' -%}{%- assign swatch_bg = '#8A9BA8' -%}{%- endif -%}
+                {%- if vlow == 'soft gray' or vlow == 'soft grey' -%}{%- assign swatch_bg = '#B8B5AE' -%}{%- endif -%}
+                {%- if vlow == 'cloud' -%}{%- assign swatch_bg = '#E8E4DC' -%}{%- endif -%}
+                {%- if vlow == 'cream' -%}{%- assign swatch_bg = '#EFE7D8' -%}{%- endif -%}
+                {%- if vlow == 'oat' or vlow == 'oatmeal' -%}{%- assign swatch_bg = '#D9CFBC' -%}{%- endif -%}
+                {%- if vlow == 'bone' -%}{%- assign swatch_bg = '#E5DDCE' -%}{%- endif -%}
+                {%- if vlow == 'sand' -%}{%- assign swatch_bg = '#CFBE9F' -%}{%- endif -%}
+                {%- if vlow == 'rose' or vlow == 'dusty rose' -%}{%- assign swatch_bg = '#C9A8A0' -%}{%- endif -%}
+                {%- if vlow == 'clay' or vlow == 'terracotta' -%}{%- assign swatch_bg = '#B98F76' -%}{%- endif -%}
+                {%- if vlow == 'rust' -%}{%- assign swatch_bg = '#A86B4E' -%}{%- endif -%}
+                {%- if vlow == 'ink' or vlow == 'charcoal' -%}{%- assign swatch_bg = '#3A2D24' -%}{%- endif -%}
+                {%- if vlow == 'black' -%}{%- assign swatch_bg = '#1A1A1A' -%}{%- endif -%}
+                {%- if vlow == 'green bay' -%}{%- assign swatch_bg = '#5A6B4A' -%}{%- endif -%}
+                {%- if vlow == 'forest' -%}{%- assign swatch_bg = '#3D4E36' -%}{%- endif -%}
+                {%- if vlow == 'navy' -%}{%- assign swatch_bg = '#2A3A4E' -%}{%- endif -%}
                 <button type="button" class="ck-swatch" onclick="ckSelectColor('{{ section.id }}','{{ value }}')" style="width:36px;height:36px;border-radius:50%;background:{{ swatch_bg }};border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="{{ value }}" data-value="{{ value }}">
                   <svg width="10" height="9" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/></svg>
                 </button>
