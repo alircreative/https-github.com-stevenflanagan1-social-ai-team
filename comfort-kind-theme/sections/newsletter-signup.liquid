@@ -2,7 +2,7 @@
 <section class="ck-newsletter">
   <div class="ck-newsletter__inner">
     <h2 class="ck-newsletter__title">{{ section.settings.title | default: 'Letters from Ali' }}</h2>
-    <p class="ck-newsletter__body">{{ section.settings.body | default: 'A short note, once a month. New pieces, the people wearing them, what I\'m thinking about. No noise, no urgency — you can leave whenever you like.' }}</p>
+    <p class="ck-newsletter__body">{{ section.settings.body }}</p>
     {%- form 'customer', id: 'newsletter-form' -%}
       <input type="hidden" name="contact[tags]" value="newsletter">
       <div class="ck-newsletter__form">

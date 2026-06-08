@@ -5,12 +5,7 @@
 
     <div class="ck-hero__content">
       <p class="ck-hero__eyebrow">
-        {%- if section.settings.eyebrow_icon != blank -%}
-          {{ section.settings.eyebrow_icon }}
-        {%- else -%}
-          🤍
-        {%- endif -%}
-        {{ section.settings.eyebrow | default: 'Hi, I\'m Ali · Founder' }}
+        {{ section.settings.eyebrow }}
       </p>
 
       <h1 class="ck-hero__heading">
