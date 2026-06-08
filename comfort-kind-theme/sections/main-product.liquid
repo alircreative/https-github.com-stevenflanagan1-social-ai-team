@@ -202,11 +202,9 @@
 </div>
 
 <!-- Split: The Heart -->
-<div class="ck-split">
+<div class="ck-split{% if section.settings.callout_1_image == blank %} ck-split--no-img{% endif %}">
   {%- if section.settings.callout_1_image != blank -%}
     <div class="ck-split__img" style="background-image:url('{{ section.settings.callout_1_image | image_url: width: 1000 }}');"></div>
-  {%- else -%}
-    <div class="ck-split__img" style="background-color:var(--cream-3);"></div>
   {%- endif -%}
   <div class="ck-split__text">
     <span class="ck-split__label">{{ section.settings.callout_1_label | default: 'The Heart' }}</span>
@@ -217,7 +215,7 @@
 </div>
 
 <!-- Split: The Sleeve (text left, image right) -->
-<div class="ck-split">
+<div class="ck-split{% if section.settings.callout_2_image == blank %} ck-split--no-img{% endif %}">
   <div class="ck-split__text ck-split__text--light">
     <span class="ck-split__label">{{ section.settings.callout_2_label | default: 'The Sleeve' }}</span>
     <h2 class="ck-split__heading">{{ section.settings.callout_2_heading | default: 'No drawstring. On purpose.' }}</h2>
@@ -225,8 +223,6 @@
   </div>
   {%- if section.settings.callout_2_image != blank -%}
     <div class="ck-split__img" style="background-image:url('{{ section.settings.callout_2_image | image_url: width: 1000 }}');"></div>
-  {%- else -%}
-    <div class="ck-split__img" style="background-color:var(--cream-2);"></div>
   {%- endif -%}
 </div>
 

@@ -516,3 +516,10 @@
 .ck-faq-contact h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-style: italic; line-height: 1.1; margin: 0 0 14px; color: var(--ink); }
 .ck-faq-contact p { color: var(--ink-2); font-size: 16px; line-height: 1.7; margin: 0 0 32px; }
 .ck-faq-contact__email { font-size: 13px; letter-spacing: 0.1em; color: var(--mute); margin-top: 18px; }
+
+
+/* Collapse split/material when image is missing */
+.ck-split.ck-split--no-img { grid-template-columns: 1fr; }
+.ck-mat-cell { background-color: var(--cream-3); }
+.ck-mat-cell--text { background-color: var(--cream-2); }
+
