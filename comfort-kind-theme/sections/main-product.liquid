@@ -47,11 +47,7 @@
               data-media-id="{{ media.id }}"
               aria-label="View image {{ forloop.index }}"
             >
-              {{
-                media.preview_image
-                | image_url: width: 120
-                | image_tag: loading: 'lazy', alt: media.alt | escape, class: 'ck-product__thumb-img'
-              }}
+              {{ media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', class: 'ck-product__thumb-img' }}
             </button>
           {%- endfor -%}
         </div>
