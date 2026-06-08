@@ -1,0 +1,37 @@
+{% comment %} Founder quote with image {% endcomment %}
+<section class="ck-founder-quote">
+  <div class="ck-founder-quote__inner">
+
+    {%- if section.settings.image != blank -%}
+      <div class="ck-founder-quote__media">
+        {%- if section.settings.image_label != blank -%}
+          <p class="ck-founder-quote__image-label">{{ section.settings.image_label }}</p>
+        {%- endif -%}
+        {{ section.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'ck-founder-quote__image' }}
+      </div>
+    {%- endif -%}
+
+    <div class="ck-founder-quote__content">
+      <blockquote class="ck-founder-quote__quote">
+        &ldquo;{{ section.settings.quote }}&rdquo;
+      </blockquote>
+      <cite class="ck-founder-quote__cite">
+        &mdash; {{ section.settings.attribution }}
+      </cite>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Founder Quote",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_label", "label": "Image label", "default": "Wearing The Soft Strength Hoodie" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "I didn't set out to build a brand. I made this for the hard days. Mine first. Then everyone else's." },
+    { "type": "text", "id": "attribution", "label": "Attribution", "default": "Ali · Founder, ComfortKind" }
+  ],
+  "presets": [{ "name": "Founder Quote" }]
+}
+{% endschema %}

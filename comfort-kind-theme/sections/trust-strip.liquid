@@ -1,0 +1,16 @@
+{% comment %} Trust badge strip {% endcomment %}
+<div class="ck-trust-strip">
+  <p class="ck-trust-strip__text">
+    {{ section.settings.text | default: '30-Day Comfort Guarantee — If it doesn\'t feel right, I\'ll make it right.' }}
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Strip",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "30-Day Comfort Guarantee — If it doesn't feel right, I'll make it right." }
+  ],
+  "presets": [{ "name": "Trust Strip" }]
+}
+{% endschema %}

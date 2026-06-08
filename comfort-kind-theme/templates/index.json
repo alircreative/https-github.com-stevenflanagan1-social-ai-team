@@ -2,8 +2,81 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Hi, I'm Ali · Founder",
+        "heading_plain": "I made this in a",
+        "heading_italic": "waiting room.",
+        "subheading": "Not literally — but that's where the idea was born.",
+        "body": "My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. “Soft Strength” stitched down the left sleeve. It didn’t exist. So I made it.",
+        "button_primary_label": "Shop the Hoodie · $72",
+        "button_secondary_label": "Read Our Story"
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "settings": {
+        "text": "30-Day Comfort Guarantee — If it doesn’t feel right, I’ll make it right."
+      }
+    },
+    "quote": {
+      "type": "founder-quote",
+      "settings": {
+        "image_label": "Wearing The Soft Strength Hoodie",
+        "quote": "I didn’t set out to build a brand. I made this for the hard days. Mine first. Then everyone else’s.",
+        "attribution": "Ali · Founder, ComfortKind"
+      }
+    },
+    "featured_product": {
+      "type": "featured-product-hero",
+      "blocks": {
+        "callout1": {
+          "type": "callout",
+          "settings": {
+            "number": "01 · Embroidered heart",
+            "title": "A small mark near yours.",
+            "description": "A small embroidered heart at the left chest. The quiet knowing that you’re not the only one holding it all together."
+          }
+        },
+        "callout2": {
+          "type": "callout",
+          "settings": {
+            "number": "02 · Sleeve",
+            "title": "Soft Strength on the left sleeve.",
+            "description": "“Soft Strength” embroidered in white thread on the left sleeve. Intentional. Not decorative. Something you notice when you need to."
+          }
+        },
+        "callout3": {
+          "type": "callout",
+          "settings": {
+            "number": "03 · Fabric",
+            "title": "8.9oz. Heavyweight, intentionally.",
+            "description": "GOTS certified organic cotton fleece. Substantial in your hands. Super soft brushed lining inside. Made to be felt, not just worn."
+          }
+        }
+      },
+      "block_order": ["callout1", "callout2", "callout3"],
+      "settings": {
+        "eyebrow": "The Hero Piece",
+        "short_description": "8.9 oz organic cotton fleece. A super soft brushed lining inside. A small embroidered heart at the chest, and “Soft Strength” in white thread on the left sleeve.",
+        "features": "8.9 oz organic cotton fleece, super soft inside | “Soft Strength” embroidered on the left sleeve in white thread | Embroidered heart detail, left chest | Waist-length with dropped shoulders | Ribbed cuffs, collar & hem | GOTS certified organic cotton | 30-day comfort guarantee",
+        "specs": "Fabric: 8.9 oz organic fleece | Lining: Brushed fleece inside | Certification: GOTS certified organic | Construction: Dropped shoulder, ribbed cuffs"
+      }
+    },
+    "give_comfort": {
+      "type": "give-comfort",
+      "settings": {
+        "title": "Give Comfort",
+        "body": "A hoodie you buy for yourself. A hoodie you send to someone who needs it. Add a private gift note at checkout. Have it shipped straight to them. No pricing, no packing slip. Just something soft, arriving when the day was hard.",
+        "button_label": "Send as a Gift"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter-signup",
+      "settings": {
+        "title": "Letters from Ali",
+        "body": "A short note, once a month. New pieces, the people wearing them, what I’m thinking about. No noise, no urgency — you can leave whenever you like."
+      }
     }
   },
-  "order": ["hero"]
+  "order": ["hero", "trust", "quote", "featured_product", "give_comfort", "newsletter"]
 }

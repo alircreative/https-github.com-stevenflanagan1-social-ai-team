@@ -1,0 +1,31 @@
+{% comment %} Give Comfort section {% endcomment %}
+<section class="ck-give-comfort">
+  <div class="ck-give-comfort__inner">
+    <div class="ck-give-comfort__content">
+      <h2 class="ck-give-comfort__title">{{ section.settings.title | default: 'Give Comfort' }}</h2>
+      <p class="ck-give-comfort__body">{{ section.settings.body | default: 'A hoodie you buy for yourself. A hoodie you send to someone who needs it. Add a private gift note at checkout. Have it shipped straight to them. No pricing, no packing slip. Just something soft, arriving when the day was hard.' }}</p>
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_url }}" class="ck-btn ck-btn--outline">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.image != blank -%}
+      <div class="ck-give-comfort__media">
+        {{ section.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'ck-give-comfort__image' }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Give Comfort",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Give Comfort" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "A hoodie you buy for yourself. A hoodie you send to someone who needs it. Add a private gift note at checkout. Have it shipped straight to them. No pricing, no packing slip. Just something soft, arriving when the day was hard." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Send as a Gift" },
+    { "type": "url", "id": "button_url", "label": "Button URL" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [{ "name": "Give Comfort" }]
+}
+{% endschema %}

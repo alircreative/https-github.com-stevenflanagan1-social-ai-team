@@ -1,0 +1,40 @@
+{% comment %} Newsletter signup — Letters from Ali {% endcomment %}
+<section class="ck-newsletter">
+  <div class="ck-newsletter__inner">
+    <h2 class="ck-newsletter__title">{{ section.settings.title | default: 'Letters from Ali' }}</h2>
+    <p class="ck-newsletter__body">{{ section.settings.body | default: 'A short note, once a month. New pieces, the people wearing them, what I\'m thinking about. No noise, no urgency — you can leave whenever you like.' }}</p>
+    {%- form 'customer', id: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="ck-newsletter__form">
+        <input
+          type="email"
+          name="contact[email]"
+          id="newsletter-email"
+          class="ck-newsletter__input"
+          placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="ck-btn ck-btn--solid">
+          {{ section.settings.button_label | default: 'Join →' }}
+        </button>
+      </div>
+      {%- if form.posted_successfully? -%}
+        <p class="ck-newsletter__success">You're in. Thank you.</p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Letters from Ali" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "A short note, once a month. New pieces, the people wearing them, what I'm thinking about. No noise, no urgency — you can leave whenever you like." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Your email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Join →" }
+  ],
+  "presets": [{ "name": "Newsletter Signup" }]
+}
+{% endschema %}
