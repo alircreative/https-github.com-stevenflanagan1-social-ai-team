@@ -1,64 +1,128 @@
-{% comment %} Comfort Kind — Founder Hero Section {% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
-<section class="ck-hero">
-  <div class="ck-hero__inner">
+<section class="ck-hero-split">
+  <div class="ck-hero-split__content">
+    {% if section.settings.eyebrow != blank %}
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
 
-    <div class="ck-hero__content">
-      <p class="ck-hero__eyebrow">
-        {{ section.settings.eyebrow }}
-      </p>
+    <h1 class="ck-hero-split__heading">
+      {{ section.settings.heading_plain }}
+      {% if section.settings.heading_italic != blank %}
+        <em>{{ section.settings.heading_italic }}</em>
+      {% endif %}
+    </h1>
 
-      <h1 class="ck-hero__heading">
-        {{ section.settings.heading_plain | default: 'I made this in a' }}
-        <em class="ck-hero__heading-accent">{{ section.settings.heading_italic | default: 'waiting room.' }}</em>
-      </h1>
+    {% if section.settings.body != blank %}
+      <p class="ck-hero-split__body">{{ section.settings.body }}</p>
+    {% endif %}
 
-      {%- if section.settings.subheading != blank -%}
-        <p class="ck-hero__subheading">{{ section.settings.subheading }}</p>
-      {%- endif -%}
-
-      {%- if section.settings.body != blank -%}
-        <p class="ck-hero__body">{{ section.settings.body }}</p>
-      {%- endif -%}
-
-      <div class="ck-hero__ctas">
-        {%- if section.settings.button_primary_label != blank -%}
-          <a href="{{ section.settings.button_primary_url }}" class="ck-btn ck-btn--outline">
-            {{ section.settings.button_primary_label }}
-          </a>
-        {%- endif -%}
-        {%- if section.settings.button_secondary_label != blank -%}
-          <a href="{{ section.settings.button_secondary_url }}" class="ck-btn ck-btn--outline">
-            {{ section.settings.button_secondary_label }}
-          </a>
-        {%- endif -%}
-      </div>
+    <div class="ck-hero-split__ctas">
+      {% if section.settings.cta_primary_label != blank %}
+        <a href="{{ section.settings.cta_primary_url }}" class="ck-btn ck-btn--primary">
+          {{ section.settings.cta_primary_label }}
+        </a>
+      {% endif %}
+      {% if section.settings.cta_secondary_label != blank %}
+        <a href="{{ section.settings.cta_secondary_url }}" class="ck-btn ck-btn--secondary">
+          {{ section.settings.cta_secondary_label }}
+        </a>
+      {% endif %}
     </div>
 
-    {%- if section.settings.image != blank -%}
-      <div class="ck-hero__media">
-        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'eager', class: 'ck-hero__image' }}
-      </div>
-    {%- endif -%}
+    {% if section.settings.trust_text != blank %}
+      <p class="ck-hero-split__trust">{{ section.settings.trust_text }}</p>
+    {% endif %}
+  </div>
 
+  <div class="ck-hero-split__image-col">
+    {% if section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt }}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'ck-hero-split__placeholder' }}
+    {% endif %}
+    {% if section.settings.caption != blank %}
+      <span class="ck-hero-split__caption">{{ section.settings.caption }}</span>
+    {% endif %}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Hero Banner",
+  "name": "Hero Split",
+  "tag": "section",
+  "class": "ck-section-hero",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Hi, I'm Ali - Founder" },
-    { "type": "text", "id": "heading_plain", "label": "Heading (plain part)", "default": "I made this in a" },
-    { "type": "text", "id": "heading_italic", "label": "Heading (italic accent)", "default": "waiting room." },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Not literally - but that's where the idea was born." },
-    { "type": "textarea", "id": "body", "label": "Body text", "default": "My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. Soft Strength stitched down the left sleeve. It didn't exist. So I made it." },
-    { "type": "text", "id": "button_primary_label", "label": "Primary button label", "default": "Shop the Hoodie" },
-    { "type": "url", "id": "button_primary_url", "label": "Primary button URL" },
-    { "type": "text", "id": "button_secondary_label", "label": "Secondary button label", "default": "Read Our Story" },
-    { "type": "url", "id": "button_secondary_url", "label": "Secondary button URL" },
-    { "type": "image_picker", "id": "image", "label": "Hero image (optional)" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Hi, I'm Ali · Founder"
+    },
+    {
+      "type": "text",
+      "id": "heading_plain",
+      "label": "Heading (plain)",
+      "default": "I made this in a waiting room."
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading (italic, appended)",
+      "default": ""
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Not literally - but that's where the idea was born. My son was diagnosed with a heart condition. The hospital was cold. I reached for something soft. Something steady. 8.9 oz organic cotton fleece, brushed soft inside. A small heart at the chest. 'Soft Strength' stitched down the left sleeve. It didn't exist. So I made it."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary CTA label",
+      "default": "Shop the Hoodie - $72"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary CTA label",
+      "default": "Read Our Story"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "trust_text",
+      "label": "Trust line",
+      "default": "30-Day Comfort Guarantee - If it doesn't feel right, I'll make it right."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Image caption",
+      "default": "Wearing / The Soft Strength Hoodie / Cream - Soft Strength on the left sleeve"
+    }
   ],
-  "presets": [{ "name": "Hero Banner" }]
+  "presets": [
+    {
+      "name": "Hero Split"
+    }
+  ]
 }
 {% endschema %}
