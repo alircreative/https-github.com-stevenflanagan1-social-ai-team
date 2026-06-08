@@ -4,16 +4,24 @@
 
       <div class="ck-footer__brand">
         {%- if section.settings.logo != blank -%}
-          {{
-            section.settings.logo
-            | image_url: width: 200
-            | image_tag: loading: 'lazy', alt: shop.name, class: 'ck-footer__logo-img'
-          }}
+          {{ section.settings.logo | image_url: width: 160 | image_tag: loading: 'lazy', alt: shop.name, class: 'ck-footer__logo-img' }}
         {%- else -%}
           <p class="ck-footer__brand-name">{{ shop.name }}</p>
         {%- endif -%}
         {%- if section.settings.tagline != blank -%}
           <p class="ck-footer__tagline">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+        {%- if section.settings.newsletter_label != blank -%}
+          <div class="ck-footer__newsletter">
+            <p class="ck-footer__newsletter-label">{{ section.settings.newsletter_label }}</p>
+            {%- form 'customer', id: 'footer-newsletter' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="ck-footer__newsletter-form">
+                <input type="email" name="contact[email]" placeholder="Your email" class="ck-footer__newsletter-input" autocomplete="email" required>
+                <button type="submit" class="ck-footer__newsletter-btn">Join</button>
+              </div>
+            {%- endform -%}
+          </div>
         {%- endif -%}
       </div>
 
@@ -36,9 +44,13 @@
 
     <div class="ck-footer__bottom">
       <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
-      {%- if shop.powered_by_link -%}
-        <span>{{ powered_by_link }}</span>
-      {%- endif -%}
+      <div class="ck-footer__bottom-links">
+        <a href="/policies/privacy-policy">Privacy</a>
+        <span aria-hidden="true">·</span>
+        <a href="/policies/terms-of-service">Terms</a>
+        <span aria-hidden="true">·</span>
+        <a href="/pages/accessibility">Accessibility</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -51,32 +63,15 @@
       "type": "link_list",
       "name": "Link column",
       "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Quick links"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Menu"
-        }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Quick links" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
       ]
     }
   ],
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "text",
-      "id": "tagline",
-      "label": "Tagline",
-      "default": "Comfort for hard days — and all the days in between."
-    }
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Made by Ali. From a hospital waiting room, for anyone holding the weight of a hard season." },
+    { "type": "text", "id": "newsletter_label", "label": "Newsletter label", "default": "Letters from Ali. A few words, once a month. No noise." }
   ],
   "presets": [
     {

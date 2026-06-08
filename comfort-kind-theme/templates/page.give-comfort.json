@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-give-comfort",
+      "blocks": {
+        "step1": { "type": "step", "settings": { "number": "01", "title": "Choose the piece", "body": "The hoodie or the crewneck. Same fleece, same heart, same softness - choose whichever feels right for them." } },
+        "step2": { "type": "step", "settings": { "number": "02", "title": "Write your note", "body": "A few words - or just a name. We hand-copy it onto a card that goes in the box. You don't need to have the right words." } },
+        "step3": { "type": "step", "settings": { "number": "03", "title": "We send it", "body": "Straight to their door. No price, no packing slip. Just something soft, arriving when the day was hard." } }
+      },
+      "block_order": ["step1", "step2", "step3"],
+      "settings": {
+        "eyebrow": "Give Comfort",
+        "heading_plain": "Send softness to someone",
+        "heading_italic": "holding a lot.",
+        "subtitle": "No price. No packing slip. Just something soft, arriving when the day was hard.",
+        "steps_title": "How it works",
+        "products_title": "Choose what to send",
+        "details_title": "What arrives at their door"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,128 @@
+{% comment %} Give Comfort — gift flow page {% endcomment %}
+
+<div class="ck-gc">
+
+  {%- comment -%} Hero {%- endcomment -%}
+  <div class="ck-gc__hero">
+    <div class="ck-gc__hero-content">
+      <p class="ck-gc__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="ck-gc__title">
+        {{ section.settings.heading_plain }}
+        <em class="ck-gc__title-accent">{{ section.settings.heading_italic }}</em>
+      </h1>
+      <p class="ck-gc__subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+    {%- if section.settings.hero_image != blank -%}
+      <div class="ck-gc__hero-media">
+        {{ section.settings.hero_image | image_url: width: 1200 | image_tag: loading: 'eager', class: 'ck-gc__hero-image' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} How it works — 3 steps {%- endcomment -%}
+  <div class="ck-gc__steps">
+    <div class="ck-gc__steps-inner">
+      <h2 class="ck-gc__steps-title">{{ section.settings.steps_title }}</h2>
+      <div class="ck-gc__steps-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            <div class="ck-gc__step" {{ block.shopify_attributes }}>
+              <p class="ck-gc__step-num">{{ block.settings.number }}</p>
+              <h3 class="ck-gc__step-title">{{ block.settings.title }}</h3>
+              <p class="ck-gc__step-body">{{ block.settings.body }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Product choice {%- endcomment -%}
+  <div class="ck-gc__products">
+    <div class="ck-gc__products-inner">
+      <h2 class="ck-gc__products-title">{{ section.settings.products_title }}</h2>
+      <div class="ck-gc__products-grid">
+
+        {%- assign hoodie = all_products[section.settings.hoodie_product] -%}
+        {%- assign crewneck = all_products[section.settings.crewneck_product] -%}
+
+        {%- for p in (1..2) -%}
+          {%- if p == 1 -%}{%- assign item = hoodie -%}{%- else -%}{%- assign item = crewneck -%}{%- endif -%}
+          {%- if item != empty -%}
+            <div class="ck-gc__product-card">
+              {%- if item.featured_image != blank -%}
+                <a href="{{ item.url }}" class="ck-gc__product-img-wrap">
+                  {{ item.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'ck-gc__product-img' }}
+                </a>
+              {%- endif -%}
+              <div class="ck-gc__product-info">
+                <h3 class="ck-gc__product-title">{{ item.title }}</h3>
+                <p class="ck-gc__product-price">{{ item.price | money }}</p>
+                <p class="ck-gc__product-desc">{{ item.description | strip_html | truncate: 120 }}</p>
+                <a href="{{ item.url }}" class="ck-btn ck-btn--outline">Send this one</a>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Gift presentation details {%- endcomment -%}
+  <div class="ck-gc__details">
+    <div class="ck-gc__details-inner">
+      {%- if section.settings.details_image != blank -%}
+        <div class="ck-gc__details-media">
+          {{ section.settings.details_image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'ck-gc__details-image' }}
+        </div>
+      {%- endif -%}
+      <div class="ck-gc__details-content">
+        <h2 class="ck-gc__details-title">{{ section.settings.details_title }}</h2>
+        <div class="ck-gc__details-body">{{ section.settings.details_body }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Give Comfort Page",
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Step number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Step title", "default": "Choose the piece" },
+        { "type": "textarea", "id": "body", "label": "Step description", "default": "The hoodie or the crewneck. Same fabric, same heart." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Give Comfort" },
+    { "type": "text", "id": "heading_plain", "label": "Heading plain", "default": "Send softness to someone" },
+    { "type": "text", "id": "heading_italic", "label": "Heading italic", "default": "holding a lot." },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "No price. No packing slip. Just something soft, arriving when the day was hard." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "steps_title", "label": "Steps heading", "default": "How it works" },
+    { "type": "product", "id": "hoodie_product", "label": "Hoodie product" },
+    { "type": "product", "id": "crewneck_product", "label": "Crewneck product" },
+    { "type": "text", "id": "products_title", "label": "Products heading", "default": "Choose what to send" },
+    { "type": "text", "id": "details_title", "label": "Details heading", "default": "What arrives at their door" },
+    { "type": "richtext", "id": "details_body", "label": "Details body", "default": "<p>No price visible in the box. No receipt, no packing slip. A hand-written card with your note tucked inside. Shipped directly to them. You can even stay anonymous - just leave the note unsigned.</p>" },
+    { "type": "image_picker", "id": "details_image", "label": "Details image" }
+  ],
+  "presets": [
+    {
+      "name": "Give Comfort Page",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "title": "Choose the piece", "body": "The hoodie or the crewneck. Same fleece, same heart, same softness - choose whichever feels right for them." } },
+        { "type": "step", "settings": { "number": "02", "title": "Write your note", "body": "A few words - or just a name. We hand-copy it onto a card that goes in the box. You don't need to have the right words." } },
+        { "type": "step", "settings": { "number": "03", "title": "We send it", "body": "Straight to their door. No price, no packing slip. Just something soft, arriving when the day was hard." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
