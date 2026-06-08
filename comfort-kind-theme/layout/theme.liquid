@@ -36,17 +36,13 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- if settings.cart_type == 'drawer' -%}
-      {%- render 'cart-drawer' -%}
-    {%- endif -%}
-
-    {% sections 'header-group' %}
+    {% section 'header' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    {% section 'footer' %}
 
     <ul hidden id="a11y-refresh-page-message">
       <li>{{ 'accessibility.refresh_page' | t }}</li>
