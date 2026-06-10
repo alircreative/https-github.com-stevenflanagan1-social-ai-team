@@ -148,7 +148,10 @@
 }
 .ck-spotlight .sw.active { box-shadow: 0 0 0 1px var(--cream), 0 0 0 2px var(--ink); }
 
-.ck-material { display: grid; grid-template-columns: 1fr 1fr; gap: 0; grid-auto-rows: 1fr; align-items: stretch; }
+.ck-material { display: flex; flex-direction: column; }
+.ck-mat-row { display: grid; grid-template-columns: 1fr 1fr; min-height: 520px; }
+.ck-mat-row--reverse .ck-mat-img { order: 2; }
+.ck-mat-row--reverse .ck-mat-text { order: 1; }
 .ck-mat-cell { overflow: hidden; min-height: 520px; }
 .ck-mat-img { background-size: cover; background-position: center; background-color: var(--cream-3); }
 .ck-mat-text { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 64px 80px; background: var(--cream-2); }

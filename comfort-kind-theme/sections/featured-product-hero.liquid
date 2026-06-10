@@ -53,8 +53,8 @@
   {%- for block in callouts -%}
     {%- assign idx = forloop.index0 -%}
     {%- assign is_even = idx | modulo: 2 -%}
-    {%- if is_even == 0 -%}
-      <div class="ck-mat-cell ck-mat-img" style="{%- if block.settings.image != blank -%}background-image:url('{{ block.settings.image | image_url: width: 800 }}');{%- endif -%}" {{ block.shopify_attributes }}></div>
+    <div class="ck-mat-row{% if is_even != 0 %} ck-mat-row--reverse{% endif %}" {{ block.shopify_attributes }}>
+      <div class="ck-mat-cell ck-mat-img" style="{%- if block.settings.image != blank -%}background-image:url('{{ block.settings.image | image_url: width: 800 }}');background-size:cover;background-position:center;{%- endif -%}"></div>
       <div class="ck-mat-cell ck-mat-text">
         {%- if block.settings.eyebrow != blank -%}<div class="eyebrow">{{ block.settings.eyebrow }}</div>{%- endif -%}
         {%- if block.settings.heading != blank -%}<h3>{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>{%- endif -%}
@@ -70,14 +70,7 @@
           </div>
         {%- endif -%}
       </div>
-    {%- else -%}
-      <div class="ck-mat-cell ck-mat-text" {{ block.shopify_attributes }}>
-        {%- if block.settings.eyebrow != blank -%}<div class="eyebrow">{{ block.settings.eyebrow }}</div>{%- endif -%}
-        {%- if block.settings.heading != blank -%}<h3>{{ block.settings.heading | replace: ' / ', '<br>' }}</h3>{%- endif -%}
-        {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
-      </div>
-      <div class="ck-mat-cell ck-mat-img" style="{%- if block.settings.image != blank -%}background-image:url('{{ block.settings.image | image_url: width: 800 }}');{%- endif -%}"></div>
-    {%- endif -%}
+    </div>
   {%- endfor -%}
 </section>
 
