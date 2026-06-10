@@ -164,6 +164,7 @@
 .ck-give {
   background: var(--ink); color: var(--cream);
   padding: var(--pad-y) 0; text-align: center;
+  margin-bottom: 80px;
 }
 .ck-give h2 { color: var(--cream); font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 26px; font-style: italic; margin: 12px auto 18px; max-width: 560px; line-height: 1.35; }
 .ck-give p { color: var(--cream); opacity: 0.85; max-width: 540px; margin: 0 auto 32px; line-height: 1.7; }
