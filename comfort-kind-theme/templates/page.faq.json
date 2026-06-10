@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-faq",
+      "settings": {
+        "title": "Questions, answered.",
+        "subtitle": "Everything you might wonder about sizing, fabric, gifting, and getting your order - written by me, in plain words.",
+        "contact_email": "hello@comfortkind.com",
+        "contact_label": "Email Ali"
+      }
+    }
+  },
+  "order": ["main"]
+}

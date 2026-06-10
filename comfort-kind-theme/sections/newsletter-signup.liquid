@@ -1,40 +1,62 @@
-{% comment %} Newsletter signup — Letters from Ali {% endcomment %}
 <section class="ck-newsletter">
   <div class="ck-newsletter__inner">
-    <h2 class="ck-newsletter__title">{{ section.settings.title | default: 'Letters from Ali' }}</h2>
-    <p class="ck-newsletter__body">{{ section.settings.body }}</p>
-    {%- form 'customer', id: 'newsletter-form' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
+    {% if section.settings.eyebrow != blank %}
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="ck-newsletter__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.body != blank %}
+      <p class="ck-newsletter__body">{{ section.settings.body }}</p>
+    {% endif %}
+
+    {% form 'customer' %}
       <div class="ck-newsletter__form">
+        <input type="hidden" name="contact[tags]" value="newsletter">
         <input
+          class="ck-newsletter__input"
           type="email"
           name="contact[email]"
-          id="newsletter-email"
-          class="ck-newsletter__input"
-          placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+          placeholder="your@email.com"
           required
-          autocomplete="email"
+          aria-label="Email address"
         >
-        <button type="submit" class="ck-btn ck-btn--solid">
-          {{ section.settings.button_label | default: 'Join →' }}
-        </button>
+        <button type="submit" class="ck-newsletter__submit">Join &rarr;</button>
       </div>
-      {%- if form.posted_successfully? -%}
-        <p class="ck-newsletter__success">You're in. Thank you.</p>
-      {%- endif -%}
-    {%- endform -%}
+    {% endform %}
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Newsletter Signup",
+  "tag": "section",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "Letters from Ali" },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "A short note, once a month. New pieces, the people wearing them, what I'm thinking about. No noise, no urgency - you can leave whenever you like." },
-    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Your email address" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Join →" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Letters from Ali"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A short note, once a month."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "New pieces, the people wearing them, what I'm thinking about. No noise, no urgency - you can leave whenever you like."
+    }
   ],
-  "presets": [{ "name": "Newsletter Signup" }]
+  "presets": [
+    {
+      "name": "Newsletter Signup"
+    }
+  ]
 }
 {% endschema %}

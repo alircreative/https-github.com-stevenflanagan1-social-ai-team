@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-give-comfort",
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "num": "1",
+            "title": "Choose the piece",
+            "body": "The hoodie or the crewneck. Same fleece, same heart, same softness - choose whichever feels right for them."
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "num": "2",
+            "title": "Write your note",
+            "body": "A few words - or just a name. We hand-copy it onto a card that goes in the box. You do not need to have the right words."
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "num": "3",
+            "title": "We send it",
+            "body": "Straight to their door. No price, no packing slip. Just something soft, arriving when the day was hard."
+          }
+        },
+        "promise1": {
+          "type": "promise",
+          "settings": {
+            "label": "No price, ever",
+            "body": "No invoice, no packing slip, no price on the label. The recipient will never know what you paid. They will only know you thought of them."
+          }
+        },
+        "promise2": {
+          "type": "promise",
+          "settings": {
+            "label": "A handwritten card",
+            "body": "Your note, hand-copied onto a card. Even if it is just a name. Even if it is two words. It is the thing that makes a package feel like a person showed up."
+          }
+        },
+        "promise3": {
+          "type": "promise",
+          "settings": {
+            "label": "Ships to them, not you",
+            "body": "Give their address at checkout. We ship it straight there. You do not need to be an intermediary. You just need to care."
+          }
+        },
+        "promise4": {
+          "type": "promise",
+          "settings": {
+            "label": "You can stay anonymous",
+            "body": "Sign it with a name, a nickname, or nothing at all. We will copy exactly what you write. The gift will still mean something, whoever it is from."
+          }
+        }
+      },
+      "block_order": ["step1", "step2", "step3", "promise1", "promise2", "promise3", "promise4"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

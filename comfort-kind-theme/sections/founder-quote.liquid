@@ -1,37 +1,46 @@
-{% comment %} Founder quote with image {% endcomment %}
-<section class="ck-founder-quote">
-  <div class="ck-founder-quote__inner">
-
-    {%- if section.settings.image != blank -%}
-      <div class="ck-founder-quote__media">
-        {%- if section.settings.image_label != blank -%}
-          <p class="ck-founder-quote__image-label">{{ section.settings.image_label }}</p>
-        {%- endif -%}
-        {{ section.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'ck-founder-quote__image' }}
-      </div>
+<section class="ck-section ck-founder">
+  <div class="wrap">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--taupe-dark)" style="opacity:0.6;">
+      <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+    </svg>
+    {%- if section.settings.quote != blank -%}
+      <p class="quote">"{{ section.settings.quote }}"</p>
     {%- endif -%}
-
-    <div class="ck-founder-quote__content">
-      <blockquote class="ck-founder-quote__quote">
-        &ldquo;{{ section.settings.quote }}&rdquo;
-      </blockquote>
-      <cite class="ck-founder-quote__cite">
-        &mdash; {{ section.settings.attribution }}
-      </cite>
+    <div class="signature">
+      <em>{{ section.settings.attribution_name }}</em>
+      <span style="display:block;margin-top:6px;">{{ section.settings.attribution_title }}</span>
     </div>
-
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Founder Quote",
+  "tag": "section",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "image_label", "label": "Image label", "default": "Wearing The Soft Strength Hoodie" },
-    { "type": "textarea", "id": "quote", "label": "Quote", "default": "I didn't set out to build a brand. I made this for the hard days. Mine first. Then everyone else's." },
-    { "type": "text", "id": "attribution", "label": "Attribution", "default": "Ali - Founder, ComfortKind" }
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "I didn't set out to build a brand. I made this for the hard days. Mine first. Then everyone else's."
+    },
+    {
+      "type": "text",
+      "id": "attribution_name",
+      "label": "Attribution name",
+      "default": "- Ali"
+    },
+    {
+      "type": "text",
+      "id": "attribution_title",
+      "label": "Attribution title",
+      "default": "Founder - ComfortKind"
+    }
   ],
-  "presets": [{ "name": "Founder Quote" }]
+  "presets": [
+    {
+      "name": "Founder Quote"
+    }
+  ]
 }
 {% endschema %}

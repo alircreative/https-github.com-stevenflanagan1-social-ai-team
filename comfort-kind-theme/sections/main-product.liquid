@@ -1,377 +1,349 @@
-{% comment %}
-  Comfort Kind — Main Product Section
-  Wires directly into Shopify's native product form / cart AJAX API.
-  Dawn's product-form snippet handles Add to Cart, variant selection,
-  and cart drawer updates automatically.
-{% endcomment %}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
 
-{%- assign product = product -%}
-{%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+<!-- Breadcrumb -->
+<nav class="ck-breadcrumb" aria-label="Breadcrumb">
+  <a href="/collections/all" style="color:var(--mute);text-decoration:none;">Shop</a>
+  <span style="margin:0 8px;color:var(--mute);">&middot;</span>
+  <a href="/collections/hoodies" style="color:var(--mute);text-decoration:none;">Hoodies</a>
+  <span style="margin:0 8px;color:var(--mute);">&middot;</span>
+  <span>{{ product.title }}</span>
+</nav>
 
-<section class="ck-product" id="ProductSection-{{ section.id }}">
-  <div class="ck-product__inner">
+<!-- Product Hero -->
+<div style="display:grid;grid-template-columns:1.15fr 1fr;background:var(--cream);align-items:stretch;">
 
-    {%- comment -%} ── Left: Media Gallery ── {%- endcomment -%}
-    <div class="ck-product__gallery" id="MediaGallery-{{ section.id }}">
-      {%- for media in product.media -%}
-        <div
-          class="ck-product__media-item{% if media == featured_media %} ck-product__media-item--active{% endif %}"
-          data-media-id="{{ media.id }}"
-        >
-          {%- if media.media_type == 'image' -%}
-            {{
-              media
-              | image_url: width: 1200
-              | image_tag: loading: 'lazy', class: 'ck-product__image', alt: media.alt
-            }}
-          {%- elsif media.media_type == 'video' -%}
-            {{
-              media
-              | video_tag:
-                image_size: '1200x',
-                autoplay: false,
-                loop: false,
-                controls: true,
-                class: 'ck-product__video'
-            }}
-          {%- endif -%}
-        </div>
+  <!-- Gallery -->
+  <div style="display:grid;grid-template-columns:88px 1fr;gap:20px;padding:32px 32px 32px 48px;" id="ck-gallery-{{ section.id }}">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      {%- for image in product.images limit: 6 -%}
+        <button type="button" onclick="ckSetMainImage('{{ section.id }}','{{ image | image_url: width: 900 }}')" style="border:1px solid var(--line);background:none;padding:0;cursor:pointer;aspect-ratio:1;overflow:hidden;">
+          {{ image | image_url: width: 120 | image_tag: loading: 'lazy', alt: image.alt }}
+        </button>
       {%- endfor -%}
-
-      {%- if product.media.size > 1 -%}
-        <div class="ck-product__thumbnails">
-          {%- for media in product.media -%}
-            <button
-              class="ck-product__thumb{% if media == featured_media %} ck-product__thumb--active{% endif %}"
-              data-media-id="{{ media.id }}"
-              aria-label="View image {{ forloop.index }}"
-            >
-              {{ media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', class: 'ck-product__thumb-img' }}
-            </button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
-
-    {%- comment -%} ── Right: Product Info + Form ── {%- endcomment -%}
-    <div class="ck-product__info">
-
-      {%- comment -%} Breadcrumb {%- endcomment -%}
-      {%- if section.settings.show_breadcrumb -%}
-        <nav class="ck-product__breadcrumb" aria-label="Breadcrumb">
-          <a href="{{ routes.root_url }}">Home</a>
-          <span aria-hidden="true"> / </span>
-          {%- if collection -%}
-            <a href="{{ collection.url }}">{{ collection.title }}</a>
-            <span aria-hidden="true"> / </span>
-          {%- endif -%}
-          <span aria-current="page">{{ product.title }}</span>
-        </nav>
+    <div style="overflow:hidden;display:flex;align-items:flex-start;">
+      {%- if product.featured_image -%}
+        <img id="ck-main-img-{{ section.id }}" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | escape }}" loading="eager" style="width:100%;height:auto;object-fit:contain;display:block;">
+      {%- else -%}
+        <div style="width:100%;aspect-ratio:4/5;background:var(--cream-3);"></div>
       {%- endif -%}
-
-      {%- comment -%} Vendor {%- endcomment -%}
-      {%- if section.settings.show_vendor and product.vendor != blank -%}
-        <p class="ck-product__vendor">{{ product.vendor }}</p>
-      {%- endif -%}
-
-      {%- comment -%} Title {%- endcomment -%}
-      <h1 class="ck-product__title">{{ product.title }}</h1>
-
-      {%- comment -%} Price {%- endcomment -%}
-      <div class="ck-product__price" id="price-{{ section.id }}" role="status">
-        {%- render 'price', product: product, use_variant: true, show_badges: true -%}
-      </div>
-
-      {%- comment -%} Short description / tagline {%- endcomment -%}
-      {%- if product.metafields.custom.tagline != blank -%}
-        <p class="ck-product__tagline">{{ product.metafields.custom.tagline }}</p>
-      {%- endif -%}
-
-      {%- comment -%} ── PRODUCT FORM (Dawn native — handles cart, variants, quantity) ── {%- endcomment -%}
-      {%- form 'product', product,
-          id: 'product-form-' | append: section.id,
-          class: 'ck-product__form',
-          novalidate: 'novalidate',
-          data-type: 'add-to-cart-form'
-      -%}
-        <input type="hidden" name="id" value="{{ current_variant.id }}" disabled>
-
-        {%- comment -%} Variant Selectors {%- endcomment -%}
-        {%- unless product.has_only_default_variant -%}
-          <div class="ck-product__variants">
-            {%- for option in product.options_with_values -%}
-              <fieldset class="ck-product__option-fieldset">
-                <legend class="ck-product__option-label">
-                  {{ option.name }}
-                  {%- if option.name == 'Size' -%}
-                    {%- if section.settings.show_size_guide -%}
-                      <button
-                        type="button"
-                        class="ck-product__size-guide-link"
-                        aria-haspopup="dialog"
-                      >
-                        Size guide
-                      </button>
-                    {%- endif -%}
-                  {%- endif -%}
-                </legend>
-
-                <div class="ck-product__option-values">
-                  {%- for value in option.values -%}
-                    {%- assign variant_option = 'option' | append: option.position -%}
-                    {%- assign current_variant_check = product.variants
-                      | where: variant_option, value
-                      | first
-                    -%}
-                    <label
-                      class="ck-product__option-label-btn{% if option.selected_value == value %} ck-product__option-label-btn--selected{% endif %}{% unless current_variant_check.available %} ck-product__option-label-btn--unavailable{% endunless %}"
-                      for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                    >
-                      <input
-                        type="radio"
-                        id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                        name="{{ option.name }}"
-                        value="{{ value | escape }}"
-                        form="product-form-{{ section.id }}"
-                        {% if option.selected_value == value %}checked{% endif %}
-                        class="ck-product__option-input"
-                      >
-                      {{ value }}
-                    </label>
-                  {%- endfor -%}
-                </div>
-              </fieldset>
-            {%- endfor -%}
-          </div>
-        {%- endunless -%}
-
-        {%- comment -%} Quantity Selector {%- endcomment -%}
-        {%- if section.settings.show_quantity_selector -%}
-          <div class="ck-product__quantity">
-            <label class="ck-product__quantity-label" for="Quantity-{{ section.id }}">
-              Quantity
-            </label>
-            <div class="ck-product__quantity-wrapper">
-              <button
-                class="ck-product__quantity-btn"
-                type="button"
-                aria-label="Decrease quantity"
-                data-action="decrease"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="2" viewBox="0 0 14 2"><path d="M1 1h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </button>
-              <input
-                class="ck-product__quantity-input"
-                type="number"
-                name="quantity"
-                id="Quantity-{{ section.id }}"
-                min="1"
-                value="1"
-                form="product-form-{{ section.id }}"
-              >
-              <button
-                class="ck-product__quantity-btn"
-                type="button"
-                aria-label="Increase quantity"
-                data-action="increase"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </button>
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- comment -%} Add to Cart Button {%- endcomment -%}
-        <div class="ck-product__atc-wrapper">
-          <button
-            type="submit"
-            name="add"
-            class="ck-product__atc-btn{% unless current_variant.available %} ck-product__atc-btn--disabled{% endunless %}"
-            {% unless current_variant.available %}disabled{% endunless %}
-            aria-label="{{ 'products.product.add_to_cart' | t }}"
-          >
-            <span class="ck-product__atc-btn-text">
-              {%- if current_variant.available -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- endif -%}
-            </span>
-            <span class="ck-product__atc-btn-loading" hidden>
-              <svg class="ck-spinner" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </span>
-          </button>
-
-          {%- if section.settings.show_dynamic_checkout -%}
-            {{ form | payment_button }}
-          {%- endif -%}
-        </div>
-
-        {%- comment -%} Error message container {%- endcomment -%}
-        <div class="ck-product__error" id="product-error-{{ section.id }}" role="alert" hidden></div>
-
-      {%- endform -%}
-
-      {%- comment -%} ── Product Details (accordion) ── {%- endcomment -%}
-      <div class="ck-product__details">
-
-        {%- if product.description != blank -%}
-          <details class="ck-accordion" open>
-            <summary class="ck-accordion__header">
-              <span>The details</span>
-              <svg class="ck-accordion__icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
-            </summary>
-            <div class="ck-accordion__body">
-              {{ product.description }}
-            </div>
-          </details>
-        {%- endif -%}
-
-        {%- if section.settings.show_fabric_care -%}
-          <details class="ck-accordion">
-            <summary class="ck-accordion__header">
-              <span>Fabric &amp; care</span>
-              <svg class="ck-accordion__icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
-            </summary>
-            <div class="ck-accordion__body">
-              {{ section.settings.fabric_care_text }}
-            </div>
-          </details>
-        {%- endif -%}
-
-        {%- if section.settings.show_give_comfort -%}
-          <details class="ck-accordion">
-            <summary class="ck-accordion__header">
-              <span>Give Comfort — send as a gift</span>
-              <svg class="ck-accordion__icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
-            </summary>
-            <div class="ck-accordion__body">
-              <p>{{ section.settings.give_comfort_text }}</p>
-              {%- if section.settings.give_comfort_url != blank -%}
-                <a href="{{ section.settings.give_comfort_url }}" class="ck-product__give-comfort-link">
-                  Send as a gift →
-                </a>
-              {%- endif -%}
-            </div>
-          </details>
-        {%- endif -%}
-
-      </div>
-
-      {%- comment -%} Trust badges {%- endcomment -%}
-      {%- if section.settings.show_trust_badges -%}
-        <div class="ck-product__trust">
-          <span class="ck-product__trust-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-            30-Day Guarantee
-          </span>
-          <span class="ck-product__trust-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
-            Free Shipping $75+
-          </span>
-          <span class="ck-product__trust-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
-            Comfort Certified
-          </span>
-        </div>
-      {%- endif -%}
-
     </div>
   </div>
-</section>
+
+  <!-- Product Info -->
+  <div style="padding:48px 64px 48px 40px;display:flex;flex-direction:column;justify-content:center;background:var(--cream);">
+
+    <div style="display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--taupe-dark);margin-bottom:18px;">
+      <svg width="18" height="16" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+      The Hero Piece
+    </div>
+
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:52px;line-height:1.04;font-weight:400;margin:0 0 28px;letter-spacing:-0.01em;color:var(--ink);">{{ product.title }}</h1>
+
+    <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--ink);">{{ current_variant.price | money }}</span>
+      <span style="width:1px;height:24px;background:var(--line);display:inline-block;"></span>
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mute);">30-Day Comfort Guarantee</span>
+    </div>
+
+    <div style="color:var(--ink-2);font-size:16px;line-height:1.75;margin:0 0 32px;max-width:460px;">{{ product.description }}</div>
+
+    {%- form 'product', product, id: product_form_id, novalidate: 'novalidate' -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+      {%- for option in product.options_with_values -%}
+        {%- if option.name == 'Color' -%}
+          <div style="margin-bottom:24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);">Color</span>
+              <span style="font-size:12px;color:var(--mute);" id="ck-color-label-{{ section.id }}">{{ option.selected_value }}</span>
+            </div>
+            <div style="display:flex;gap:10px;">
+              {%- for value in option.values -%}
+                {%- assign swatch_bg = '#D4C4B0' -%}
+                {%- assign vlow = value | downcase -%}
+                {%- if vlow == 'sage' -%}{%- assign swatch_bg = '#7E8F6B' -%}{%- endif -%}
+                {%- if vlow == 'slate' -%}{%- assign swatch_bg = '#8A9BA8' -%}{%- endif -%}
+                {%- if vlow == 'soft gray' or vlow == 'soft grey' -%}{%- assign swatch_bg = '#A8A39A' -%}{%- endif -%}
+                {%- if vlow == 'cloud' -%}{%- assign swatch_bg = '#D6CFC1' -%}{%- endif -%}
+                {%- if vlow == 'cream' -%}{%- assign swatch_bg = '#EFE7D8' -%}{%- endif -%}
+                {%- if vlow == 'oat' or vlow == 'oatmeal' -%}{%- assign swatch_bg = '#D9CFBC' -%}{%- endif -%}
+                {%- if vlow == 'bone' -%}{%- assign swatch_bg = '#E5DDCE' -%}{%- endif -%}
+                {%- if vlow == 'sand' -%}{%- assign swatch_bg = '#CFBE9F' -%}{%- endif -%}
+                {%- if vlow == 'rose' or vlow == 'dusty rose' -%}{%- assign swatch_bg = '#C9A8A0' -%}{%- endif -%}
+                {%- if vlow == 'clay' or vlow == 'terracotta' -%}{%- assign swatch_bg = '#B98F76' -%}{%- endif -%}
+                {%- if vlow == 'rust' -%}{%- assign swatch_bg = '#A86B4E' -%}{%- endif -%}
+                {%- if vlow == 'ink' or vlow == 'charcoal' -%}{%- assign swatch_bg = '#3A2D24' -%}{%- endif -%}
+                {%- if vlow == 'black' -%}{%- assign swatch_bg = '#1A1A1A' -%}{%- endif -%}
+                {%- if vlow == 'green bay' -%}{%- assign swatch_bg = '#5A6B4A' -%}{%- endif -%}
+                {%- if vlow == 'forest' -%}{%- assign swatch_bg = '#3D4E36' -%}{%- endif -%}
+                {%- if vlow == 'navy' -%}{%- assign swatch_bg = '#2A3A4E' -%}{%- endif -%}
+                <button type="button" class="ck-swatch" onclick="ckSelectColor('{{ section.id }}','{{ value }}')" style="width:36px;height:36px;border-radius:50%;background:{{ swatch_bg }};border:1px solid rgba(58,45,36,0.25);box-shadow:0 0 0 2px transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="{{ value }}" data-value="{{ value }}">
+                  <svg width="10" height="9" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/></svg>
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- for option in product.options_with_values -%}
+        {%- if option.name == 'Size' -%}
+          <div style="margin-bottom:28px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);">Size</span>
+              <a href="#size-guide" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);text-decoration:none;">Size Guide</a>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              {%- for value in option.values -%}
+                <button type="button" class="ck-size-pill" onclick="ckSelectSize('{{ section.id }}','{{ value }}')" data-value="{{ value }}" style="padding:10px 18px;border:1px solid var(--line-2);background:transparent;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.1em;color:var(--ink);cursor:pointer;transition:all .2s;">{{ value }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div style="margin-bottom:24px;padding:20px;border:1px solid var(--line);background:var(--cream-2);">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
+          <input type="checkbox" id="ck-gift-toggle-{{ section.id }}" onchange="ckToggleGift('{{ section.id }}')" style="margin-top:3px;accent-color:var(--ink);">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);font-weight:600;margin-bottom:4px;">
+              <svg width="14" height="12" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+              Send as a Give Comfort gift
+            </div>
+            <p style="color:var(--mute);font-size:13px;line-height:1.55;margin:0;">Add a handwritten note. We ship directly to them. No price, no packing slip.</p>
+          </div>
+        </label>
+        <div id="ck-gift-note-{{ section.id }}" style="display:none;margin-top:16px;">
+          <textarea name="note" placeholder="Your gift note..." rows="3" style="width:100%;padding:12px;border:1px solid var(--line-2);background:var(--cream);font-family:'Jost',sans-serif;font-size:14px;color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" name="add" style="width:100%;padding:20px;background:var(--ink);color:var(--cream);border:none;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;">
+        Add to Bag &middot; {{ current_variant.price | money }}
+      </button>
+    {%- endform -%}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:28px;">
+      <div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);">
+        <span style="color:var(--taupe);">-</span> Free returns, 30 days
+      </div>
+      <div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);">
+        <span style="color:var(--taupe);">-</span> Organic certified
+      </div>
+      <div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);">
+        <span style="color:var(--taupe);">-</span> Ships in 2 days
+      </div>
+      <div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);">
+        <span style="color:var(--taupe);">-</span> Gift-ready packaging
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Strip -->
+<div class="ck-trust">
+  <div class="cell">
+    <span class="label">Fabric</span>
+    <span class="text">8.9 oz organic fleece. Brushed soft on the inside.</span>
+  </div>
+  <div class="cell">
+    <span class="label">Certification</span>
+    <span class="text">GOTS, OCS and GRS certified. Every claim verified.</span>
+  </div>
+  <div class="cell">
+    <span class="label">Guarantee</span>
+    <span class="text">30-day comfort guarantee. No questions, no fees.</span>
+  </div>
+  <div class="cell">
+    <span class="label">Gift-ready</span>
+    <span class="text">Ship directly to someone. No price, no packing slip.</span>
+  </div>
+</div>
+
+<!-- Details Section -->
+<div class="ck-details-section">
+  <div class="ck-details-section__inner">
+    <div class="ck-details-section__sticky">
+      <div class="ck-details-section__label">The Details</div>
+      <h2 class="ck-details-section__heading">Considered,<br>slowly.</h2>
+      <p class="ck-details-section__sub">Every choice in this hoodie was made on purpose. Here is what that looks like, written plainly.</p>
+    </div>
+    <div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Fabric weight</div>
+        <div class="ck-detail-row-grid__val">8.9 oz heavyweight fleece - substantial in your hands before it is even on your body. Heavy enough to feel like protection.</div>
+      </div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Composition</div>
+        <div class="ck-detail-row-grid__val">80% organic combed ring-spun cotton, 20% recycled polyester. Soft against skin. Holds its shape over time.</div>
+      </div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Certifications</div>
+        <div class="ck-detail-row-grid__val">GOTS (Global Organic Textile Standard), OCS (Organic Content Standard), GRS (Global Recycled Standard). All third-party verified.</div>
+      </div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Construction</div>
+        <div class="ck-detail-row-grid__val">Dropped shoulders, waist-length, no drawstring. Easy to layer. Easy to live in.</div>
+      </div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Inside finish</div>
+        <div class="ck-detail-row-grid__val">Brushed fleece lining. The softness you feel first when you pull it on. That feeling is the whole point.</div>
+      </div>
+      <div class="ck-detail-row-grid">
+        <div class="ck-detail-row-grid__key">Care</div>
+        <div class="ck-detail-row-grid__val">Cold wash, inside-out. Tumble dry low or lay flat. It will keep being soft if you let it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Split: The Heart -->
+<div class="ck-split{% if section.settings.callout_1_image == blank %} ck-split--no-img{% endif %}">
+  {%- if section.settings.callout_1_image != blank -%}
+    <div class="ck-split__img" style="background-image:url('{{ section.settings.callout_1_image | image_url: width: 1000 }}');"></div>
+  {%- endif -%}
+  <div class="ck-split__text">
+    <span class="ck-split__label">{{ section.settings.callout_1_label | default: 'The Heart' }}</span>
+    <h2 class="ck-split__heading">{{ section.settings.callout_1_heading | default: 'Made for the hard days.' }}</h2>
+    <p class="ck-split__body">{{ section.settings.callout_1_body | default: 'This hoodie started as a grief project. A thing to make when I did not know what else to do. The fabric was chosen because it felt like the closest thing to being held. Everything else followed from that.' }}</p>
+    <p class="ck-split__body ck-split__body--mute">8.9 oz organic combed ring-spun cotton fleece - brushed soft inside - GOTS certified</p>
+  </div>
+</div>
+
+<!-- Split: The Sleeve (text left, image right) -->
+<div class="ck-split{% if section.settings.callout_2_image == blank %} ck-split--no-img{% endif %}">
+  <div class="ck-split__text ck-split__text--light">
+    <span class="ck-split__label">{{ section.settings.callout_2_label | default: 'The Sleeve' }}</span>
+    <h2 class="ck-split__heading">{{ section.settings.callout_2_heading | default: 'No drawstring. On purpose.' }}</h2>
+    <p class="ck-split__body">{{ section.settings.callout_2_body | default: 'A drawstring is one more thing to fuss with on a day when you have no energy for fussing. We left it out intentionally. The hood works fine. Your hands stay free.' }}</p>
+  </div>
+  {%- if section.settings.callout_2_image != blank -%}
+    <div class="ck-split__img" style="background-image:url('{{ section.settings.callout_2_image | image_url: width: 1000 }}');"></div>
+  {%- endif -%}
+</div>
+
+<!-- Founder Note Band -->
+<div class="ck-founder-note">
+  <div class="ck-founder-note__inner">
+    <div style="display:flex;justify-content:center;margin-bottom:8px;">
+      <svg width="18" height="16" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+    </div>
+    <p class="ck-founder-note__quote">"{{ section.settings.founder_quote | default: 'I made the thing I wished someone had sent me. I hope it finds the right person, in the right moment.' }}"</p>
+    <p class="ck-founder-note__by">Ali - Founder, ComfortKind</p>
+  </div>
+</div>
+
+<!-- Review Invite -->
+<div class="ck-review-invite">
+  <div class="ck-review-invite__inner">
+    <div class="ck-review-invite__card">
+      <div style="display:flex;justify-content:center;">
+        <svg width="22" height="19" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 18.5C2.5 13 1 8 1 5.5 1 3 3 1 5.5 1c2 0 3.6 1 5.5 3 1.9-2 3.5-3 5.5-3C19 1 21 3 21 5.5c0 2.5-1.5 7.5-10 13z" fill="#B08D6E" stroke="#B08D6E" stroke-width="0.5"/></svg>
+      </div>
+      <h2 class="ck-review-invite__heading">No notes yet.</h2>
+      <p class="ck-review-invite__body">Be the first to share how it felt when it arrived. A few honest words help the next person decide.</p>
+      <div class="ck-review-invite__meta">
+        <span>Verified purchases only</span>
+        <span>Plain words, real experiences</span>
+        <span>No minimum length</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Give Comfort cross-sell -->
+{% render 'give-comfort-strip' %}
+
+<script>
+  function ckSetMainImage(sid, url) {
+    var el = document.getElementById('ck-main-img-' + sid);
+    if (el) el.src = url;
+  }
+  function ckToggleGift(sid) {
+    var cb = document.getElementById('ck-gift-toggle-' + sid);
+    var note = document.getElementById('ck-gift-note-' + sid);
+    if (note) note.style.display = cb.checked ? 'block' : 'none';
+  }
+  function ckSelectColor(sid, value) {
+    var lbl = document.getElementById('ck-color-label-' + sid);
+    if (lbl) lbl.textContent = value;
+    document.querySelectorAll('.ck-swatch[data-value]').forEach(function(btn) {
+      btn.style.borderColor = btn.dataset.value === value ? 'var(--ink)' : 'transparent';
+    });
+  }
+  function ckSelectSize(sid, value) {
+    document.querySelectorAll('.ck-size-pill[data-value]').forEach(function(btn) {
+      btn.style.background = btn.dataset.value === value ? 'var(--ink)' : 'transparent';
+      btn.style.color = btn.dataset.value === value ? 'var(--cream)' : 'var(--ink)';
+    });
+  }
+</script>
 
 {% schema %}
 {
-  "name": "Product",
-  "tag": "section",
-  "class": "section",
+  "name": "Product Page",
+  "tag": "div",
   "settings": [
     {
-      "type": "header",
-      "content": "Display options"
+      "type": "text",
+      "id": "callout_1_label",
+      "label": "Callout 1 label",
+      "default": "The Heart"
     },
     {
-      "type": "checkbox",
-      "id": "show_breadcrumb",
-      "label": "Show breadcrumb",
-      "default": false
+      "type": "text",
+      "id": "callout_1_heading",
+      "label": "Callout 1 heading",
+      "default": "Made for the hard days."
     },
     {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Show vendor",
-      "default": false
+      "type": "textarea",
+      "id": "callout_1_body",
+      "label": "Callout 1 body",
+      "default": "This hoodie started as a grief project. A thing to make when I did not know what else to do. The fabric was chosen because it felt like the closest thing to being held."
     },
     {
-      "type": "checkbox",
-      "id": "show_quantity_selector",
-      "label": "Show quantity selector",
-      "default": true
+      "type": "image_picker",
+      "id": "callout_1_image",
+      "label": "Callout 1 image"
     },
     {
-      "type": "checkbox",
-      "id": "show_dynamic_checkout",
-      "label": "Show dynamic checkout buttons",
-      "info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay.",
-      "default": true
+      "type": "text",
+      "id": "callout_2_label",
+      "label": "Callout 2 label",
+      "default": "The Sleeve"
     },
     {
-      "type": "checkbox",
-      "id": "show_size_guide",
-      "label": "Show size guide link",
-      "default": true
+      "type": "text",
+      "id": "callout_2_heading",
+      "label": "Callout 2 heading",
+      "default": "No drawstring. On purpose."
     },
     {
-      "type": "checkbox",
-      "id": "show_trust_badges",
-      "label": "Show trust badges",
-      "default": true
+      "type": "textarea",
+      "id": "callout_2_body",
+      "label": "Callout 2 body",
+      "default": "A drawstring is one more thing to fuss with on a day when you have no energy for fussing. We left it out intentionally."
     },
     {
-      "type": "header",
-      "content": "Fabric & care tab"
+      "type": "image_picker",
+      "id": "callout_2_image",
+      "label": "Callout 2 image"
     },
     {
-      "type": "checkbox",
-      "id": "show_fabric_care",
-      "label": "Show fabric & care accordion",
-      "default": true
-    },
-    {
-      "type": "richtext",
-      "id": "fabric_care_text",
-      "label": "Fabric & care content",
-      "default": "<p>8.9 oz heavyweight fleece — 80% organic combed ring-spun cotton, 20% recycled polyester. Cold wash inside-out, tumble dry low or lay flat.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Give Comfort tab"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_give_comfort",
-      "label": "Show Give Comfort accordion",
-      "default": true
-    },
-    {
-      "type": "richtext",
-      "id": "give_comfort_text",
-      "label": "Give Comfort description",
-      "default": "<p>Send softness straight to someone holding a lot — no price, no packing slip. Ships directly to them with a handwritten card.</p>"
-    },
-    {
-      "type": "url",
-      "id": "give_comfort_url",
-      "label": "Give Comfort page URL"
+      "type": "text",
+      "id": "founder_quote",
+      "label": "Founder quote",
+      "default": "I made the thing I wished someone had sent me."
     }
   ],
   "presets": [
     {
-      "name": "Product information"
+      "name": "Product Page"
     }
   ]
 }

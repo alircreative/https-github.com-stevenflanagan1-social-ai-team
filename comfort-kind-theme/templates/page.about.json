@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-about",
+      "settings": {
+        "cta_label": "Shop the Hoodie",
+        "cta_url": "/products/soft-strength-hoodie"
+      }
+    }
+  },
+  "order": ["main"]
+}

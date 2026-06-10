@@ -1,232 +1,190 @@
 /* ============================================================
-   Comfort Kind Theme — JavaScript
-   Handles: variant selection, gallery sync, quantity input,
-   AJAX add-to-cart with cart drawer update.
-   No framework dependencies.
+   ComfortKind Theme — theme.js
    ============================================================ */
 
 (function () {
   'use strict';
 
-  /* ── Variant Selection ── */
-  document.querySelectorAll('.ck-product__form').forEach(function (form) {
-    var variantInputs = form.querySelectorAll('.ck-product__option-input');
-    var hiddenVariantInput = form.querySelector('input[name="id"]');
-    var atcBtn = form.querySelector('.ck-product__atc-btn');
-    var priceEl = form.closest('.ck-product__info')
-      ? form.closest('.ck-product__info').querySelector('.ck-product__price')
-      : null;
-
-    // Build variant map from Shopify's global product JSON
-    var productData = null;
-    var productJsonEl = document.querySelector('[data-product-json]');
-    if (productJsonEl) {
-      try { productData = JSON.parse(productJsonEl.textContent); } catch (e) {}
-    }
-
-    function getSelectedOptions() {
-      var opts = {};
-      variantInputs.forEach(function (input) {
-        if (input.checked) opts[input.name] = input.value;
-      });
-      return opts;
-    }
-
-    function findMatchingVariant(selectedOpts) {
-      if (!productData) return null;
-      return productData.variants.find(function (variant) {
-        return variant.options.every(function (val, idx) {
-          var optionName = productData.options[idx];
-          return selectedOpts[optionName] === val;
+  /* ── Cart count update ── */
+  function updateCartCount() {
+    fetch('/cart.js', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var counts = document.querySelectorAll('[data-cart-count]');
+        counts.forEach(function (el) {
+          el.textContent = cart.item_count;
+          el.setAttribute('data-count', cart.item_count);
         });
-      });
-    }
-
-    function updateVariant() {
-      var selectedOpts = getSelectedOptions();
-      var variant = findMatchingVariant(selectedOpts);
-
-      if (!variant) return;
-
-      // Update hidden ID input
-      if (hiddenVariantInput) {
-        hiddenVariantInput.value = variant.id;
-        hiddenVariantInput.disabled = false;
-      }
-
-      // Update URL without reload
-      var url = new URL(window.location.href);
-      url.searchParams.set('variant', variant.id);
-      window.history.replaceState({}, '', url.toString());
-
-      // Update ATC button
-      if (atcBtn) {
-        var btnText = atcBtn.querySelector('.ck-product__atc-btn-text');
-        if (variant.available) {
-          atcBtn.disabled = false;
-          atcBtn.classList.remove('ck-product__atc-btn--disabled');
-          if (btnText) btnText.textContent = 'Add to Cart';
-        } else {
-          atcBtn.disabled = true;
-          atcBtn.classList.add('ck-product__atc-btn--disabled');
-          if (btnText) btnText.textContent = 'Sold Out';
-        }
-      }
-
-      // Update price display
-      if (priceEl && variant.price) {
-        var priceCurrentEl = priceEl.querySelector('.ck-price__current');
-        var priceCompareEl = priceEl.querySelector('.ck-price__compare');
-        if (priceCurrentEl) {
-          priceCurrentEl.textContent = formatMoney(variant.price);
-        }
-        if (priceCompareEl) {
-          if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-            priceCompareEl.textContent = formatMoney(variant.compare_at_price);
-            priceCompareEl.style.display = '';
-          } else {
-            priceCompareEl.style.display = 'none';
-          }
-        }
-      }
-
-      // Update gallery if variant has featured media
-      if (variant.featured_media) {
-        var mediaId = variant.featured_media.id;
-        var mediaItems = document.querySelectorAll('.ck-product__media-item');
-        mediaItems.forEach(function (item) {
-          item.classList.toggle('ck-product__media-item--active',
-            item.dataset.mediaId === String(mediaId));
-        });
-        var thumbs = document.querySelectorAll('.ck-product__thumb');
-        thumbs.forEach(function (thumb) {
-          thumb.classList.toggle('ck-product__thumb--active',
-            thumb.dataset.mediaId === String(mediaId));
-        });
-      }
-    }
-
-    variantInputs.forEach(function (input) {
-      input.addEventListener('change', updateVariant);
-    });
-  });
-
-  /* ── Gallery Thumbnail Clicks ── */
-  document.querySelectorAll('.ck-product__thumb').forEach(function (thumb) {
-    thumb.addEventListener('click', function () {
-      var mediaId = this.dataset.mediaId;
-      var mediaItems = document.querySelectorAll('.ck-product__media-item');
-      var thumbs = document.querySelectorAll('.ck-product__thumb');
-
-      mediaItems.forEach(function (item) {
-        item.classList.toggle('ck-product__media-item--active',
-          item.dataset.mediaId === mediaId);
-      });
-      thumbs.forEach(function (t) {
-        t.classList.toggle('ck-product__thumb--active',
-          t.dataset.mediaId === mediaId);
-      });
-    });
-  });
-
-  /* ── Quantity Input ── */
-  document.querySelectorAll('.ck-product__quantity-wrapper').forEach(function (wrapper) {
-    var input = wrapper.querySelector('.ck-product__quantity-input');
-    wrapper.querySelectorAll('.ck-product__quantity-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var current = parseInt(input.value, 10) || 1;
-        var action = this.dataset.action;
-        if (action === 'increase') {
-          input.value = current + 1;
-        } else if (action === 'decrease' && current > 1) {
-          input.value = current - 1;
-        }
-      });
-    });
-  });
-
-  /* ── AJAX Add to Cart ── */
-  document.querySelectorAll('[data-type="add-to-cart-form"]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      var atcBtn = form.querySelector('.ck-product__atc-btn');
-      var btnText = atcBtn ? atcBtn.querySelector('.ck-product__atc-btn-text') : null;
-      var btnLoader = atcBtn ? atcBtn.querySelector('.ck-product__atc-btn-loading') : null;
-      var errorEl = form.querySelector('.ck-product__error');
-
-      // Show loading state
-      if (atcBtn) atcBtn.disabled = true;
-      if (btnText) btnText.hidden = true;
-      if (btnLoader) btnLoader.hidden = false;
-      if (errorEl) errorEl.hidden = true;
-
-      var formData = new FormData(form);
-      var body = {
-        id: formData.get('id'),
-        quantity: parseInt(formData.get('quantity'), 10) || 1,
-        sections: 'cart-icon-bubble'
-      };
-
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-        body: JSON.stringify(body)
       })
-        .then(function (res) {
-          if (!res.ok) return res.json().then(function (data) { throw data; });
-          return res.json();
-        })
-        .then(function () {
-          // Update cart count
-          return fetch('/cart.js', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-        })
-        .then(function (res) { return res.json(); })
-        .then(function (cart) {
-          // Update cart count badge
-          var cartCounts = document.querySelectorAll('.ck-cart-count');
-          cartCounts.forEach(function (el) {
-            el.textContent = cart.item_count;
-            el.style.display = cart.item_count > 0 ? '' : 'none';
-          });
+      .catch(function () {});
+  }
 
-          // Open cart drawer if available, else redirect
-          var cartDrawer = document.querySelector('cart-drawer');
-          if (cartDrawer && typeof cartDrawer.open === 'function') {
-            cartDrawer.open(atcBtn);
-          } else if (typeof routes !== 'undefined' && routes.cart_url) {
-            window.location.href = routes.cart_url;
-          }
-        })
-        .catch(function (err) {
-          if (errorEl) {
-            errorEl.textContent = err.description || 'Something went wrong. Please try again.';
-            errorEl.hidden = false;
-          }
-        })
-        .finally(function () {
-          if (atcBtn) atcBtn.disabled = false;
-          if (btnText) btnText.hidden = false;
-          if (btnLoader) btnLoader.hidden = true;
+  /* ── Mobile nav toggle ── */
+  function initMobileNav() {
+    var toggle = document.getElementById('ck-nav-toggle');
+    var nav = document.getElementById('ck-mobile-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function () {
+      var open = nav.getAttribute('aria-hidden') === 'false';
+      nav.setAttribute('aria-hidden', open ? 'true' : 'false');
+      toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  }
+
+  /* ── Announcement bar rotation ── */
+  function initAnnouncementBar() {
+    var items = document.querySelectorAll('.ck-utility__item');
+    if (items.length < 2) return;
+    if (window.innerWidth > 768) return;
+
+    var current = 0;
+    items.forEach(function (item, i) {
+      if (i !== 0) item.style.display = 'none';
+    });
+
+    setInterval(function () {
+      items[current].style.display = 'none';
+      current = (current + 1) % items.length;
+      items[current].style.display = 'flex';
+    }, 4000);
+  }
+
+  /* ── Accordion (global) ── */
+  function initAccordions() {
+    document.querySelectorAll('.ck-accordion__trigger').forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        var item = this.closest('.ck-accordion__item');
+        if (!item) return;
+        var isOpen = item.classList.contains('is-open');
+        item.classList.toggle('is-open', !isOpen);
+        this.setAttribute('aria-expanded', !isOpen);
+      });
+    });
+  }
+
+  /* ── FAQ tabs ── */
+  function initFaqTabs() {
+    var tabs = document.querySelectorAll('.ck-faq__tab');
+    if (!tabs.length) return;
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
         });
+        document.querySelectorAll('.ck-faq__panel').forEach(function (p) {
+          p.classList.remove('is-active');
+        });
+        this.classList.add('is-active');
+        this.setAttribute('aria-selected', 'true');
+        var target = document.getElementById(this.dataset.target);
+        if (target) target.classList.add('is-active');
+      });
     });
+
+    // FAQ entry accordion inside panels
+    document.querySelectorAll('.ck-faq__entry').forEach(function (entry) {
+      var btn = entry.querySelector('.ck-faq__q');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          entry.classList.toggle('is-open');
+        });
+      }
+    });
+  }
+
+  /* ── PDP: variant selection, qty stepper, add to cart, thumbnails ── */
+  function initPDP() {
+    var form = document.querySelector('[id^="product-form-"]');
+    if (!form) return;
+
+    // Qty stepper
+    var qtyInput = document.getElementById('ck-qty');
+    var qtyMinus = document.getElementById('ck-qty-minus');
+    var qtyPlus = document.getElementById('ck-qty-plus');
+
+    if (qtyInput && qtyMinus && qtyPlus) {
+      qtyMinus.addEventListener('click', function () {
+        var val = parseInt(qtyInput.value) || 1;
+        if (val > 1) qtyInput.value = val - 1;
+      });
+      qtyPlus.addEventListener('click', function () {
+        var val = parseInt(qtyInput.value) || 1;
+        qtyInput.value = val + 1;
+      });
+    }
+
+    // Thumbnail gallery swap
+    var mainImg = document.getElementById('ck-main-img');
+    document.querySelectorAll('.ck-pdp__thumb').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        document.querySelectorAll('.ck-pdp__thumb').forEach(function (t) {
+          t.classList.remove('is-active');
+        });
+        this.classList.add('is-active');
+        if (mainImg) {
+          mainImg.style.opacity = '0';
+          var src = this.dataset.imageSrc;
+          var alt = this.dataset.imageAlt || '';
+          setTimeout(function () {
+            mainImg.src = src;
+            mainImg.alt = alt;
+            mainImg.style.opacity = '1';
+          }, 150);
+        }
+      });
+    });
+
+    // Add to cart fetch
+    var addBtn = document.getElementById('ck-add-to-cart');
+    if (form && addBtn) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (addBtn.disabled) return;
+
+        var formData = new FormData(form);
+        var originalText = addBtn.textContent.trim();
+        addBtn.textContent = 'Adding...';
+        addBtn.disabled = true;
+        addBtn.classList.add('is-loading');
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Cart add failed');
+            return res.json();
+          })
+          .then(function () {
+            addBtn.textContent = 'Added!';
+            addBtn.classList.remove('is-loading');
+            updateCartCount();
+            setTimeout(function () {
+              addBtn.textContent = originalText;
+              addBtn.disabled = false;
+            }, 2000);
+          })
+          .catch(function (err) {
+            console.error('Add to cart error:', err);
+            addBtn.textContent = originalText;
+            addBtn.disabled = false;
+            addBtn.classList.remove('is-loading');
+          });
+      });
+    }
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    updateCartCount();
+    initMobileNav();
+    initAnnouncementBar();
+    initAccordions();
+    initFaqTabs();
+    initPDP();
   });
-
-  /* ── Money formatting helper ── */
-  function formatMoney(cents) {
-    var value = (cents / 100).toFixed(2);
-    return '$' + value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-
-  /* ── Mobile Nav ── */
-  var mobileToggle = document.querySelector('.ck-header__mobile-toggle');
-  var nav = document.querySelector('.ck-nav');
-  if (mobileToggle && nav) {
-    mobileToggle.addEventListener('click', function () {
-      var isOpen = nav.classList.toggle('ck-nav--open');
-      mobileToggle.setAttribute('aria-expanded', isOpen);
-      nav.style.display = isOpen ? 'block' : '';
-    });
-  }
 
 })();
