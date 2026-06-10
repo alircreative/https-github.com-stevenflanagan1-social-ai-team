@@ -148,10 +148,10 @@
 }
 .ck-spotlight .sw.active { box-shadow: 0 0 0 1px var(--cream), 0 0 0 2px var(--ink); }
 
-.ck-material { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.ck-mat-cell { aspect-ratio: 1; overflow: hidden; }
+.ck-material { display: grid; grid-template-columns: 1fr 1fr; gap: 0; grid-auto-rows: 1fr; align-items: stretch; }
+.ck-mat-cell { overflow: hidden; min-height: 520px; }
 .ck-mat-img { background-size: cover; background-position: center; background-color: var(--cream-3); }
-.ck-mat-text { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 72px 80px; background: var(--cream-2); }
+.ck-mat-text { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 64px 80px; background: var(--cream-2); }
 .ck-mat-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-style: italic; line-height: 1.1; margin: 0; color: var(--ink); }
 .ck-mat-text p { color: var(--ink-2); font-size: 14px; line-height: 1.8; margin: 0; max-width: 380px; }
 .ck-mat-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; margin-top: 4px; }
