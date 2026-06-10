@@ -168,7 +168,7 @@
 .ck-give .ck-btn--primary { background: var(--cream); color: var(--ink); }
 .ck-give .ck-btn--primary:hover { background: var(--rose-soft); }
 
-.ck-signoff { display: grid; grid-template-columns: 1.05fr 1fr; background: var(--cream-2); border-top: 1px solid var(--line); }
+.ck-signoff { display: grid; grid-template-columns: 1.05fr 1fr; background: var(--cream-2); border-top: 1px solid var(--line); margin-top: 80px; }
 .ck-signoff__img { background-size: cover; background-position: center 22%; min-height: 760px; }
 .ck-signoff__body { padding: 104px 96px; display: flex; flex-direction: column; justify-content: center; }
 .ck-signoff__body h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-style: italic; line-height: 1.16; margin: 18px 0 22px; color: var(--ink); max-width: 480px; }
