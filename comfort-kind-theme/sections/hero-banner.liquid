@@ -13,10 +13,10 @@
       </div>
     {%- endif -%}
 
-    <h1>
+    <h1 style="color:var(--ink-2);">
       {{ section.settings.heading_plain }}
       {%- if section.settings.heading_italic != blank -%}
-        <em>{{ section.settings.heading_italic }}</em>
+        <em style="color:var(--taupe-dark);font-style:italic;">{{ section.settings.heading_italic }}</em>
       {%- endif -%}
     </h1>
 
@@ -48,9 +48,7 @@
   </div>
 
   <div class="right" style="position:relative;{%- if section.settings.image != blank -%}background-image:url('{{ section.settings.image | image_url: width: 1200 }}');{%- endif -%}">
-    {%- if section.settings.image == blank -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
-    {%- endif -%}
+    {%- comment -%}No placeholder — clean cream background when no image is set{%- endcomment -%}
     {%- if section.settings.caption_wearing != blank or section.settings.caption_product != blank -%}
       <div style="position:absolute;bottom:32px;left:32px;background:rgba(58,45,36,0.72);backdrop-filter:blur(4px);padding:16px 20px;max-width:260px;">
         {%- if section.settings.caption_wearing != blank -%}
