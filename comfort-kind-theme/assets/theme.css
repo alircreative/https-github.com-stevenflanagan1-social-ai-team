@@ -34,7 +34,7 @@ body {
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.65;
-  color: var(--ck-brown-dark);
+  color: var(--ck-brown-mid);
   background: var(--ck-cream);
   -webkit-font-smoothing: antialiased;
 }
@@ -642,7 +642,7 @@ details[open] .ck-accordion__icon { transform: rotate(180deg); }
   font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 400;
   line-height: 1.05;
-  color: var(--ck-brown-dark);
+  color: var(--ck-brown-mid);
   margin: 0 0 1.5rem;
 }
 .ck-hero__heading-accent {
