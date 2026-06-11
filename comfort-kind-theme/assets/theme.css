@@ -166,8 +166,15 @@
   padding: 96px 0; text-align: center;
   margin: 0;
 }
-.shopify-section:has(.ck-give) { margin: 0 !important; }
-.shopify-section:has(.ck-signoff) { margin: 0 !important; }
+.shopify-section:has(.ck-give),
+.shopify-section:has(.ck-signoff) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.ck-give { line-height: 1; }
+.ck-give > div { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; }
 .ck-give h2 { color: var(--cream); font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 26px; font-style: italic; margin: 12px auto 18px; max-width: 560px; line-height: 1.35; }
 .ck-give p { color: var(--cream); opacity: 0.85; max-width: 540px; margin: 0 auto 32px; line-height: 1.7; }
 .ck-give .eyebrow { color: rgba(245,240,234,0.6); }
