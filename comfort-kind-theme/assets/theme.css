@@ -423,8 +423,7 @@
 .ck-review-invite__meta span { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
 
 /* Breadcrumb */
-.ck-breadcrumb { padding: 20px 48px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); border-bottom: 1px solid var(--line); }
-.ck-breadcrumb span { color: var(--ink); }
+.ck-breadcrumb { display: none; }
 
 /* About page extras */
 .ck-about-hero-text { background: var(--cream); padding: 120px 48px 80px; text-align: center; }
